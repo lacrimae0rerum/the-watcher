@@ -1,48 +1,7 @@
 {
-  "generatedAt": "2026-03-30T17:52:46.554Z",
+  "generatedAt": "2026-03-30T17:54:41.398Z",
   "lookbackHours": 24,
   "x": [
-    {
-      "source": "x",
-      "name": "Peter Yang",
-      "handle": "petergyang",
-      "bio": "I share extremely practical AI tutorials and interviews | Join 140K+ readers at https://t.co/XYKTmGVH14 | Product at Roblox",
-      "tweets": [
-        {
-          "id": "2038626570789904890",
-          "text": "Just landed in Shanghai and both ChatGPT and Claude don’t work (even with my eSIM) but the first ad I saw is for OpenClaw",
-          "createdAt": "2026-03-30T14:37:04.000Z",
-          "url": "https://x.com/petergyang/status/2038626570789904890",
-          "likes": 353,
-          "retweets": 14,
-          "replies": 73,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2038624824927600911",
-          "text": "My top 5 takeaways from my interview with Jenny (Cowork's design lead):\n\n1. Set up Cowork to deliver weekly product updates in a beautiful deck\n\nJenny demoed using Cowork to summarize user feedback from different channels and turn that into a product priorities deck. She then scheduled a workflow to share an updated deck in Slack weekly for her team to review.\n\n2. Create a simple memory system for Cowork\n\nJenny’s “memory system” is just a folder of notes. She updates this folder with 1:1 notes, random thoughts, prep docs and more. This way, Cowork always has access to her latest thinking and can generate relevant outputs.\n\n3. Internal dogfooding is Anthropic’s highest-signal feedback source\n\nAnthropic has an extremely strong internal dogfooding culture. From Jenny: “Internal users are willing to be honest with you and are often pushing the capabilities furthest.”\n\n4. Cowork’s “10-day launch” timeline had a year of prototypes behind it.\n\nJenny walked through 3 different prototypes that the team explored before Cowork. They decided to ship after seeing non-technical people embrace Claude Code.\n\n5. Designers, look at your engineering peers as a model for AI adoption.\n\nFrom Jenny: \"I think about my engineering peers and how much they've adapted to how their jobs have changed with AI. They're producing even better work and are shipping in days not weeks.\"\n\n📌 Watch the full episode now: https://t.co/RML1ohV79x",
-          "createdAt": "2026-03-30T14:30:08.000Z",
-          "url": "https://x.com/petergyang/status/2038624824927600911",
-          "likes": 95,
-          "retweets": 6,
-          "replies": 11,
-          "isQuote": true,
-          "quotedTweetId": "2038260565769068870"
-        },
-        {
-          "id": "2038550909115080998",
-          "text": "How is it that Korean women and men have such good skin I need to know their skincare routine 😅",
-          "createdAt": "2026-03-30T09:36:25.000Z",
-          "url": "https://x.com/petergyang/status/2038550909115080998",
-          "likes": 12,
-          "retweets": 0,
-          "replies": 23,
-          "isQuote": false,
-          "quotedTweetId": null
-        }
-      ]
-    },
     {
       "source": "x",
       "name": "Nan Yu",
@@ -50,75 +9,26 @@
       "bio": "head of product @linear",
       "tweets": [
         {
-          "id": "2038652797680251046",
-          "text": "🦞 \n\nhttps://t.co/uJDOr6KN79",
-          "createdAt": "2026-03-30T16:21:17.000Z",
-          "url": "https://x.com/thenanyu/status/2038652797680251046",
-          "likes": 0,
-          "retweets": 0,
-          "replies": 0,
-          "isQuote": true,
-          "quotedTweetId": "2038648816476496021"
-        },
-        {
-          "id": "2038629019516604813",
-          "text": "thank you @_chenglou",
-          "createdAt": "2026-03-30T14:46:48.000Z",
-          "url": "https://x.com/thenanyu/status/2038629019516604813",
-          "likes": 0,
-          "retweets": 0,
-          "replies": 0,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2038628846614831283",
-          "text": "You can do more with this than display dancing anime girls on your text https://t.co/1IuGU8nUAq",
-          "createdAt": "2026-03-30T14:46:07.000Z",
-          "url": "https://x.com/thenanyu/status/2038628846614831283",
-          "likes": 33,
+          "id": "2038602288957202941",
+          "text": "You hate (love?) to see it\n\nhttps://t.co/73ytWuZOK2",
+          "createdAt": "2026-03-30T13:00:35.000Z",
+          "url": "https://x.com/thenanyu/status/2038602288957202941",
+          "likes": 12,
           "retweets": 0,
           "replies": 2,
-          "isQuote": false,
-          "quotedTweetId": null
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Matt Turck",
-      "handle": "mattturck",
-      "bio": "VC at @FirstMarkCap.  Host: MAD Podcast; Organizer: Data Driven NYC, Author: MAD Landscape.",
-      "tweets": [
-        {
-          "id": "2038600434156253288",
-          "text": "Sycophancy is my favorite AI feature https://t.co/HmfhH0zBsa",
-          "createdAt": "2026-03-30T12:53:13.000Z",
-          "url": "https://x.com/mattturck/status/2038600434156253288",
-          "likes": 15,
-          "retweets": 0,
-          "replies": 7,
-          "isQuote": false,
-          "quotedTweetId": null
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Sam Altman",
-      "handle": "sama",
-      "bio": "AI is cool i guess",
-      "tweets": [
-        {
-          "id": "2038640963036626971",
-          "text": "This is a very good post: https://t.co/w4O3Pol0v3",
-          "createdAt": "2026-03-30T15:34:16.000Z",
-          "url": "https://x.com/sama/status/2038640963036626971",
-          "likes": 1158,
-          "retweets": 83,
-          "replies": 308,
           "isQuote": true,
-          "quotedTweetId": "2038606572046172443"
+          "quotedTweetId": "2038564720131629181"
+        },
+        {
+          "id": "2038599289081872893",
+          "text": "Trillion dollars https://t.co/QH8qupv3ew",
+          "createdAt": "2026-03-30T12:48:40.000Z",
+          "url": "https://x.com/thenanyu/status/2038599289081872893",
+          "likes": 152,
+          "retweets": 1,
+          "replies": 6,
+          "isQuote": true,
+          "quotedTweetId": "2038368390314668222"
         }
       ]
     },
@@ -129,35 +39,13 @@
       "bio": "Claude is an AI assistant built by @anthropicai to be safe, accurate, and secure. Talk to Claude on https://t.co/ZhTwG8d1e5 or download the app.",
       "tweets": [
         {
-          "id": "2038663019983479234",
-          "text": "Now available in research preview on Pro and Max on macOS. \n\nEnable it with /mcp. Docs: https://t.co/x9kSKedkjz",
-          "createdAt": "2026-03-30T17:01:55.000Z",
-          "url": "https://x.com/claudeai/status/2038663019983479234",
-          "likes": 301,
-          "retweets": 7,
-          "replies": 25,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2038663018427420698",
-          "text": "It works on anything you can open on your Mac: a compiled SwiftUI app, a local Electron build, or a GUI tool that doesn't have a CLI.",
-          "createdAt": "2026-03-30T17:01:54.000Z",
-          "url": "https://x.com/claudeai/status/2038663018427420698",
-          "likes": 367,
-          "retweets": 10,
-          "replies": 12,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2038663016187621727",
-          "text": "In one prompt, Claude can write the code, compile it, launch the app, click through it, find the bug, fix it, and verify the fix.",
-          "createdAt": "2026-03-30T17:01:54.000Z",
-          "url": "https://x.com/claudeai/status/2038663016187621727",
-          "likes": 646,
-          "retweets": 24,
-          "replies": 43,
+          "id": "2038663014098899416",
+          "text": "Computer use is now in Claude Code.\n\nClaude can open your apps, click through your UI, and test what it built, right from the CLI.\n\nNow in research preview on Pro and Max plans. https://t.co/s2FDQaDmr1",
+          "createdAt": "2026-03-30T17:01:53.000Z",
+          "url": "https://x.com/claudeai/status/2038663014098899416",
+          "likes": 11545,
+          "retweets": 878,
+          "replies": 869,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -165,7 +53,7 @@
     }
   ],
   "stats": {
-    "xBuilders": 5,
-    "totalTweets": 11
+    "xBuilders": 2,
+    "totalTweets": 3
   }
 }
