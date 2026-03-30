@@ -108,17 +108,25 @@ async function fetchYouTubeContent(podcasts, apiKey, state, errors) {
 
       // Check first 2 videos per channel, skip already-seen ones
       for (const videoId of videoIds.slice(0, 2)) {
-        if (state.seenVideos[videoId]) continue; // dedup
+        if (state.seenVideos[videoId]) {
+          console.error(`    Skipping ${videoId} (already seen)`);
+          continue;
+        }
 
         try {
           const metaRes = await fetch(
             `${SUPADATA_BASE}/youtube/video?id=${videoId}`,
             { headers: { 'x-api-key': apiKey } }
           );
-          if (!metaRes.ok) continue;
+          if (!metaRes.ok) {
+            console.error(`    Metadata fetch failed for ${videoId}: HTTP ${metaRes.status}`);
+            errors.push(`YouTube: Metadata fetch failed for ${videoId}: HTTP ${metaRes.status}`);
+            continue;
+          }
           const meta = await metaRes.json();
           const publishedAt = meta.uploadDate || meta.publishedAt || meta.date || null;
 
+          console.error(`    Candidate: ${videoId} "${meta.title || 'Untitled'}" published=${publishedAt || 'unknown'}`);
           allCandidates.push({
             podcast, videoId,
             title: meta.title || 'Untitled',
@@ -133,6 +141,8 @@ async function fetchYouTubeContent(podcasts, apiKey, state, errors) {
       errors.push(`YouTube: Error processing ${podcast.name}: ${err.message}`);
     }
   }
+
+  console.error(`  Total candidates: ${allCandidates.length}, cutoff: ${cutoff.toISOString()}`);
 
   // Pick 1 unseen video from the last 72 hours.
   // Sort OLDEST first so videos are featured in chronological order —
@@ -151,6 +161,11 @@ async function fetchYouTubeContent(podcasts, apiKey, state, errors) {
       if (b.publishedAt) return 1;
       return 0;
     });
+
+  console.error(`  Within window: ${withinWindow.length} video(s)`);
+  for (const v of withinWindow) {
+    console.error(`    - ${v.videoId} "${v.title}" published=${v.publishedAt || 'unknown'}`);
+  }
 
   const selected = withinWindow[0]; // oldest unseen video
   if (!selected) return [];
