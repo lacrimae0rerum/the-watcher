@@ -67,7 +67,7 @@ These are plain English instructions, not code. Changes take effect on the next 
 
 ## Default Sources
 
-### Podcasts (5)
+### Podcasts (6)
 - [Latent Space](https://www.youtube.com/@LatentSpacePod)
 - [Training Data](https://www.youtube.com/playlist?list=PLOhHNjZItNnMm5tdW61JpnyxeYH5NDDx8)
 - [No Priors](https://www.youtube.com/@NoPriorsPodcast)

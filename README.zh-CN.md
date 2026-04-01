@@ -60,7 +60,7 @@ Skill 使用纯文本 prompt 文件来控制内容的摘要方式。你可以通
 
 ## 默认信息源
 
-### 播客（5个）
+### 播客（6个）
 - [Latent Space](https://www.youtube.com/@LatentSpacePod)
 - [Training Data](https://www.youtube.com/playlist?list=PLOhHNjZItNnMm5tdW61JpnyxeYH5NDDx8)
 - [No Priors](https://www.youtube.com/@NoPriorsPodcast)
