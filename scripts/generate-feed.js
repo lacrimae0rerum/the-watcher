@@ -144,10 +144,10 @@ async function fetchYouTubeContent(podcasts, apiKey, state, errors) {
 
   console.error(`  Total candidates: ${allCandidates.length}, cutoff: ${cutoff.toISOString()}`);
 
-  // Pick 1 unseen video from the last 72 hours.
-  // Sort OLDEST first so videos are featured in chronological order —
-  // if 3 videos were published in 72h, day 1 gets the oldest, day 2 the
-  // next, day 3 the newest. Dedup ensures each is featured exactly once.
+  // Pick 1 unseen video, prioritizing the NEWEST first.
+  // A daily digest should surface fresh content, not work through a backlog
+  // of old episodes. Dedup ensures each is featured exactly once, so older
+  // episodes will naturally get picked on quieter days.
   //
   // If publishedAt is missing (API didn't return a date), we still include
   // the video — it appeared near the top of the channel/playlist listing,
@@ -155,8 +155,8 @@ async function fetchYouTubeContent(podcasts, apiKey, state, errors) {
   const withinWindow = allCandidates
     .filter(v => !v.publishedAt || new Date(v.publishedAt) >= cutoff)
     .sort((a, b) => {
-      // Videos with dates first (oldest among them), then dateless ones
-      if (a.publishedAt && b.publishedAt) return new Date(a.publishedAt) - new Date(b.publishedAt);
+      // Newest first; dateless ones go to the end
+      if (a.publishedAt && b.publishedAt) return new Date(b.publishedAt) - new Date(a.publishedAt);
       if (a.publishedAt) return -1;
       if (b.publishedAt) return 1;
       return 0;
