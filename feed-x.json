@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-01T00:56:07.886Z",
+  "generatedAt": "2026-04-01T01:00:50.032Z",
   "lookbackHours": 24,
   "x": [
     {
@@ -9,176 +9,26 @@
       "bio": "achieve ambition with intentionality, intensity, integrity & insanity.\n\naffiliations:\n- @dxtipshq \n- @cognition\n- @temporalio\n- @aidotengineer\n- @latentspacepod",
       "tweets": [
         {
-          "id": "2039141201753071781",
-          "text": "am i crazy or why has nobody seemed to make an open source dropbox on cloudflare r2? i had just assumed this is so obvious somebody shouldve done it already? please tell me this is a skill issue and I'm bad at searching OSS?",
-          "createdAt": "2026-04-01T00:42:02.000Z",
-          "url": "https://x.com/swyx/status/2039141201753071781",
-          "likes": 8,
+          "id": "2039075139741241517",
+          "text": "sarah achieves the most impossible developer events - she got a bunch of developers at a writers meetup to sit together….\n\n… and actually write 🤯\n\nthanks to @byAnhtho for being our 3rd Writing Mentor!\n\n@allenpark helped with AV and will upload both her and @QuinnyPig video soon",
+          "createdAt": "2026-03-31T20:19:32.000Z",
+          "url": "https://x.com/swyx/status/2039075139741241517",
+          "likes": 22,
           "retweets": 0,
-          "replies": 9,
-          "isQuote": false,
-          "quotedTweetId": null
+          "replies": 5,
+          "isQuote": true,
+          "quotedTweetId": "2039068140370583869"
         },
         {
-          "id": "2039127590938833126",
-          "text": "notes https://t.co/0UHgwRLeYx",
-          "createdAt": "2026-03-31T23:47:57.000Z",
-          "url": "https://x.com/swyx/status/2039127590938833126",
-          "likes": 5,
-          "retweets": 0,
-          "replies": 0,
+          "id": "2039073658552062189",
+          "text": "wow. @Microsoft just appointed a CVP whose entire job is OpenClaw. https://t.co/BpQeniIiVo https://t.co/5BzGvkfvVD",
+          "createdAt": "2026-03-31T20:13:39.000Z",
+          "url": "https://x.com/swyx/status/2039073658552062189",
+          "likes": 144,
+          "retweets": 10,
+          "replies": 11,
           "isQuote": true,
-          "quotedTweetId": "2039126546229985722"
-        },
-        {
-          "id": "2039113031440077245",
-          "text": "this is the right Pareto chart for local LLMs, everything else is just pretending\n\n(they should use AAIIv4 instead of doing their own average but eh, nitpicks) https://t.co/SJy3wZe4hT https://t.co/4xQVFD5wNI",
-          "createdAt": "2026-03-31T22:50:06.000Z",
-          "url": "https://x.com/swyx/status/2039113031440077245",
-          "likes": 29,
-          "retweets": 3,
-          "replies": 7,
-          "isQuote": true,
-          "quotedTweetId": "2039049400190939426"
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Peter Yang",
-      "handle": "petergyang",
-      "bio": "I share extremely practical AI tutorials and interviews | Join 140K+ readers at https://t.co/XYKTmGVH14 | Product at Roblox",
-      "tweets": [
-        {
-          "id": "2039109117084856454",
-          "text": "Some initial observations about Shanghai after not being back for 10 years:\n\n1. The city is incredibly modern - more so than New York and even Tokyo. It's funny riding modern subways and trains here and reading about how California has to shut down the BART/Caltrain due to budget cuts on X.\n\n2. Apps run everything - Wechat, Amap (Google Maps), Dianping (Yelp), Alipay, etc. Basically, there's a Chinese equivalent of every US app and more. \n\n3. Meals are probably 1/3 the price of the US and absolutely delicious. There's ALOT of variety in Chinese regional cuisines. Funny enough almost every restaurant has a Dianping coupon you can use to get free desserts. I like my spicy food :)\n\n4. Fewer foreigners than I expected and concentrated in a few areas. Coming from the US, it's just a pain to have to get a visa, set up eSim, download all the apps, etc. You have to do alot of research before coming here.\n\n5. The overhead highways kind of ruin the vibe a little with the cityscape. \n\n6. People still smoke alot, but appears to be mostly older generation. \n\n7. Speaking of the old generation, they know to have fun. Went to Fuxing park and many elders dancing, playing yoyo, singing, and more.\n\n8. In contrast, from what I hear, the younger generation is working super hard and many college grads cannot find jobs are are \"tang ping\" (lie flat). \n\nIt's great to be back, will share more later.",
-          "createdAt": "2026-03-31T22:34:32.000Z",
-          "url": "https://x.com/petergyang/status/2039109117084856454",
-          "likes": 210,
-          "retweets": 8,
-          "replies": 33,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2038987227729215629",
-          "text": "Anyone can now build a mobile app in a few hours without knowing how to code.\n\nI've been using my personal fitness app below to track my workouts while in China.\n\nIn my new tutorial, I'll walk you through exactly how to build this using Claude Code, @pencildev, and @expo.\n\n📌 Subscribe to get the tutorial tmr: https://t.co/Ggqaa3F11Z",
-          "createdAt": "2026-03-31T14:30:12.000Z",
-          "url": "https://x.com/petergyang/status/2038987227729215629",
-          "likes": 40,
-          "retweets": 1,
-          "replies": 3,
-          "isQuote": false,
-          "quotedTweetId": null
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Nan Yu",
-      "handle": "thenanyu",
-      "bio": "head of product @linear",
-      "tweets": [
-        {
-          "id": "2039117107137237315",
-          "text": "Visit Shanghai, go into debt if you have to (but you won’t because it’s pretty affordable)\n\nHonestly, if you work in tech, you really owe it to yourself to visit China https://t.co/FnlmPpk53e",
-          "createdAt": "2026-03-31T23:06:17.000Z",
-          "url": "https://x.com/thenanyu/status/2039117107137237315",
-          "likes": 12,
-          "retweets": 0,
-          "replies": 1,
-          "isQuote": true,
-          "quotedTweetId": "2039109117084856454"
-        },
-        {
-          "id": "2039097168498163875",
-          "text": "Correction, 850 billion dollars\n\nhttps://t.co/fGPx3QQ9DN",
-          "createdAt": "2026-03-31T21:47:04.000Z",
-          "url": "https://x.com/thenanyu/status/2039097168498163875",
-          "likes": 2,
-          "retweets": 0,
-          "replies": 0,
-          "isQuote": true,
-          "quotedTweetId": "2039085161971896807"
-        },
-        {
-          "id": "2039077873823195557",
-          "text": "When you’re remote, then all of your actions are mediated by computers, which means that the AI can access &amp; act on them\n\nThis advantage only compounds further as models improve\n\nhttps://t.co/ykNeCNS0L4 https://t.co/ZfmfkuVy58 https://t.co/HZ9ataHOHh",
-          "createdAt": "2026-03-31T20:30:24.000Z",
-          "url": "https://x.com/thenanyu/status/2039077873823195557",
-          "likes": 89,
-          "retweets": 3,
-          "replies": 6,
-          "isQuote": true,
-          "quotedTweetId": "2039003879841362278"
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Cat Wu",
-      "handle": "_catwu",
-      "bio": "claude code + cowork @anthropicai, prev: @dagster, @scale_ai",
-      "tweets": [
-        {
-          "id": "2039027714175508713",
-          "text": "Read more in our docs: https://t.co/YKjJxRu6ms",
-          "createdAt": "2026-03-31T17:11:05.000Z",
-          "url": "https://x.com/_catwu/status/2039027714175508713",
-          "likes": 27,
-          "retweets": 1,
-          "replies": 0,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2039027712288075812",
-          "text": "We've made setting up https://t.co/wbJhWHsewH with GitHub much easier!\n\nYou can now run /web-setup in a local `claude` session to use your local GitHub credentials on the web https://t.co/kyRMP1eBkx",
-          "createdAt": "2026-03-31T17:11:04.000Z",
-          "url": "https://x.com/_catwu/status/2039027712288075812",
-          "likes": 704,
-          "retweets": 57,
-          "replies": 82,
-          "isQuote": false,
-          "quotedTweetId": null
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Amjad Masad",
-      "handle": "amasad",
-      "bio": "ceo @replit. civilizationist",
-      "tweets": [
-        {
-          "id": "2039095411579760947",
-          "text": "If you’re coding on your laptop or most environments outside of Replit you might’ve been exposed to a massive JavaScript supply chain attack that can take over your computer.\n\nHere is what we do to protect our customers: https://t.co/O0EOAmga1t",
-          "createdAt": "2026-03-31T21:40:05.000Z",
-          "url": "https://x.com/amasad/status/2039095411579760947",
-          "likes": 198,
-          "retweets": 12,
-          "replies": 27,
-          "isQuote": true,
-          "quotedTweetId": "2039069273088500154"
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Aaron Levie",
-      "handle": "levie",
-      "bio": "ceo @box - your business lives in content. unleash it with AI",
-      "tweets": [
-        {
-          "id": "2039065077870157987",
-          "text": "Agents that can code will equally be able to use tools exceedingly well. This allows you to start to automate tasks across a workflow that requires both a component of non-deterministic intelligence but also deterministic system interaction. \n\nAn example would be using something like Codex to automate a workflow connecting data from Box to multiple other systems. The coding agent can interact with systems like an engineer via CLI/MCP/APIs, or write code on the fly when new problems are encountered in a workflow. \n\nThis will also be one of the reasons you’ll see more technical and engineering roles start to help automate work in non-engineering domains. Marketing, finance, supply chain, pharma research, and other areas where there’s a large amount of data and systems to talk to all have these properties.",
-          "createdAt": "2026-03-31T19:39:33.000Z",
-          "url": "https://x.com/levie/status/2039065077870157987",
-          "likes": 97,
-          "retweets": 12,
-          "replies": 22,
-          "isQuote": true,
-          "quotedTweetId": "2039056257282449696"
+          "quotedTweetId": "2039023022699655297"
         }
       ]
     },
@@ -189,84 +39,13 @@
       "bio": "President & CEO @ycombinator —Founder @garryslist—Creator of GStack—designer/engineer who helps founders—SF Dem accelerating the boom loop",
       "tweets": [
         {
-          "id": "2039144653078114657",
-          "text": "The real story https://t.co/3M1BZmu4Ht",
-          "createdAt": "2026-04-01T00:55:45.000Z",
-          "url": "https://x.com/garrytan/status/2039144653078114657",
-          "likes": 0,
-          "retweets": 0,
-          "replies": 0,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2039144220448153667",
-          "text": "You can tell legacy media isn't playing on the side of common sense when they always use the framing by one side of the argument. \n\nThe \"Overpaid CEO\" tax is not an overpaid CEO tax. It's an 8x gross receipts tax on all business including Walgreens and Safeway that will only be passed along to everyday consumers. \n\nThe SIDE EFFECT will be startups won't stay in SF. When they are successful they will leave. But they don't talk about that. They use the talking points straight off the press release by Big Labor. \n\nIt's a joke, and we shouldn't have to put up with these lies, but legacy media is in shambles and the editorial boards are asleep at the wheel.",
-          "createdAt": "2026-04-01T00:54:02.000Z",
-          "url": "https://x.com/garrytan/status/2039144220448153667",
-          "likes": 5,
+          "id": "2039130252212154720",
+          "text": "If you can make the agents do magic for you and you have taste and agency, then you could be 16, 20, 30, or 45 or 60 and it doesn't matter",
+          "createdAt": "2026-03-31T23:58:31.000Z",
+          "url": "https://x.com/garrytan/status/2039130252212154720",
+          "likes": 52,
           "retweets": 1,
-          "replies": 1,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2039131255531512266",
-          "text": "All the old rules are gone, there is only making something people want and what you can do with the tools that now everyone has\n\nIt's not about access, it's about what you can do, and whether you *want* to go fast and do it https://t.co/L0PqkCY386",
-          "createdAt": "2026-04-01T00:02:31.000Z",
-          "url": "https://x.com/garrytan/status/2039131255531512266",
-          "likes": 28,
-          "retweets": 4,
-          "replies": 18,
-          "isQuote": true,
-          "quotedTweetId": "2039023965390450877"
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Matt Turck",
-      "handle": "mattturck",
-      "bio": "VC at @FirstMarkCap.  Host: MAD Podcast; Organizer: Data Driven NYC, Author: MAD Landscape.",
-      "tweets": [
-        {
-          "id": "2039075455387480520",
-          "text": "YES YOU ARE STILL RELEVANT AS A VC EVEN THOUGH CLAUDE PROVIDES BETTER FOUNDER ADVICE AND DOES BETTER DEAL ANALYSIS AND AI AUTOMATES EVEN YOUR SILLY LITTLE MEMES, BECAUSE YOU HAVE TASTE, YOU UNDERSTAND? YOU. HAVE. TASTE. NOW GO WIN THAT 1000x ARR DEAL. https://t.co/MeoXEIA1T2",
-          "createdAt": "2026-03-31T20:20:47.000Z",
-          "url": "https://x.com/mattturck/status/2039075455387480520",
-          "likes": 93,
-          "retweets": 5,
-          "replies": 5,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2038969194960622040",
-          "text": "Vibe coding prototypes is cool\n\nBuilding production-grade, secure apps with AI you can actually run a business on… that’s a different ballgame \n\nHuge launch day for @softr_io, crazy shipping velocity over the last year 🔥@mariam_hakobyan @mkrtchyanartur \n\nhttps://t.co/SOYs964grJ",
-          "createdAt": "2026-03-31T13:18:32.000Z",
-          "url": "https://x.com/mattturck/status/2038969194960622040",
-          "likes": 32,
-          "retweets": 7,
-          "replies": 9,
-          "isQuote": false,
-          "quotedTweetId": null
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Nikunj Kothari",
-      "handle": "nikunj",
-      "bio": "partner @fpvventures - investing in seed/A. previous: early hire @meter, @opendoor, @atlassian & others. love @shimoleejhaveri + 👦👧",
-      "tweets": [
-        {
-          "id": "2039143855602499629",
-          "text": "Be default fundable. \n\nSome founders think that’s a sign of weakness because they’ll continue to crush it and why should they NOT optimize for valuation. \n\nBut, our memories are SO short - look at the 2021-2022 vintage of companies and the sheer number of zombiecorns right now. \n\nVery very few of them have managed to navigate that and grow into the valuations that they commanded back then. \n\nFew have sold for under the pref stack and a lot of them are in no man’s valley. \n\nNow, those companies are unable to raise even with recaps and >1x liq prefs. And unable to be acquired because no one wants to buy a bloated cap table / non AI native talent.",
-          "createdAt": "2026-04-01T00:52:35.000Z",
-          "url": "https://x.com/nikunj/status/2039143855602499629",
-          "likes": 1,
-          "retweets": 0,
-          "replies": 0,
+          "replies": 7,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -279,35 +58,24 @@
       "bio": "Polyagentmorous ClawFather. Came back from retirement to mess with AI and help a lobster take over the world @openclaw🦞",
       "tweets": [
         {
-          "id": "2039096889451438260",
-          "text": "couldn't resist when picking the tagline 😅 https://t.co/g7pcVAtooL",
-          "createdAt": "2026-03-31T21:45:57.000Z",
-          "url": "https://x.com/steipete/status/2039096889451438260",
-          "likes": 256,
-          "retweets": 7,
-          "replies": 20,
+          "id": "2039043198329528446",
+          "text": "this just became more relevant 🙃 https://t.co/s2Z0P8Mo09",
+          "createdAt": "2026-03-31T18:12:36.000Z",
+          "url": "https://x.com/steipete/status/2039043198329528446",
+          "likes": 1262,
+          "retweets": 65,
+          "replies": 34,
           "isQuote": true,
-          "quotedTweetId": "2039095081215672584"
+          "quotedTweetId": "2032080738997481541"
         },
         {
-          "id": "2039090059748823330",
-          "text": "creating new jobs right here 🦞 https://t.co/aaQyFqK0Rv",
-          "createdAt": "2026-03-31T21:18:49.000Z",
-          "url": "https://x.com/steipete/status/2039090059748823330",
-          "likes": 551,
-          "retweets": 20,
-          "replies": 25,
-          "isQuote": true,
-          "quotedTweetId": "2039023022699655297"
-        },
-        {
-          "id": "2039076488897876462",
-          "text": "New Claw beta bits are up! Lots of reliablility+security improvements in there + a new task system for more reliable subagents/crons/etc https://t.co/jcamGC5zMQ",
-          "createdAt": "2026-03-31T20:24:53.000Z",
-          "url": "https://x.com/steipete/status/2039076488897876462",
-          "likes": 427,
-          "retweets": 25,
-          "replies": 47,
+          "id": "2039019069257756735",
+          "text": "New CodexBar beta has experimental multi-acount support for codex. https://t.co/taqbCuJbJF",
+          "createdAt": "2026-03-31T16:36:43.000Z",
+          "url": "https://x.com/steipete/status/2039019069257756735",
+          "likes": 307,
+          "retweets": 19,
+          "replies": 21,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -320,54 +88,24 @@
       "bio": "ceo @every | the only subscription you need to stay at the edge of AI",
       "tweets": [
         {
-          "id": "2039058218010206500",
-          "text": "steal my X posting style:\n\nhttps://t.co/sO1yFJRbqh https://t.co/s8yttods55",
-          "createdAt": "2026-03-31T19:12:17.000Z",
-          "url": "https://x.com/danshipper/status/2039058218010206500",
-          "likes": 23,
-          "retweets": 2,
-          "replies": 3,
-          "isQuote": true,
-          "quotedTweetId": "2039055848828522753"
-        },
-        {
-          "id": "2039034128104894795",
-          "text": "claude code is coming for openclaw:\n\n@kieranklaassen found the concept of a \"buddy\" in claude code's source. buddies are mascots that live in your CLI, generated from your userid\n\nthe race is on! https://t.co/4s9GFJBe73",
-          "createdAt": "2026-03-31T17:36:34.000Z",
-          "url": "https://x.com/danshipper/status/2039034128104894795",
-          "likes": 48,
-          "retweets": 4,
-          "replies": 13,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2039026463673070013",
-          "text": "WE EXPLORE CLAUDE CODE SOURCE CODE https://t.co/QuAgOLwVZ2",
-          "createdAt": "2026-03-31T17:06:06.000Z",
-          "url": "https://x.com/danshipper/status/2039026463673070013",
-          "likes": 65,
-          "retweets": 7,
-          "replies": 5,
-          "isQuote": false,
-          "quotedTweetId": null
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Aditya Agarwal",
-      "handle": "adityaag",
-      "bio": "General Partner @SouthPkCommons, Co-Founder @Bevel_Health | Ex: Early Eng @facebook, CTO @Dropbox, Board @Flipkart | Optimist, Builder, Dad",
-      "tweets": [
-        {
-          "id": "2038997187003404559",
-          "text": "It's cool to see SPC being the minus one home for a number of these companies. https://t.co/3lA1BMh6Yi",
-          "createdAt": "2026-03-31T15:09:46.000Z",
-          "url": "https://x.com/adityaag/status/2038997187003404559",
-          "likes": 45,
-          "retweets": 3,
+          "id": "2038952867030036572",
+          "text": "New compound engineering release! https://t.co/P13vRM8o9T",
+          "createdAt": "2026-03-31T12:13:40.000Z",
+          "url": "https://x.com/danshipper/status/2038952867030036572",
+          "likes": 96,
+          "retweets": 5,
           "replies": 2,
+          "isQuote": true,
+          "quotedTweetId": "2038893322333507781"
+        },
+        {
+          "id": "2038947336047468643",
+          "text": "To be clear, I just want PAs who are extremely Claude pilled",
+          "createdAt": "2026-03-31T11:51:41.000Z",
+          "url": "https://x.com/danshipper/status/2038947336047468643",
+          "likes": 16,
+          "retweets": 0,
+          "replies": 3,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -375,7 +113,7 @@
     }
   ],
   "stats": {
-    "xBuilders": 12,
-    "totalTweets": 25
+    "xBuilders": 4,
+    "totalTweets": 7
   }
 }
