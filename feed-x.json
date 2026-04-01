@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-01T01:00:50.032Z",
+  "generatedAt": "2026-04-01T07:17:38.686Z",
   "lookbackHours": 24,
   "x": [
     {
@@ -9,26 +9,143 @@
       "bio": "achieve ambition with intentionality, intensity, integrity & insanity.\n\naffiliations:\n- @dxtipshq \n- @cognition\n- @temporalio\n- @aidotengineer\n- @latentspacepod",
       "tweets": [
         {
-          "id": "2039075139741241517",
-          "text": "sarah achieves the most impossible developer events - she got a bunch of developers at a writers meetup to sit together….\n\n… and actually write 🤯\n\nthanks to @byAnhtho for being our 3rd Writing Mentor!\n\n@allenpark helped with AV and will upload both her and @QuinnyPig video soon",
-          "createdAt": "2026-03-31T20:19:32.000Z",
-          "url": "https://x.com/swyx/status/2039075139741241517",
-          "likes": 22,
+          "id": "2039222156815716437",
+          "text": "hmm. what happened? no Codex growth in March? https://t.co/F0RmgUx8qE",
+          "createdAt": "2026-04-01T06:03:43.000Z",
+          "url": "https://x.com/swyx/status/2039222156815716437",
+          "likes": 6,
           "retweets": 0,
-          "replies": 5,
+          "replies": 3,
+          "isQuote": false,
+          "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Kevin Weil",
+      "handle": "kevinweil",
+      "bio": "VP Science @OpenAI, BoD @Cisco @nature_org, LTC @USArmyReserve\nEx: Pres @Planet, Head of Product @Instagram @Twitter\n❤️ @elizabeth ultramarathons kids cats math",
+      "tweets": [
+        {
+          "id": "2039200605672284572",
+          "text": "Not only is AI solving more open problems—its proofs are getting more elegant as the models improve https://t.co/rV5oDAf0gy",
+          "createdAt": "2026-04-01T04:38:05.000Z",
+          "url": "https://x.com/kevinweil/status/2039200605672284572",
+          "likes": 116,
+          "retweets": 7,
+          "replies": 18,
           "isQuote": true,
-          "quotedTweetId": "2039068140370583869"
+          "quotedTweetId": "2039161544144310453"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Nan Yu",
+      "handle": "thenanyu",
+      "bio": "head of product @linear",
+      "tweets": [
+        {
+          "id": "2039169970278400157",
+          "text": "Still true\n\nhttps://t.co/EKsXhE4i5E",
+          "createdAt": "2026-04-01T02:36:21.000Z",
+          "url": "https://x.com/thenanyu/status/2039169970278400157",
+          "likes": 0,
+          "retweets": 0,
+          "replies": 0,
+          "isQuote": true,
+          "quotedTweetId": "2039075455387480520"
         },
         {
-          "id": "2039073658552062189",
-          "text": "wow. @Microsoft just appointed a CVP whose entire job is OpenClaw. https://t.co/BpQeniIiVo https://t.co/5BzGvkfvVD",
-          "createdAt": "2026-03-31T20:13:39.000Z",
-          "url": "https://x.com/swyx/status/2039073658552062189",
-          "likes": 144,
-          "retweets": 10,
-          "replies": 11,
+          "id": "2039167941225111754",
+          "text": "Everyone apologize to DHH https://t.co/rs6iSabuD9",
+          "createdAt": "2026-04-01T02:28:17.000Z",
+          "url": "https://x.com/thenanyu/status/2039167941225111754",
+          "likes": 38,
+          "retweets": 0,
+          "replies": 3,
           "isQuote": true,
-          "quotedTweetId": "2039023022699655297"
+          "quotedTweetId": "2039108351338913933"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Thariq",
+      "handle": "trq212",
+      "bio": "Claude Code @anthropicai.   prev YC W20, mit media lab. \n\ntowards machines of loving grace",
+      "tweets": [
+        {
+          "id": "2039201699907469344",
+          "text": "cant believe I got a SNAIL @alistaiir pls",
+          "createdAt": "2026-04-01T04:42:26.000Z",
+          "url": "https://x.com/trq212/status/2039201699907469344",
+          "likes": 93,
+          "retweets": 0,
+          "replies": 13,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2039201498996035924",
+          "text": "/buddy https://t.co/ALjE6i3tN8",
+          "createdAt": "2026-04-01T04:41:38.000Z",
+          "url": "https://x.com/trq212/status/2039201498996035924",
+          "likes": 1814,
+          "retweets": 68,
+          "replies": 246,
+          "isQuote": false,
+          "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Amjad Masad",
+      "handle": "amasad",
+      "bio": "ceo @replit. civilizationist",
+      "tweets": [
+        {
+          "id": "2039214420585492863",
+          "text": "Sick! https://t.co/xd00nnfCR2",
+          "createdAt": "2026-04-01T05:32:59.000Z",
+          "url": "https://x.com/amasad/status/2039214420585492863",
+          "likes": 37,
+          "retweets": 3,
+          "replies": 3,
+          "isQuote": true,
+          "quotedTweetId": "2039117544674513101"
+        },
+        {
+          "id": "2039194288777478259",
+          "text": "new psyop just dropped https://t.co/U5cGjXWdC8",
+          "createdAt": "2026-04-01T04:12:59.000Z",
+          "url": "https://x.com/amasad/status/2039194288777478259",
+          "likes": 259,
+          "retweets": 29,
+          "replies": 26,
+          "isQuote": true,
+          "quotedTweetId": "2039121179588378891"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Aaron Levie",
+      "handle": "levie",
+      "bio": "ceo @box - your business lives in content. unleash it with AI",
+      "tweets": [
+        {
+          "id": "2039216522028257549",
+          "text": "The ultimate rate limiter on productivity gains from agents will be on critical stuff like security, compliance, governance, the ability to review the work of the agent, ensure that it’s compatible with regulations, and so on. \n\nWe’ve been living in a little bit of la-la land around how much software enterprises are going to ultimately want to vibe code themselves. The last 48 hours represents a good example of why you won’t take on every risk of every piece of technology in your enterprise. \n\nThere’s no free lunch with AI productivity. Companies will have the build up the systems, processes, and controls for ensuring that agents can’t run around and do anything they want on any data at any time.",
+          "createdAt": "2026-04-01T05:41:20.000Z",
+          "url": "https://x.com/levie/status/2039216522028257549",
+          "likes": 96,
+          "retweets": 19,
+          "replies": 25,
+          "isQuote": true,
+          "quotedTweetId": "2039107773942956215"
         }
       ]
     },
@@ -39,15 +156,37 @@
       "bio": "President & CEO @ycombinator —Founder @garryslist—Creator of GStack—designer/engineer who helps founders—SF Dem accelerating the boom loop",
       "tweets": [
         {
-          "id": "2039130252212154720",
-          "text": "If you can make the agents do magic for you and you have taste and agency, then you could be 16, 20, 30, or 45 or 60 and it doesn't matter",
-          "createdAt": "2026-03-31T23:58:31.000Z",
-          "url": "https://x.com/garrytan/status/2039130252212154720",
-          "likes": 52,
-          "retweets": 1,
-          "replies": 7,
+          "id": "2039240608435572881",
+          "text": "Many such cases https://t.co/Pn3KpzVDE7",
+          "createdAt": "2026-04-01T07:17:02.000Z",
+          "url": "https://x.com/garrytan/status/2039240608435572881",
+          "likes": 1,
+          "retweets": 0,
+          "replies": 0,
+          "isQuote": true,
+          "quotedTweetId": "2039237153612271672"
+        },
+        {
+          "id": "2039237008338595850",
+          "text": "OK well let's boil an ocean here https://t.co/lEkJvlbqam",
+          "createdAt": "2026-04-01T07:02:44.000Z",
+          "url": "https://x.com/garrytan/status/2039237008338595850",
+          "likes": 3,
+          "retweets": 0,
+          "replies": 0,
           "isQuote": false,
           "quotedTweetId": null
+        },
+        {
+          "id": "2039235860143739070",
+          "text": "https://t.co/xh0tPJ1p9z https://t.co/YuxDYI2UyI",
+          "createdAt": "2026-04-01T06:58:10.000Z",
+          "url": "https://x.com/garrytan/status/2039235860143739070",
+          "likes": 5,
+          "retweets": 1,
+          "replies": 2,
+          "isQuote": true,
+          "quotedTweetId": "2039234882296021054"
         }
       ]
     },
@@ -58,26 +197,15 @@
       "bio": "Polyagentmorous ClawFather. Came back from retirement to mess with AI and help a lobster take over the world @openclaw🦞",
       "tweets": [
         {
-          "id": "2039043198329528446",
-          "text": "this just became more relevant 🙃 https://t.co/s2Z0P8Mo09",
-          "createdAt": "2026-03-31T18:12:36.000Z",
-          "url": "https://x.com/steipete/status/2039043198329528446",
-          "likes": 1262,
-          "retweets": 65,
-          "replies": 34,
+          "id": "2039156882041123035",
+          "text": "are they vibing the takedown requests too? https://t.co/DMTY08ekvF",
+          "createdAt": "2026-04-01T01:44:21.000Z",
+          "url": "https://x.com/steipete/status/2039156882041123035",
+          "likes": 300,
+          "retweets": 14,
+          "replies": 28,
           "isQuote": true,
-          "quotedTweetId": "2032080738997481541"
-        },
-        {
-          "id": "2039019069257756735",
-          "text": "New CodexBar beta has experimental multi-acount support for codex. https://t.co/taqbCuJbJF",
-          "createdAt": "2026-03-31T16:36:43.000Z",
-          "url": "https://x.com/steipete/status/2039019069257756735",
-          "likes": 307,
-          "retweets": 19,
-          "replies": 21,
-          "isQuote": false,
-          "quotedTweetId": null
+          "quotedTweetId": "2039130384399515724"
         }
       ]
     },
@@ -88,24 +216,32 @@
       "bio": "ceo @every | the only subscription you need to stay at the edge of AI",
       "tweets": [
         {
-          "id": "2038952867030036572",
-          "text": "New compound engineering release! https://t.co/P13vRM8o9T",
-          "createdAt": "2026-03-31T12:13:40.000Z",
-          "url": "https://x.com/danshipper/status/2038952867030036572",
-          "likes": 96,
-          "retweets": 5,
-          "replies": 2,
-          "isQuote": true,
-          "quotedTweetId": "2038893322333507781"
-        },
-        {
-          "id": "2038947336047468643",
-          "text": "To be clear, I just want PAs who are extremely Claude pilled",
-          "createdAt": "2026-03-31T11:51:41.000Z",
-          "url": "https://x.com/danshipper/status/2038947336047468643",
-          "likes": 16,
+          "id": "2039149696166318320",
+          "text": "if you haven't tried proof, you should! \n\nhttps://t.co/JfAd0xIoh5 https://t.co/NrfCawcdLh",
+          "createdAt": "2026-04-01T01:15:47.000Z",
+          "url": "https://x.com/danshipper/status/2039149696166318320",
+          "likes": 56,
           "retweets": 0,
-          "replies": 3,
+          "replies": 5,
+          "isQuote": true,
+          "quotedTweetId": "2039112104913867263"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Aditya Agarwal",
+      "handle": "adityaag",
+      "bio": "General Partner @SouthPkCommons, Co-Founder @Bevel_Health | Ex: Early Eng @facebook, CTO @Dropbox, Board @Flipkart | Optimist, Builder, Dad",
+      "tweets": [
+        {
+          "id": "2039198010681565665",
+          "text": "Looking back, early Facebook's philosophy of \"fixing bugs in production\" sounded crazy to most people.\n\nMaybe the modern version of that is, just let your source code be public.\n\nIf software is so dynamic, maybe this isn't so crazy.\n\nOr maybe it is totally batshit crazy.",
+          "createdAt": "2026-04-01T04:27:46.000Z",
+          "url": "https://x.com/adityaag/status/2039198010681565665",
+          "likes": 15,
+          "retweets": 0,
+          "replies": 2,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -113,7 +249,7 @@
     }
   ],
   "stats": {
-    "xBuilders": 4,
-    "totalTweets": 7
+    "xBuilders": 10,
+    "totalTweets": 15
   }
 }
