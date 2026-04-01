@@ -167,40 +167,55 @@ async function fetchYouTubeContent(podcasts, apiKey, state, errors) {
     console.error(`    - ${v.videoId} "${v.title}" published=${v.publishedAt || 'unknown'}`);
   }
 
-  const selected = withinWindow[0]; // oldest unseen video
-  if (!selected) return [];
+  // Try each candidate in order until we find one with a transcript.
+  // Some videos don't have captions/transcripts on YouTube — skip those
+  // and try the next candidate rather than publishing an empty entry.
+  for (const selected of withinWindow) {
+    try {
+      const videoUrl = `https://www.youtube.com/watch?v=${selected.videoId}`;
+      const transcriptRes = await fetch(
+        `${SUPADATA_BASE}/youtube/transcript?url=${encodeURIComponent(videoUrl)}&text=true`,
+        { headers: { 'x-api-key': apiKey } }
+      );
 
-  // Fetch transcript
-  try {
-    const videoUrl = `https://www.youtube.com/watch?v=${selected.videoId}`;
-    const transcriptRes = await fetch(
-      `${SUPADATA_BASE}/youtube/transcript?url=${encodeURIComponent(videoUrl)}&text=true`,
-      { headers: { 'x-api-key': apiKey } }
-    );
+      if (!transcriptRes.ok) {
+        console.error(`    Transcript fetch failed for ${selected.videoId}: HTTP ${transcriptRes.status}`);
+        errors.push(`YouTube: Failed to get transcript for ${selected.videoId}: HTTP ${transcriptRes.status}`);
+        // Mark as seen so we don't retry a broken video every day
+        state.seenVideos[selected.videoId] = Date.now();
+        continue;
+      }
 
-    if (!transcriptRes.ok) {
-      errors.push(`YouTube: Failed to get transcript for ${selected.videoId}: HTTP ${transcriptRes.status}`);
-      return [];
+      const transcriptData = await transcriptRes.json();
+      const transcript = transcriptData.content || '';
+
+      // Mark as seen regardless — even if transcript is empty, don't retry daily
+      state.seenVideos[selected.videoId] = Date.now();
+
+      if (!transcript) {
+        console.error(`    No transcript available for ${selected.videoId} "${selected.title}" — skipping to next candidate`);
+        continue;
+      }
+
+      console.error(`    Selected: ${selected.videoId} "${selected.title}" (transcript: ${transcript.length} chars)`);
+      return [{
+        source: 'podcast',
+        name: selected.podcast.name,
+        title: selected.title,
+        videoId: selected.videoId,
+        url: `https://youtube.com/watch?v=${selected.videoId}`,
+        publishedAt: selected.publishedAt,
+        transcript
+      }];
+    } catch (err) {
+      errors.push(`YouTube: Error fetching transcript for ${selected.videoId}: ${err.message}`);
+      state.seenVideos[selected.videoId] = Date.now();
+      continue;
     }
-
-    const transcriptData = await transcriptRes.json();
-
-    // Mark as seen
-    state.seenVideos[selected.videoId] = Date.now();
-
-    return [{
-      source: 'podcast',
-      name: selected.podcast.name,
-      title: selected.title,
-      videoId: selected.videoId,
-      url: `https://youtube.com/watch?v=${selected.videoId}`,
-      publishedAt: selected.publishedAt,
-      transcript: transcriptData.content || ''
-    }];
-  } catch (err) {
-    errors.push(`YouTube: Error fetching transcript for ${selected.videoId}: ${err.message}`);
-    return [];
   }
+
+  console.error(`    No candidates had transcripts available`);
+  return [];
 }
 
 // -- X/Twitter Fetching (Official API v2) ------------------------------------
