@@ -1,13 +1,11 @@
 {
-  "generatedAt": "2026-04-02T17:44:34.447Z",
+  "generatedAt": "2026-04-02T17:50:08.522Z",
   "lookbackHours": 336,
   "podcasts": [],
   "stats": {
     "podcastEpisodes": 0
   },
   "errors": [
-    "Podcast: Failed to fetch RSS for Latent Space: HTTP 403",
-    "Podcast: Transcript error for \"How Autonomous Labs Will Transform Scientific Research: Ginkgo Bioworks’ Jason Kelly\": HTTP 404: {\"status\":\"error\",\"message\":\"Episode not found\"}",
-    "Podcast: Transcript error for \"Andrej Karpathy on Code Agents, AutoResearch, and the Loopy Era of AI\": HTTP 404: {\"status\":\"error\",\"message\":\"Episode not found\"}"
+    "Podcast: Failed to fetch RSS for Latent Space: HTTP 403"
   ]
 }
