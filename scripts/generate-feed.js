@@ -172,7 +172,13 @@ async function fetchPodcastContent(podcasts, apiKey, state, errors) {
     try {
       console.error(`  Fetching RSS for ${podcast.name}...`);
       const rssRes = await fetch(podcast.rssUrl, {
-        headers: { 'User-Agent': RSS_USER_AGENT },
+        headers: {
+          'User-Agent': RSS_USER_AGENT,
+          'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+          'Accept-Language': 'en-US,en;q=0.9',
+          'Cache-Control': 'no-cache',
+          'Connection': 'keep-alive'
+        },
         signal: AbortSignal.timeout(30000) // 30 second timeout for large feeds
       });
 
