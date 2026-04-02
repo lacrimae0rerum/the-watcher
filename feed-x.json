@@ -1,9 +1,29 @@
 {
-  "generatedAt": "2026-04-02T17:50:08.140Z",
+  "generatedAt": "2026-04-02T17:52:21.254Z",
   "lookbackHours": 24,
-  "x": [],
+  "x": [
+    {
+      "source": "x",
+      "name": "Dan Shipper",
+      "handle": "danshipper",
+      "bio": "ceo @every | the only subscription you need to stay at the edge of AI",
+      "tweets": [
+        {
+          "id": "2039762315424198828",
+          "text": "whoa!!! \n\namazing, congrats to the team! https://t.co/MsDoAHS6S4",
+          "createdAt": "2026-04-02T17:50:07.000Z",
+          "url": "https://x.com/danshipper/status/2039762315424198828",
+          "likes": 1,
+          "retweets": 0,
+          "replies": 0,
+          "isQuote": true,
+          "quotedTweetId": "2039756490387624327"
+        }
+      ]
+    }
+  ],
   "stats": {
-    "xBuilders": 0,
-    "totalTweets": 0
+    "xBuilders": 1,
+    "totalTweets": 1
   }
 }
