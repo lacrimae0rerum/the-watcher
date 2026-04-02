@@ -21,6 +21,9 @@ import { join } from 'path';
 
 const POD2TXT_BASE = 'https://pod2txt.vercel.app/api';
 const X_API_BASE = 'https://api.x.com/2';
+// Some RSS hosts (notably Substack) block non-browser user agents from cloud IPs.
+// Using a standard browser-like UA avoids 403 errors in GitHub Actions.
+const RSS_USER_AGENT = 'Mozilla/5.0 (compatible; FollowBuilders/1.0; +https://github.com/zarazhangrui/follow-builders)';
 const TWEET_LOOKBACK_HOURS = 24;
 const PODCAST_LOOKBACK_HOURS = 336; // 14 days — podcasts publish weekly/biweekly, not daily
 const BLOG_LOOKBACK_HOURS = 72;
@@ -168,7 +171,7 @@ async function fetchPodcastContent(podcasts, apiKey, state, errors) {
 
     try {
       const rssRes = await fetch(podcast.rssUrl, {
-        headers: { 'User-Agent': 'FollowBuilders/1.0 (feed aggregator)' }
+        headers: { 'User-Agent': RSS_USER_AGENT }
       });
 
       if (!rssRes.ok) {
