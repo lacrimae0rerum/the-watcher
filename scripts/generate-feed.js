@@ -92,8 +92,9 @@ function parseRssFeed(xml) {
       || block.match(/<title>([\s\S]*?)<\/title>/);
     const title = titleMatch ? titleMatch[1].trim() : 'Untitled';
 
-    // Extract GUID (unique episode identifier)
-    const guidMatch = block.match(/<guid[^>]*>([\s\S]*?)<\/guid>/);
+    // Extract GUID (unique episode identifier), stripping CDATA wrapper if present
+    const guidMatch = block.match(/<guid[^>]*><!\[CDATA\[([\s\S]*?)\]\]><\/guid>/)
+      || block.match(/<guid[^>]*>([\s\S]*?)<\/guid>/);
     const guid = guidMatch ? guidMatch[1].trim() : null;
 
     // Extract publish date
