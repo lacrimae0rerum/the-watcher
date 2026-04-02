@@ -1,7 +1,367 @@
 {
-  "generatedAt": "2026-04-02T17:52:21.254Z",
+  "generatedAt": "2026-04-02T07:09:15.204Z",
   "lookbackHours": 24,
   "x": [
+    {
+      "source": "x",
+      "name": "Swyx",
+      "handle": "swyx",
+      "bio": "achieve ambition with intentionality, intensity, integrity & insanity.\n\naffiliations:\n- @dxtipshq \n- @cognition\n- @temporalio\n- @aidotengineer\n- @latentspacepod",
+      "tweets": [
+        {
+          "id": "2039597048585167265",
+          "text": "@aiDotEngineer bookmark this page for next week https://t.co/Q660nLKtwE",
+          "createdAt": "2026-04-02T06:53:24.000Z",
+          "url": "https://x.com/swyx/status/2039597048585167265",
+          "likes": 2,
+          "retweets": 0,
+          "replies": 0,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2039479213854728517",
+          "text": "@latentspacepod https://t.co/E9fx0LmOfS interesting triangles here",
+          "createdAt": "2026-04-01T23:05:10.000Z",
+          "url": "https://x.com/swyx/status/2039479213854728517",
+          "likes": 4,
+          "retweets": 0,
+          "replies": 4,
+          "isQuote": true,
+          "quotedTweetId": "2039409644431663147"
+        },
+        {
+          "id": "2039472186600427903",
+          "text": "\"We choose to go to the Moon in this decade and do the other things, not because they are easy, but because they are hard; \n\nbecause that goal will serve to organize and measure the best of our energies and skills, \n\nbecause that challenge is one that we are willing to accept, one we are unwilling to postpone, and one we intend to win, and the others, too.\"",
+          "createdAt": "2026-04-01T22:37:15.000Z",
+          "url": "https://x.com/swyx/status/2039472186600427903",
+          "likes": 68,
+          "retweets": 5,
+          "replies": 10,
+          "isQuote": false,
+          "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Peter Yang",
+      "handle": "petergyang",
+      "bio": "I share extremely practical AI tutorials and interviews | Join 140K+ readers at https://t.co/XYKTmGVH14 | Product at Roblox",
+      "tweets": [
+        {
+          "id": "2039563521885901091",
+          "text": "I think the combination of mobile and short video has rotted the brains of an entire generation of kids. \n\nSee so many kids staring at their TikTok, YouTube Shorts, Reels, etc like zombies.",
+          "createdAt": "2026-04-02T04:40:11.000Z",
+          "url": "https://x.com/petergyang/status/2039563521885901091",
+          "likes": 24,
+          "retweets": 0,
+          "replies": 11,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2039485214532190359",
+          "text": "Oh dear https://t.co/TXlIAquaA4 https://t.co/EWs4SSE3pv",
+          "createdAt": "2026-04-01T23:29:01.000Z",
+          "url": "https://x.com/petergyang/status/2039485214532190359",
+          "likes": 30,
+          "retweets": 0,
+          "replies": 13,
+          "isQuote": true,
+          "quotedTweetId": "2039463035992191283"
+        },
+        {
+          "id": "2039463035992191283",
+          "text": "Me and my OpenClaw are ready for Disneyland Shanghai https://t.co/IyfrvZiIEl",
+          "createdAt": "2026-04-01T22:00:53.000Z",
+          "url": "https://x.com/petergyang/status/2039463035992191283",
+          "likes": 7,
+          "retweets": 0,
+          "replies": 2,
+          "isQuote": false,
+          "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Nan Yu",
+      "handle": "thenanyu",
+      "bio": "head of product @linear",
+      "tweets": [
+        {
+          "id": "2039530536050274648",
+          "text": "Doona is the Notion of strollers https://t.co/nAAanA98vM",
+          "createdAt": "2026-04-02T02:29:07.000Z",
+          "url": "https://x.com/thenanyu/status/2039530536050274648",
+          "likes": 10,
+          "retweets": 0,
+          "replies": 6,
+          "isQuote": true,
+          "quotedTweetId": "2039482827037643056"
+        },
+        {
+          "id": "2039528627281240106",
+          "text": "LOUDER https://t.co/PRWbD9dHji",
+          "createdAt": "2026-04-02T02:21:32.000Z",
+          "url": "https://x.com/thenanyu/status/2039528627281240106",
+          "likes": 49,
+          "retweets": 0,
+          "replies": 0,
+          "isQuote": true,
+          "quotedTweetId": "2039524524027490669"
+        },
+        {
+          "id": "2039490349941526770",
+          "text": "If you're a PM or on sales or support, how many times have you needed to bother an engineer to find out exactly how the app works? \n\nI wanted to know exactly what the default setting was for a personal configuration for all of our users. \n\nYou never need to ask an engineer again for this kind of thing, because Linear Agent can just read the code and tell you.",
+          "createdAt": "2026-04-01T23:49:25.000Z",
+          "url": "https://x.com/thenanyu/status/2039490349941526770",
+          "likes": 45,
+          "retweets": 2,
+          "replies": 8,
+          "isQuote": false,
+          "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Cat Wu",
+      "handle": "_catwu",
+      "bio": "claude code + cowork @anthropicai, prev: @dagster, @scale_ai",
+      "tweets": [
+        {
+          "id": "2039421527935033854",
+          "text": "I love using Claude Code on Claude mobile app to fire off ideas on the go, then pick them up on my laptop later. We support easily teleporting sessions to your local CLI.\n\nDownload link for Claude iOS and Android apps: https://t.co/KkIkUWTKzL https://t.co/xs4jQQXFBW",
+          "createdAt": "2026-04-01T19:15:57.000Z",
+          "url": "https://x.com/_catwu/status/2039421527935033854",
+          "likes": 143,
+          "retweets": 12,
+          "replies": 13,
+          "isQuote": true,
+          "quotedTweetId": "2038454337811386436"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Thariq",
+      "handle": "trq212",
+      "bio": "Claude Code @anthropicai.   prev YC W20, mit media lab. \n\ntowards machines of loving grace",
+      "tweets": [
+        {
+          "id": "2039453692592873587",
+          "text": "not an April Fools joke, we rewrote the Claude Code renderer to use a virtual viewport\n\nyou can use your mouse, the prompt input stays at the bottom, and a lot more small UX wins people have been asking for\n\nit's experimental so give us your feedback https://t.co/VqXbsfSlTJ",
+          "createdAt": "2026-04-01T21:23:46.000Z",
+          "url": "https://x.com/trq212/status/2039453692592873587",
+          "likes": 1483,
+          "retweets": 54,
+          "replies": 214,
+          "isQuote": true,
+          "quotedTweetId": "2039421575422980329"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Amjad Masad",
+      "handle": "amasad",
+      "bio": "ceo @replit. civilizationist",
+      "tweets": [
+        {
+          "id": "2039552681493336250",
+          "text": "We’re in an unprecedented era of rapid wealth creation. https://t.co/P6qoQrvTEn",
+          "createdAt": "2026-04-02T03:57:06.000Z",
+          "url": "https://x.com/amasad/status/2039552681493336250",
+          "likes": 573,
+          "retweets": 47,
+          "replies": 16,
+          "isQuote": true,
+          "quotedTweetId": "2039534473616703979"
+        },
+        {
+          "id": "2039429759344730549",
+          "text": "Agent 4 made Replit into an OS of sorts. You can endlessly customize the platform with skills. https://t.co/xqEOEdHmEJ",
+          "createdAt": "2026-04-01T19:48:40.000Z",
+          "url": "https://x.com/amasad/status/2039429759344730549",
+          "likes": 145,
+          "retweets": 3,
+          "replies": 29,
+          "isQuote": true,
+          "quotedTweetId": "2039415897056817280"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Guillermo Rauch",
+      "handle": "rauchg",
+      "bio": "@vercel CEO",
+      "tweets": [
+        {
+          "id": "2039493013043626427",
+          "text": "Vercel signups are growing at 52% MoM\n(up from 23%, up from 17%)",
+          "createdAt": "2026-04-02T00:00:00.000Z",
+          "url": "https://x.com/rauchg/status/2039493013043626427",
+          "likes": 568,
+          "retweets": 16,
+          "replies": 53,
+          "isQuote": false,
+          "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Aaron Levie",
+      "handle": "levie",
+      "bio": "ceo @box - your business lives in content. unleash it with AI",
+      "tweets": [
+        {
+          "id": "2039414479084278239",
+          "text": "My team is going to kill me for sharing this, but it's April 1st so why not. Coming very soon. https://t.co/zKY9KacBIb https://t.co/H6flCdU61B",
+          "createdAt": "2026-04-01T18:47:56.000Z",
+          "url": "https://x.com/levie/status/2039414479084278239",
+          "likes": 197,
+          "retweets": 8,
+          "replies": 19,
+          "isQuote": true,
+          "quotedTweetId": "2039112104913867263"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Garry Tan",
+      "handle": "garrytan",
+      "bio": "President & CEO @ycombinator —Founder @garryslist—Creator of GStack—designer/engineer who helps founders—SF Dem accelerating the boom loop",
+      "tweets": [
+        {
+          "id": "2039573921956327489",
+          "text": "https://t.co/IcFZWEDeyL",
+          "createdAt": "2026-04-02T05:21:31.000Z",
+          "url": "https://x.com/garrytan/status/2039573921956327489",
+          "likes": 294,
+          "retweets": 16,
+          "replies": 39,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2039568811440128137",
+          "text": "Local models are a very very good thing https://t.co/8lO3MeN5T4",
+          "createdAt": "2026-04-02T05:01:12.000Z",
+          "url": "https://x.com/garrytan/status/2039568811440128137",
+          "likes": 158,
+          "retweets": 11,
+          "replies": 24,
+          "isQuote": true,
+          "quotedTweetId": "2039303217620627604"
+        },
+        {
+          "id": "2039567372152164686",
+          "text": "Apr 1 lmao https://t.co/OQh758HuFe",
+          "createdAt": "2026-04-02T04:55:29.000Z",
+          "url": "https://x.com/garrytan/status/2039567372152164686",
+          "likes": 43,
+          "retweets": 0,
+          "replies": 9,
+          "isQuote": true,
+          "quotedTweetId": "2039456142104154193"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Zara Zhang",
+      "handle": "zarazhangrui",
+      "bio": "Builder. Dangerously skips permissions. Harvard’17. GitHub: https://t.co/KCuEajezlL YouTube: https://t.co/8xzbGWtf6w",
+      "tweets": [
+        {
+          "id": "2039599038358814961",
+          "text": "Just had an aha moment with OpenClaw.\n\nI'm replacing my to-do list with \"braindumping to-dos to OpenClaw\". Whenever I think of a quick task, I just message it to OpenClaw\n\nNot only will it record those tasks, but it will actually DO those tasks\n\nEvery morning it sends me a report of what tasks are already done, and highlights the ones that need my attention\n\nThis might actually be a to-do management system that works",
+          "createdAt": "2026-04-02T07:01:19.000Z",
+          "url": "https://x.com/zarazhangrui/status/2039599038358814961",
+          "likes": 6,
+          "retweets": 0,
+          "replies": 5,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2039368921959293126",
+          "text": "Skill: https://t.co/o33m9N8yYV",
+          "createdAt": "2026-04-01T15:46:55.000Z",
+          "url": "https://x.com/zarazhangrui/status/2039368921959293126",
+          "likes": 23,
+          "retweets": 1,
+          "replies": 3,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2039368866741277074",
+          "text": "Introducing the \"Follow builders\" skill: the best way to stay on top of the insane happenings in AI\n\nI carefully curated 25 X accounts & podcasts that share the highest-quality, first-hand insights on AI (by builders from OpenAI, Anthropic, Google, OpenClaw, Replit, Vercel, Cursor...)\n\nYour OpenClaw/agent can remix my central feed & send you a personalized daily newsletter in whatever channel you like\n\nAlready widely used with 2k+ stars on GitHub; link below",
+          "createdAt": "2026-04-01T15:46:42.000Z",
+          "url": "https://x.com/zarazhangrui/status/2039368866741277074",
+          "likes": 274,
+          "retweets": 21,
+          "replies": 29,
+          "isQuote": false,
+          "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Nikunj Kothari",
+      "handle": "nikunj",
+      "bio": "partner @fpvventures - investing in seed/A. previous: early hire @meter, @opendoor, @atlassian & others. love @shimoleejhaveri + 👦👧",
+      "tweets": [
+        {
+          "id": "2039371652287652109",
+          "text": "confirmed bionic 🤖 https://t.co/iX6dTntoYS",
+          "createdAt": "2026-04-01T15:57:46.000Z",
+          "url": "https://x.com/nikunj/status/2039371652287652109",
+          "likes": 9,
+          "retweets": 0,
+          "replies": 0,
+          "isQuote": false,
+          "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Peter Steinberger",
+      "handle": "steipete",
+      "bio": "Polyagentmorous ClawFather. Came back from retirement to mess with AI and help a lobster take over the world @openclaw🦞",
+      "tweets": [
+        {
+          "id": "2039551079621566812",
+          "text": "I never use plan mode. \n\nThe main reason this was added to codex is for claude-pilled people who struggle with changing their habits.\n\njust talk with your agent. https://t.co/72fL0alajL",
+          "createdAt": "2026-04-02T03:50:45.000Z",
+          "url": "https://x.com/steipete/status/2039551079621566812",
+          "likes": 1726,
+          "retweets": 91,
+          "replies": 225,
+          "isQuote": true,
+          "quotedTweetId": "2039340816980660556"
+        },
+        {
+          "id": "2039496525282496861",
+          "text": "See you there! https://t.co/XjfDQ6s8ri",
+          "createdAt": "2026-04-02T00:13:58.000Z",
+          "url": "https://x.com/steipete/status/2039496525282496861",
+          "likes": 84,
+          "retweets": 2,
+          "replies": 7,
+          "isQuote": true,
+          "quotedTweetId": "2039398936423850017"
+        }
+      ]
+    },
     {
       "source": "x",
       "name": "Dan Shipper",
@@ -9,21 +369,43 @@
       "bio": "ceo @every | the only subscription you need to stay at the edge of AI",
       "tweets": [
         {
-          "id": "2039762315424198828",
-          "text": "whoa!!! \n\namazing, congrats to the team! https://t.co/MsDoAHS6S4",
-          "createdAt": "2026-04-02T17:50:07.000Z",
-          "url": "https://x.com/danshipper/status/2039762315424198828",
-          "likes": 1,
+          "id": "2039357945310277717",
+          "text": "@linear YouTube: https://t.co/vsvM6vT7Qx\n\nSpotify: https://t.co/EGgmmaMHHM",
+          "createdAt": "2026-04-01T15:03:18.000Z",
+          "url": "https://x.com/danshipper/status/2039357945310277717",
+          "likes": 5,
+          "retweets": 1,
+          "replies": 0,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2039357127903350960",
+          "text": "SaaS isn’t dead, it just needs to become agent-native. Linear (@linear) is a great example of how:\n\nThey pivoted the product to be used by both humans and agents, and that has made them one of the premier software tools in the agent-native era. \n\nI had Linear’s cofounder and CEO @karrisaarinen on @every's AI & I to talk about how a product management tool for human software developers became an agent-native tool—and how Linear’s trajectory reveals a bright future for SaaS businesses:\n- Speed means decisions matter more, not less. AI makes it easy to have an idea and build it without considering whether its existence is justified. When ChatGPT was released, SaaS companies were launching their own chatbots left, right, and center. Instead of jumping on the bandwagon, Linear stopped to consider whether the application was useful. (It wasn’t.) \n- Just because the technology has changed doesn’t mean your mission should. Karri attributes Linear’s success to never losing sight of what matters: helping teams develop great software. Instead of chasing trends, Linear focused on understanding how AI was impacting its customers’ workflows—and updating its product accordingly.\n- Agents are now first-class users. Linear never tried to change what it was or did well; it just expanded the user base. Companies can now kick off agents inside Linear, manage them, and track what they're working on alongside the humans on the team, which explains why Codex, Coinbase, and Brex all run their agents on Linear. \n\nThis is a must watch for anyone interested in how an agent-native SaaS company operates. \n\nWatch below!\n\nTimestamps:\nIntroduction and how Every first discovered Linear: 00:00:39\nWhy Linear waited to ship AI features instead of rushing to chatbots: 00:02:00\nLinear's agent platform and becoming the system that guides AI agents: 00:05:06\nWhy \"SaaS is dead\" is a simplistic narrative: 00:07:42\nHow Linear adopted AI coding tools internally: 00:12:18\nAI's impact on product building workflows—speed versus thoughtfulness: 00:17:45\nThe value of conceptual work and thinking before shipping: 00:22:18\nHow AI is reshaping Linear's product strategy: 00:29:30\nDemo: Linear's agent skills, shared context, and code review workflow: 00:37:18\nThe future of product development and the enduring role of human judgment: 00:47:48",
+          "createdAt": "2026-04-01T15:00:03.000Z",
+          "url": "https://x.com/danshipper/status/2039357127903350960",
+          "likes": 88,
+          "retweets": 12,
+          "replies": 19,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2039344530990752076",
+          "text": "@every @NotionHQ technically this camp is sponsored by Notion  \n\nbut ive been a fan and power user since i met @ivanhzhao in 2018 and he showed me Notion 2.0   \n\ntbh i feel like notion was made for this moment in AI—a pleasure for us to work with them https://t.co/bGfKvX8cwF",
+          "createdAt": "2026-04-01T14:10:00.000Z",
+          "url": "https://x.com/danshipper/status/2039344530990752076",
+          "likes": 3,
           "retweets": 0,
           "replies": 0,
-          "isQuote": true,
-          "quotedTweetId": "2039756490387624327"
+          "isQuote": false,
+          "quotedTweetId": null
         }
       ]
     }
   ],
   "stats": {
-    "xBuilders": 1,
-    "totalTweets": 1
+    "xBuilders": 13,
+    "totalTweets": 27
   }
 }
