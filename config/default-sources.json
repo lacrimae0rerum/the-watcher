@@ -2,7 +2,7 @@
   "podcasts": [
     {
       "name": "Latent Space",
-      "rssUrl": "https://api.substack.com/feed/podcast/spotify/7b7a1a8a-d456-4883-8107-3b04d028beab/1084089.rss",
+      "rssUrl": "https://pod2txt.vercel.app/api/feed?url=https://api.substack.com/feed/podcast/1084089.rss",
       "url": "https://www.youtube.com/@LatentSpacePod"
     },
     {
