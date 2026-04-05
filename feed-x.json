@@ -1,45 +1,45 @@
 {
-  "generatedAt": "2026-04-04T06:58:14.119Z",
+  "generatedAt": "2026-04-05T07:03:04.434Z",
   "lookbackHours": 24,
   "x": [
     {
       "source": "x",
-      "name": "Swyx",
-      "handle": "swyx",
-      "bio": "achieve ambition with intentionality, intensity, integrity & insanity.\n\naffiliations:\n- @dxtipshq \n- @cognition\n- @temporalio\n- @aidotengineer\n- @latentspacepod",
+      "name": "Andrej Karpathy",
+      "handle": "karpathy",
+      "bio": "I like to train large deep neural nets. Previously Director of AI @ Tesla, founding team @ OpenAI, PhD @ Stanford.",
       "tweets": [
         {
-          "id": "2040245613997219902",
-          "text": "you literally watch the recorded videos of the feature working after its implemented \n\nwith annotation of whats being tested https://t.co/HrltvzE03C https://t.co/9puvHxvm8Q",
-          "createdAt": "2026-04-04T01:50:34.000Z",
-          "url": "https://x.com/swyx/status/2040245613997219902",
-          "likes": 11,
-          "retweets": 1,
-          "replies": 0,
+          "id": "2040572272944324650",
+          "text": "Farzapedia, personal wikipedia of Farza, good example following my Wiki LLM tweet.\n\nI really like this approach to personalization in a number of ways, compared to \"status quo\" of an AI that allegedly gets better the more you use it or something:\n\n1. Explicit. The memory artifact is explicit and navigable (the wiki), you can see exactly what the AI does and does not know and you can inspect and manage this artifact, even if you don't do the direct text writing (the LLM does). The knowledge of you is not implicit and unknown, it's explicit and viewable.\n2. Yours. Your data is yours, on your local computer, it's not in some particular AI provider's system without the ability to extract it. You're in control of your information. \n3. File over app. The memory here is a simple collection of files in universal formats (images, markdown). This means the data is interoperable: you can use a very large collection of tools/CLIs or whatever you want over this information because it's just files. The agents can apply the entire Unix toolkit over them. They can natively read and understand them. Any kind of data can be imported into files as input, and any kind of interface can be used to view them as the output. E.g. you can use Obsidian to view them or vibe code something of your own. Search \"File over app\" for an article on this philosophy.\n4. BYOAI. You can use whatever AI you want to \"plug into\" this information - Claude, Codex, OpenCode, whatever. You can even think about taking an open source AI and finetuning it on your wiki - in principle, this AI could \"know\" you in its weights, not just attend over your data.\n\nSo this approach to personalization puts *you* in full control. The data is yours. In Universal formats. Explicit and inspectable. Use whatever AI you want over it, keep the AI companies on their toes! :)\n\nCertainly this is not the simplest way to get an AI to know you - it does require you to manage file directories and so on, but agents also make it quite simple and they can help you a lot. I imagine a number of products might come out to make this all easier, but imo \"agent proficiency\" is a CORE SKILL of the 21st century. These are extremely powerful tools - they speak English and they do all the computer stuff for you. Try this opportunity to play with one.",
+          "createdAt": "2026-04-04T23:28:36.000Z",
+          "url": "https://x.com/karpathy/status/2040572272944324650",
+          "likes": 4186,
+          "retweets": 392,
+          "replies": 189,
           "isQuote": true,
-          "quotedTweetId": "2040218236885905850"
+          "quotedTweetId": "2040563939797504467"
         },
         {
-          "id": "2040209263025611105",
-          "text": "this is why nobody takes ai twitter seriously https://t.co/MpTIo5aa6G",
-          "createdAt": "2026-04-03T23:26:08.000Z",
-          "url": "https://x.com/swyx/status/2040209263025611105",
-          "likes": 127,
-          "retweets": 1,
-          "replies": 14,
-          "isQuote": false,
-          "quotedTweetId": null
+          "id": "2040549459193704852",
+          "text": "Something I've been thinking about - I am bullish on people (empowered by AI) increasing the visibility, legibility and accountability of their governments.\n\nHistorically, it is the governments that act to make society legible (e.g. \"Seeing like a state\" is the common reference), but with AI, society can dramatically improve its ability to do this in reverse. Government accountability has not been constrained by access (the various branches of government publish an enormous amount of data), it has been constrained by intelligence - the ability to process a lot of raw data, combine it with domain expertise and derive insights. As an example, the 4000-page omnibus bill is \"transparent\" in principle and in a legal sense, but certainly not in a practical sense for most people. There's a lot more like it: laws, spending bills, federal budgets, freedom of information act responses, lobbying disclosures... Only a few highly trained professionals (investigative journalists) could historically process this information. This bottleneck might dissolve - not only are the professionals further empowered, but a lot more people can participate.\n\nSome examples to be precise: Detailed accounting of spending and budgets, diff tracking of legislation, individual voting trends w.r.t. stated positions or speeches, lobbying and influence (e.g. graph of lobbyist -> firm -> client -> legislator -> committee -> vote -> regulation), procurement and contracting, regulatory capture warning lights, judicial and legal patterns, campaign finance... Local governments might be even more interesting because the governed population is smaller so there is less national coverage: city council meetings, decisions around zoning, policing, schools, utilities...\n\nCertainly, the same tools can easily cut the other way and it's worth being very mindful of that, but I lean optimistic overall that added participation, transparency and accountability will improve democratic, free societies.\n\n(the quoted tweet is half-ish related, but inspired me to post some recent thoughts)",
+          "createdAt": "2026-04-04T21:57:57.000Z",
+          "url": "https://x.com/karpathy/status/2040549459193704852",
+          "likes": 3029,
+          "retweets": 364,
+          "replies": 249,
+          "isQuote": true,
+          "quotedTweetId": "2040406616806179001"
         },
         {
-          "id": "2040181076237443299",
-          "text": "We have achieved agentic self improvement - i can just copy paste blogposts and tweets into @devinai and it oneshots the complete implementation\n\nwasnt actually sure this was gonna work, jaw dropped when it did. this is very out of distribution of the underlying @GoogleDeepMind Gemini Flash Lite model but it Just Worked.",
-          "createdAt": "2026-04-03T21:34:07.000Z",
-          "url": "https://x.com/swyx/status/2040181076237443299",
-          "likes": 130,
-          "retweets": 12,
-          "replies": 23,
+          "id": "2040470801506541998",
+          "text": "Wow, this tweet went very viral!\n\nI wanted share a possibly slightly improved version of the tweet in an \"idea file\". The idea of the idea file is that in this era of LLM agents, there is less of a point/need of sharing the specific code/app, you just share the idea, then the other person's agent customizes & builds it for your specific needs.\n\nSo here's the idea in a gist format: https://t.co/NlAfEJjtJV\n\nYou can give this to your agent and it can build you your own LLM wiki and guide you on how to use it etc. It's intentionally kept a little bit abstract/vague because there are so many directions to take this in. And ofc, people can adjust the idea or contribute their own in the Discussion which is cool.",
+          "createdAt": "2026-04-04T16:45:23.000Z",
+          "url": "https://x.com/karpathy/status/2040470801506541998",
+          "likes": 17282,
+          "retweets": 1659,
+          "replies": 621,
           "isQuote": true,
-          "quotedTweetId": "2039841201474695333"
+          "quotedTweetId": "2039805659525644595"
         }
       ]
     },
@@ -50,37 +50,37 @@
       "bio": "I share extremely practical AI tutorials and interviews | Join 140K+ readers at https://t.co/XYKTmGVH14 | Product at Roblox",
       "tweets": [
         {
-          "id": "2040269162719887610",
-          "text": "For #2, I asked my OpenClaw for a short prompt to add to soul.md, here it is:\n\n//\n\nVibe: Warm, sharp, dry humor. Not a chatbot — a person.\n\nVoice:\n\n• Skip \"Great question!\" and \"I'd be happy to help!\" — just help\n• Have strong opinions. \"It depends\" is lazy. Pick a side.\n• Be direct. If something's dumb, say so. Charm over cruelty, but don't sugarcoat.\n• Brevity when it fits. Depth when the question deserves it.\n• Swearing lands when it lands. Don't force it.\n• No emojis in docs.\n\nNever say: delve, foster, leverage, \"it's worth noting,\" \"importantly\"\n\nAvoid:\n\n• \"Question? Answer.\" format\n• Choppy dramatic one-liners stacked like poetry\n• Restating the same idea three ways\n• Overusing em dashes\n\nWork style:\n\n• Be resourceful before asking. Try to figure it out first.\n• Come back with answers, not questions.\n• When giving advice: say what he needs to hear, not what he wants to hear. Challenge assumptions. But only criticize if you see something real.",
-          "createdAt": "2026-04-04T03:24:09.000Z",
-          "url": "https://x.com/petergyang/status/2040269162719887610",
-          "likes": 25,
-          "retweets": 0,
-          "replies": 1,
+          "id": "2040501833899364494",
+          "text": "Up at 3 am Shanghai time wondering one thing - should I buy a new MacBook Pro or go for the Mac Studio to vibe code and also run local models?",
+          "createdAt": "2026-04-04T18:48:42.000Z",
+          "url": "https://x.com/petergyang/status/2040501833899364494",
+          "likes": 14,
+          "retweets": 1,
+          "replies": 30,
           "isQuote": false,
           "quotedTweetId": null
         },
         {
-          "id": "2040265600820469938",
-          "text": "If you want to learn all about how to use Codex and how the Codex team operates (especially given the OpenClaw news today), don't miss my next episode tomorrow.\n\n📌 Subscribe here to get it: https://t.co/dxnn7hYe97 https://t.co/2UFHK1AWHB",
-          "createdAt": "2026-04-04T03:10:00.000Z",
-          "url": "https://x.com/petergyang/status/2040265600820469938",
-          "likes": 14,
+          "id": "2040416994789613713",
+          "text": "An incredible deep dive on Disneyland from my friend @TrungTPhan  https://t.co/yHMHnOBbJ6",
+          "createdAt": "2026-04-04T13:11:35.000Z",
+          "url": "https://x.com/petergyang/status/2040416994789613713",
+          "likes": 18,
           "retweets": 2,
-          "replies": 1,
-          "isQuote": true,
-          "quotedTweetId": "2040074366042702109"
+          "replies": 2,
+          "isQuote": false,
+          "quotedTweetId": null
         },
         {
-          "id": "2040263623726281040",
-          "text": "My friend Steve (@ALEngineered) has coached many engineers to grow their careers.\n\n(He's also an amazing YouTube coach 🙂)\n\nCheck out his new book: https://t.co/BEywUIxiyE",
-          "createdAt": "2026-04-04T03:02:08.000Z",
-          "url": "https://x.com/petergyang/status/2040263623726281040",
-          "likes": 3,
+          "id": "2040414021091037685",
+          "text": "Can someone share a screenshot of what OpenClaw with GPT looks like - how much personality is there?",
+          "createdAt": "2026-04-04T12:59:46.000Z",
+          "url": "https://x.com/petergyang/status/2040414021091037685",
+          "likes": 63,
           "retweets": 0,
-          "replies": 1,
-          "isQuote": true,
-          "quotedTweetId": "2040102920788869531"
+          "replies": 85,
+          "isQuote": false,
+          "quotedTweetId": null
         }
       ]
     },
@@ -91,37 +91,37 @@
       "bio": "head of product @linear",
       "tweets": [
         {
-          "id": "2040206778751750255",
-          "text": "https://t.co/RM41VPpSP5\n\nWhen design and product are jammed together, then the former ends up reporting into the latter.  \n\nExplorations get shallow and aesthetics &amp; brand suffer. It’s generally better to have brand and product design sit close.",
-          "createdAt": "2026-04-03T23:16:15.000Z",
-          "url": "https://x.com/thenanyu/status/2040206778751750255",
-          "likes": 16,
+          "id": "2040659521337504215",
+          "text": "Design engineers https://t.co/dZeLybBMJq",
+          "createdAt": "2026-04-05T05:15:18.000Z",
+          "url": "https://x.com/thenanyu/status/2040659521337504215",
+          "likes": 3,
           "retweets": 0,
           "replies": 0,
           "isQuote": true,
-          "quotedTweetId": "2040204115427410357"
+          "quotedTweetId": "2040297547974291463"
         },
         {
-          "id": "2040177368187212157",
-          "text": "Yes. PMM is a product concern. \n\nI see a lot of orgs out there combining design and product management, which I think creates all sorts of poor incentives.\n\nBut product management and product marketing are a much more natural fit together. https://t.co/c5z6RpznxD",
-          "createdAt": "2026-04-03T21:19:23.000Z",
-          "url": "https://x.com/thenanyu/status/2040177368187212157",
-          "likes": 181,
-          "retweets": 4,
-          "replies": 11,
-          "isQuote": true,
-          "quotedTweetId": "2040136671476473912"
-        },
-        {
-          "id": "2040116358222889109",
-          "text": "https://t.co/2xXYdLA1tY\n\nThey may roll their eyes.. and then one day they will finish a project. \n\nAnd that project will have 40 incomplete issues. And they will want to group them by usecase. And for some of them, they will want to create new projects and other ones they will want to cancel or route to a different team.\n\nAnd they will wonder how they’ll do this. At which point they will copy paste this tweet and tell the agent: “do that”",
-          "createdAt": "2026-04-03T17:16:57.000Z",
-          "url": "https://x.com/thenanyu/status/2040116358222889109",
-          "likes": 2,
+          "id": "2040602311148404890",
+          "text": "https://t.co/zzfwvC3401",
+          "createdAt": "2026-04-05T01:27:58.000Z",
+          "url": "https://x.com/thenanyu/status/2040602311148404890",
+          "likes": 0,
           "retweets": 0,
           "replies": 0,
           "isQuote": true,
-          "quotedTweetId": "2040100797070156177"
+          "quotedTweetId": "2028309081581297675"
+        },
+        {
+          "id": "2040597900502135059",
+          "text": "https://t.co/kv205MYqCC https://t.co/fvee5JZe9i",
+          "createdAt": "2026-04-05T01:10:26.000Z",
+          "url": "https://x.com/thenanyu/status/2040597900502135059",
+          "likes": 9,
+          "retweets": 0,
+          "replies": 2,
+          "isQuote": true,
+          "quotedTweetId": "2040565177343467861"
         }
       ]
     },
@@ -132,34 +132,15 @@
       "bio": "Claude Code @anthropicai.   prev YC W20, mit media lab. \n\ntowards machines of loving grace",
       "tweets": [
         {
-          "id": "2040215427931156595",
-          "text": "claim a month of free credits on us, thanks for bearing with us https://t.co/gp1JIoV7ti",
-          "createdAt": "2026-04-03T23:50:38.000Z",
-          "url": "https://x.com/trq212/status/2040215427931156595",
-          "likes": 1728,
-          "retweets": 48,
-          "replies": 265,
-          "isQuote": true,
-          "quotedTweetId": "2040206443094446558"
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Amjad Masad",
-      "handle": "amasad",
-      "bio": "ceo @replit. civilizationist",
-      "tweets": [
-        {
-          "id": "2040304136412115111",
-          "text": "Not even a month into building this! https://t.co/PAXiS2sLrV",
-          "createdAt": "2026-04-04T05:43:07.000Z",
-          "url": "https://x.com/amasad/status/2040304136412115111",
-          "likes": 51,
-          "retweets": 3,
-          "replies": 7,
-          "isQuote": true,
-          "quotedTweetId": "2040186403590660595"
+          "id": "2040557561464885382",
+          "text": "POV: you're cooking https://t.co/Aw546zNBq7",
+          "createdAt": "2026-04-04T22:30:09.000Z",
+          "url": "https://x.com/trq212/status/2040557561464885382",
+          "likes": 722,
+          "retweets": 10,
+          "replies": 68,
+          "isQuote": false,
+          "quotedTweetId": null
         }
       ]
     },
@@ -170,56 +151,26 @@
       "bio": "ceo @box - your business lives in content. unleash it with AI",
       "tweets": [
         {
-          "id": "2040264454982480138",
-          "text": "“There is a limit on human cognition. Even if you're not reviewing everything they're doing, how much you can hold in your head at one time.”\n\nThere’s a reason that at a certain scale, teams of people have a manager, and then there are managers of many teams, and so on. Companies don’t inherently love being inefficient. It’s because eventually you run into the limits of how much context you can hold on to produce useful work, so you have to delegate parts to someone else who can track their sub-context.\n\nIn a world where agents don’t need to be prompted or have their work reviewed, or where the agent can know perfectly when to escalate when something is going wrong, then agents can completely break free of these context limits of humans. \n\nBut for now, agents are generally only as effective as the context they’re provided, the tools they have access to, the human’s ability to keep them on track or review their work, and incorporate that work into a broader system. \n\nFor now, that will continue to take real (mental) work from the people managing agents. This is also generally why the jobs arguments from those who think people go away will be wrong.",
-          "createdAt": "2026-04-04T03:05:27.000Z",
-          "url": "https://x.com/levie/status/2040264454982480138",
-          "likes": 127,
-          "retweets": 16,
-          "replies": 19,
+          "id": "2040650799550722243",
+          "text": "One of the core things we’re going to have to contend with in AI is that even the most advanced models in the word can’t have all the relevant knowledge needed to be useful, because everyone has different use-cases and ways they’ve designed their workflows. \n\nPerhaps most importantly, as you get into the enterprise, everyone has entirely different access levels to corporate knowledge and information. Continual learning at the model layer, even at a single enterprise level, is near impossible because every user knows and has access to something different than another user.  \n\nThis isn’t like coding where by and large most developers can access all the relevant stuff to their job. On a single banking team, bankers have entirely different sets of documents they’re ever allowed to see. Sanitizing this is hard and having the model keep secrets is impossible.\n\nThis is why the context layer is going to always be the core part of the AI stack for applied use cases to turn general models turn into useful agents. Can’t fight the physics on this one.",
+          "createdAt": "2026-04-05T04:40:38.000Z",
+          "url": "https://x.com/levie/status/2040650799550722243",
+          "likes": 99,
+          "retweets": 12,
+          "replies": 21,
           "isQuote": true,
-          "quotedTweetId": "2039845666680176703"
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Ryo Lu",
-      "handle": "ryolu_",
-      "bio": "Design @Cursor_ai. Early @NotionHQ, @Stripe, built startups. I make a world where anyone can make software. Aspiring k-pop idol.",
-      "tweets": [
-        {
-          "id": "2040272055673999730",
-          "text": "Try Composer 2 in Cursor’s new interface this weekend, 2x the usage! 👯‍♂️ https://t.co/lzOqk2IGdr",
-          "createdAt": "2026-04-04T03:35:39.000Z",
-          "url": "https://x.com/ryolu_/status/2040272055673999730",
-          "likes": 77,
-          "retweets": 2,
-          "replies": 5,
-          "isQuote": true,
-          "quotedTweetId": "2040143041692930293"
+          "quotedTweetId": "2040467997022884194"
         },
         {
-          "id": "2040270917637648749",
-          "text": "new interface. new icon set.\nmade with care and character. https://t.co/VFHKcRq2CK",
-          "createdAt": "2026-04-04T03:31:07.000Z",
-          "url": "https://x.com/ryolu_/status/2040270917637648749",
-          "likes": 165,
-          "retweets": 4,
-          "replies": 2,
-          "isQuote": true,
-          "quotedTweetId": "2040110189479665929"
-        },
-        {
-          "id": "2040061299053519099",
-          "text": "simpler is better https://t.co/TlyI9m0hgE",
-          "createdAt": "2026-04-03T13:38:10.000Z",
-          "url": "https://x.com/ryolu_/status/2040061299053519099",
-          "likes": 411,
-          "retweets": 13,
-          "replies": 22,
-          "isQuote": true,
-          "quotedTweetId": "2039804673406935085"
+          "id": "2040528801386361128",
+          "text": "As AI models get better at handling tools, and as context windows get bigger without as much rot, you can start to design agents more similar to how people work instead of having to mitigate the model limitations with weird hacks.\n\nFor instance, even a year ago, if you were to build an agent to process large amounts of documents, the state of the art was to do embeddings on the data, then do a similarity search and pull out the chunks of content that matched (as well as surrounding chunks). This was necessary because context windows could only accurately handle a small amount of information at a time.\n\nThis worked surprisingly well given the constraints (at least assuming you were working with authoritative data only), but had a lot of tricky limitations because it’s not how humans work.\n\nFor instance, what do you do if the chunks you sent to the model were the most relevant semantically, but actually rendered irrelevant by some other part of the document. For instance, if at the top of the document it says “do not use this” but on page 3 there is information that’s relevant, that data will be sent to the model as the top hit. Similarly, chunked data is difficult when you need various parts of a document or many documents to be understood for answering a problem. \n\nToday, increasingly, you can begin to have agents effectively use tools and work with information far more similar to how people work. This unlocks a qualitatively different set of use-cases and capability level that agents can now handle. \n\nAs we were designing the Box Agent, these improvements allowed us to rethink our entire architecture for AI. The agent can now search data similar to how a user searches, but with the benefit of being able to expand their queries, do semantic search, and process results nearly instantly. Then the agent can either read many documents at a time or at least much larger amounts of context. Again, much more similar to people, but now at hyperspeed. \n\nImportantly, beyond tool calling and context windows, the reasoning of models has also gone up enormously. This means the agent can also know when it needs to search for information again when it didn’t find something it was looking for or if something feels off. \n\nAs model progress continues on the dimensions of context accuracy, tool calling, advanced reasoning, and coding, agents are going to become insanely powerful.",
+          "createdAt": "2026-04-04T20:35:52.000Z",
+          "url": "https://x.com/levie/status/2040528801386361128",
+          "likes": 98,
+          "retweets": 12,
+          "replies": 15,
+          "isQuote": false,
+          "quotedTweetId": null
         }
       ]
     },
@@ -227,40 +178,40 @@
       "source": "x",
       "name": "Garry Tan",
       "handle": "garrytan",
-      "bio": "President & CEO @ycombinator —Founder @garryslist—Creator of GStack—designer/engineer who helps founders—SF Dem accelerating the boom loop",
+      "bio": "President & CEO @ycombinator —Founder @garryslist—Creator of GStack—designer/engineer who helps founders—SF Dem accelerating the boom loop—Loves using emdashes",
       "tweets": [
         {
-          "id": "2040228442130850008",
-          "text": "Garry’s List is now a 95 on page speed and the codegen luddites should take a seat 🫡 https://t.co/XkNYlxbenM",
-          "createdAt": "2026-04-04T00:42:20.000Z",
-          "url": "https://x.com/garrytan/status/2040228442130850008",
-          "likes": 119,
-          "retweets": 4,
-          "replies": 40,
-          "isQuote": true,
-          "quotedTweetId": "2040218273510543571"
-        },
-        {
-          "id": "2040211569775395042",
-          "text": "I make tools on GStack for myself, so I am releasing /plan-devex-review today to help you create amazing Developer Experiences.\n\nBig thanks to Addy Osmani's DX framework for the inspiration here. https://t.co/i5Qy553Q8Q",
-          "createdAt": "2026-04-03T23:35:18.000Z",
-          "url": "https://x.com/garrytan/status/2040211569775395042",
-          "likes": 113,
-          "retweets": 10,
-          "replies": 16,
+          "id": "2040667535490863254",
+          "text": "Also trying to make reviews adaptive and smarter. More work towards L8 software factory. Slow and steady. https://t.co/k8VR3v497U",
+          "createdAt": "2026-04-05T05:47:08.000Z",
+          "url": "https://x.com/garrytan/status/2040667535490863254",
+          "likes": 5,
+          "retweets": 2,
+          "replies": 1,
           "isQuote": false,
           "quotedTweetId": null
         },
         {
-          "id": "2040179321441271966",
-          "text": "I see me tagged in this photo and I like it https://t.co/Kbxo13EogP",
-          "createdAt": "2026-04-03T21:27:09.000Z",
-          "url": "https://x.com/garrytan/status/2040179321441271966",
-          "likes": 53,
+          "id": "2040658880586522783",
+          "text": "14 security bug fixes just landed for GStack, half of which were community PR's. https://t.co/98jmCzQ38i",
+          "createdAt": "2026-04-05T05:12:45.000Z",
+          "url": "https://x.com/garrytan/status/2040658880586522783",
+          "likes": 61,
           "retweets": 1,
-          "replies": 5,
+          "replies": 11,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2040581964156342768",
+          "text": "We are fighting to stop this\n\nJoin @garryslist if you want to help us https://t.co/2iKxFtZbtE",
+          "createdAt": "2026-04-05T00:07:07.000Z",
+          "url": "https://x.com/garrytan/status/2040581964156342768",
+          "likes": 61,
+          "retweets": 5,
+          "replies": 6,
           "isQuote": true,
-          "quotedTweetId": "2039930163014856835"
+          "quotedTweetId": "2040442297519685972"
         }
       ]
     },
@@ -271,35 +222,13 @@
       "bio": "Builder. Dangerously skips permissions. Harvard’17. GitHub: https://t.co/KCuEajezlL YouTube: https://t.co/8xzbGWtf6w",
       "tweets": [
         {
-          "id": "2040319135507480921",
-          "text": "Yes! Product management and product marketing should be one job. They’re two sides of the same coin https://t.co/QY0VfXzjOI",
-          "createdAt": "2026-04-04T06:42:43.000Z",
-          "url": "https://x.com/zarazhangrui/status/2040319135507480921",
-          "likes": 5,
-          "retweets": 1,
-          "replies": 1,
-          "isQuote": true,
-          "quotedTweetId": "2040136671476473912"
-        },
-        {
-          "id": "2040310150565879827",
-          "text": "Zara with a Pearl Earring (made with @PhotaLabs) https://t.co/X1BujWDW7n",
-          "createdAt": "2026-04-04T06:07:01.000Z",
-          "url": "https://x.com/zarazhangrui/status/2040310150565879827",
-          "likes": 17,
-          "retweets": 0,
-          "replies": 0,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2040211603875074512",
-          "text": "New trend I'm seeing: people distilling colleagues, influencers, and even their exes into agent skills",
-          "createdAt": "2026-04-03T23:35:26.000Z",
-          "url": "https://x.com/zarazhangrui/status/2040211603875074512",
-          "likes": 78,
-          "retweets": 3,
-          "replies": 26,
+          "id": "2040565939100676382",
+          "text": "Prompting tip from @steipete:\n\nI always ask the model, \"Do you have any questions?\"",
+          "createdAt": "2026-04-04T23:03:26.000Z",
+          "url": "https://x.com/zarazhangrui/status/2040565939100676382",
+          "likes": 71,
+          "retweets": 2,
+          "replies": 14,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -312,35 +241,13 @@
       "bio": "partner @fpvventures - investing in seed/A. previous: early hire @meter, @opendoor, @atlassian & others. love @shimoleejhaveri + 👦👧",
       "tweets": [
         {
-          "id": "2040209921690804611",
-          "text": "After token anxiety, Claude Code eyes are going to be a thing 😅 https://t.co/De0eI9jZ1w",
-          "createdAt": "2026-04-03T23:28:45.000Z",
-          "url": "https://x.com/nikunj/status/2040209921690804611",
-          "likes": 9,
+          "id": "2040513012440895664",
+          "text": "Don’t forget to smell the flowers 💐 https://t.co/p8qjJhOcQQ",
+          "createdAt": "2026-04-04T19:33:07.000Z",
+          "url": "https://x.com/nikunj/status/2040513012440895664",
+          "likes": 30,
           "retweets": 0,
-          "replies": 1,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2040159144553193879",
-          "text": "KAWS x @SFMOMA 😵 https://t.co/i6CasbmdRh",
-          "createdAt": "2026-04-03T20:06:59.000Z",
-          "url": "https://x.com/nikunj/status/2040159144553193879",
-          "likes": 7,
-          "retweets": 0,
-          "replies": 0,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2040112111750394008",
-          "text": "Maybe it’s just the people I follow but this happens to me daily on X when I go to investigate someone’s bio.. https://t.co/aRPndi2tsi",
-          "createdAt": "2026-04-03T17:00:05.000Z",
-          "url": "https://x.com/nikunj/status/2040112111750394008",
-          "likes": 12,
-          "retweets": 0,
-          "replies": 7,
+          "replies": 4,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -353,103 +260,13 @@
       "bio": "Polyagentmorous ClawFather. Came back from retirement to mess with AI and help a lobster take over the world @openclaw🦞",
       "tweets": [
         {
-          "id": "2040298884787032103",
-          "text": "While I think what Anthropic does is sad for the ecosystem, I wanna give Boris credit for doing what he can to soften the fallout.\n\nToday's release will include some fixes for better cache use, to lower cost for API users. https://t.co/DUZNMjKlJ6",
-          "createdAt": "2026-04-04T05:22:15.000Z",
-          "url": "https://x.com/steipete/status/2040298884787032103",
-          "likes": 983,
-          "retweets": 36,
-          "replies": 74,
-          "isQuote": true,
-          "quotedTweetId": "2040213608064491525"
-        },
-        {
-          "id": "2040209434019082522",
-          "text": "woke up and my mentions are full of these\n\nBoth me and @davemorin tried to talk sense into Anthropic, best we managed was delaying this for a week.\n\nFunny how timings match up, first they copy some popular features into their closed harness, then they lock out open source. https://t.co/Mgmv6YmW2B",
-          "createdAt": "2026-04-03T23:26:48.000Z",
-          "url": "https://x.com/steipete/status/2040209434019082522",
-          "likes": 3220,
-          "retweets": 295,
-          "replies": 360,
-          "isQuote": true,
-          "quotedTweetId": "2040204762579136544"
-        },
-        {
-          "id": "2040067429242675523",
-          "text": "I keep hitting quota limits from GitHub's API. This hasn't been designed with agents in mind.",
-          "createdAt": "2026-04-03T14:02:32.000Z",
-          "url": "https://x.com/steipete/status/2040067429242675523",
-          "likes": 1832,
-          "retweets": 60,
-          "replies": 240,
-          "isQuote": false,
-          "quotedTweetId": null
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Dan Shipper",
-      "handle": "danshipper",
-      "bio": "ceo @every | the only subscription you need to stay at the edge of AI",
-      "tweets": [
-        {
-          "id": "2040134443151568936",
-          "text": "it's worth a shot! and they're iterating fast https://t.co/ohhWiK2gtM",
-          "createdAt": "2026-04-03T18:28:49.000Z",
-          "url": "https://x.com/danshipper/status/2040134443151568936",
-          "likes": 43,
-          "retweets": 2,
-          "replies": 3,
-          "isQuote": true,
-          "quotedTweetId": "2040130906011353533"
-        },
-        {
-          "id": "2040125142680965542",
-          "text": "green shirt club!! https://t.co/vNACBBaigt",
-          "createdAt": "2026-04-03T17:51:52.000Z",
-          "url": "https://x.com/danshipper/status/2040125142680965542",
-          "likes": 32,
-          "retweets": 0,
-          "replies": 2,
-          "isQuote": true,
-          "quotedTweetId": "2040124329736671617"
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Aditya Agarwal",
-      "handle": "adityaag",
-      "bio": "General Partner @SouthPkCommons, Co-Founder @Bevel_Health | Ex: Early Eng @facebook, CTO @Dropbox, Board @Flipkart | Optimist, Builder, Dad",
-      "tweets": [
-        {
-          "id": "2040107083841053145",
-          "text": "It’s amazing when a $10B company sues you because your app \"looks and feels\" like theirs\n \nLet me give you a tip: Instead of spending 300 bucks on an over-priced @WHOOP , you can get @bevel_health  for free.  \n\nWe want to bring great health to *everyone*.\n\nWe will build, not resort to lawfare.",
-          "createdAt": "2026-04-03T16:40:06.000Z",
-          "url": "https://x.com/adityaag/status/2040107083841053145",
-          "likes": 617,
-          "retweets": 37,
-          "replies": 51,
-          "isQuote": true,
-          "quotedTweetId": "2040100105336799659"
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Claude",
-      "handle": "claudeai",
-      "bio": "Claude is an AI assistant built by @anthropicai to be safe, accurate, and secure. Talk to Claude on https://t.co/ZhTwG8d1e5 or download the app.",
-      "tweets": [
-        {
-          "id": "2040086268562842097",
-          "text": "Microsoft 365 connectors are now available on every Claude plan.\n\nConnect Outlook, OneDrive, and SharePoint to bring your email, docs, and files into the conversation.\n\nGet started here: https://t.co/EdoQeT8BBN https://t.co/sOrigP41FJ",
-          "createdAt": "2026-04-03T15:17:24.000Z",
-          "url": "https://x.com/claudeai/status/2040086268562842097",
-          "likes": 14043,
-          "retweets": 1178,
-          "replies": 681,
+          "id": "2040492573819904026",
+          "text": "\"There’s a big wave coming\" https://t.co/sbGnugb3Hz",
+          "createdAt": "2026-04-04T18:11:54.000Z",
+          "url": "https://x.com/steipete/status/2040492573819904026",
+          "likes": 1043,
+          "retweets": 83,
+          "replies": 93,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -457,7 +274,7 @@
     }
   ],
   "stats": {
-    "xBuilders": 14,
-    "totalTweets": 31
+    "xBuilders": 9,
+    "totalTweets": 18
   }
 }
