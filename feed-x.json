@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-12T07:10:52.880Z",
+  "generatedAt": "2026-04-13T07:59:47.375Z",
   "lookbackHours": 24,
   "x": [
     {
@@ -9,26 +9,34 @@
       "bio": "achieve ambition with intentionality, intensity, integrity & insanity.\n\naffiliations:\n- @dxtipshq \n- @cognition\n- @temporalio\n- @aidotengineer\n- @latentspacepod",
       "tweets": [
         {
-          "id": "2043217991589102027",
-          "text": "late night low TAM tweet:\n\ndid a Broadway solo song for the first time in ~18 years! only fumbled lyrics once! https://t.co/1Yh31lH68z https://t.co/mi9jwudyFd",
-          "createdAt": "2026-04-12T06:41:45.000Z",
-          "url": "https://x.com/swyx/status/2043217991589102027",
-          "likes": 15,
+          "id": "2043547497382240513",
+          "text": "raw recording with some INSANE performances from my new friends https://t.co/0lDxUiVrsc",
+          "createdAt": "2026-04-13T04:31:05.000Z",
+          "url": "https://x.com/swyx/status/2043547497382240513",
+          "likes": 1,
           "retweets": 0,
-          "replies": 2,
-          "isQuote": true,
-          "quotedTweetId": "2043095815577833619"
-        },
-        {
-          "id": "2043095815577833619",
-          "text": "flew straight back from London town to get ready for my Broadway cabaret tonight !!\n\n(sorry didnt advertise… its v limited seating) https://t.co/H2FS34JwFB",
-          "createdAt": "2026-04-11T22:36:15.000Z",
-          "url": "https://x.com/swyx/status/2043095815577833619",
-          "likes": 39,
-          "retweets": 0,
-          "replies": 11,
+          "replies": 0,
           "isQuote": false,
           "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Kevin Weil",
+      "handle": "kevinweil",
+      "bio": "VP Science @OpenAI, BoD @Cisco @nature_org, LTC @USArmyReserve\nEx: Pres @Planet, Head of Product @Instagram @Twitter\n❤️ @elizabeth ultramarathons kids cats math",
+      "tweets": [
+        {
+          "id": "2043510607736189193",
+          "text": "This is a great take. Human intelligence and computer intelligence are not different points on a line, but in a high dimensional space—and we should explore more of the space. https://t.co/BdIX5OWR0H",
+          "createdAt": "2026-04-13T02:04:30.000Z",
+          "url": "https://x.com/kevinweil/status/2043510607736189193",
+          "likes": 93,
+          "retweets": 10,
+          "replies": 5,
+          "isQuote": true,
+          "quotedTweetId": "2043264123123769740"
         }
       ]
     },
@@ -39,13 +47,35 @@
       "bio": "I share extremely practical AI tutorials and interviews | Join 140K+ readers at https://t.co/XYKTmGVH14 | Product at Roblox",
       "tweets": [
         {
-          "id": "2042950869734567998",
-          "text": "\"Can AI learn design taste?\"\n\nThere's no better person to ask this question to than Figma's CEO.\n\nI had a great chat with Dylan about this and other tough topics like:\n\n→ Whether design systems constrain creativity\n→ How Figma plans to compete in the AI era\n\n📌 Subscribe to get the full episode tmr: https://t.co/Ggqaa3F11Z",
-          "createdAt": "2026-04-11T13:00:18.000Z",
-          "url": "https://x.com/petergyang/status/2042950869734567998",
-          "likes": 72,
-          "retweets": 6,
-          "replies": 7,
+          "id": "2043491799478718953",
+          "text": "Jet lag is hell",
+          "createdAt": "2026-04-13T00:49:45.000Z",
+          "url": "https://x.com/petergyang/status/2043491799478718953",
+          "likes": 24,
+          "retweets": 0,
+          "replies": 9,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2043466663258140685",
+          "text": "My entire feed and the Claude subreddit is full of ppl saying opus got nerfed.\n\nWhy would Anthropic nerf its own models?",
+          "createdAt": "2026-04-12T23:09:52.000Z",
+          "url": "https://x.com/petergyang/status/2043466663258140685",
+          "likes": 532,
+          "retweets": 8,
+          "replies": 245,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2043328453181943988",
+          "text": "Also available on:\n\nSpotify:\nhttps://t.co/70agoA1PHq\n\nApple: https://t.co/shNRmPP2Wb\n\nNewsletter: https://t.co/azuNUfbjrX",
+          "createdAt": "2026-04-12T14:00:41.000Z",
+          "url": "https://x.com/petergyang/status/2043328453181943988",
+          "likes": 3,
+          "retweets": 0,
+          "replies": 0,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -53,20 +83,39 @@
     },
     {
       "source": "x",
-      "name": "Thariq",
-      "handle": "trq212",
-      "bio": "Claude Code @anthropicai.   prev YC W20, mit media lab. \n\ntowards machines of loving grace",
+      "name": "Nan Yu",
+      "handle": "thenanyu",
+      "bio": "head of product @linear",
       "tweets": [
         {
-          "id": "2043138221836746762",
-          "text": "there's a turbotax connector in Claude Code now, so glad I procrastinated on taxes 😭 https://t.co/EIOfnPq0xd",
-          "createdAt": "2026-04-12T01:24:46.000Z",
-          "url": "https://x.com/trq212/status/2043138221836746762",
-          "likes": 1467,
-          "retweets": 45,
-          "replies": 77,
+          "id": "2043433444898730007",
+          "text": "And regular expressions. https://t.co/GRmYQvX7Ox",
+          "createdAt": "2026-04-12T20:57:53.000Z",
+          "url": "https://x.com/thenanyu/status/2043433444898730007",
+          "likes": 16,
+          "retweets": 0,
+          "replies": 1,
           "isQuote": true,
-          "quotedTweetId": "2043109671251423416"
+          "quotedTweetId": "2043428463584112851"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Amjad Masad",
+      "handle": "amasad",
+      "bio": "ceo @replit. civilizationist",
+      "tweets": [
+        {
+          "id": "2043394289326289243",
+          "text": "On its 50th birthday Apple is doing its best to become the most hated company in the world. https://t.co/9JCgiiCrBo",
+          "createdAt": "2026-04-12T18:22:17.000Z",
+          "url": "https://x.com/amasad/status/2043394289326289243",
+          "likes": 8019,
+          "retweets": 1251,
+          "replies": 113,
+          "isQuote": true,
+          "quotedTweetId": "2043366941922926940"
         }
       ]
     },
@@ -77,15 +126,15 @@
       "bio": "@vercel CEO",
       "tweets": [
         {
-          "id": "2043020059896091016",
-          "text": "Vercel Sandbox is now the #1 fastest microVM-based Sandbox.\n\nWe’ve also heard from customers migrating that beyond “in the lab” benchmarks, our real-world performance & reliability are second-to-none. Literally.\n\nWhether it’s 🦞 claws, coding agents, or plain compute parallelism, we think this is the foundation of the new world. Enjoy!",
-          "createdAt": "2026-04-11T17:35:14.000Z",
-          "url": "https://x.com/rauchg/status/2043020059896091016",
-          "likes": 355,
+          "id": "2043381737754120592",
+          "text": "Protip: Create an X group chat with your best and most demanding customers. Put your engineering leads in said group chat. Respond and ship quickly. Face the music.\n\nWe have one going for @v0. DM if you want to be a part of it and are committed to sharing excellent feedback.",
+          "createdAt": "2026-04-12T17:32:25.000Z",
+          "url": "https://x.com/rauchg/status/2043381737754120592",
+          "likes": 540,
           "retweets": 21,
-          "replies": 32,
-          "isQuote": true,
-          "quotedTweetId": "2042986384445837619"
+          "replies": 59,
+          "isQuote": false,
+          "quotedTweetId": null
         }
       ]
     },
@@ -96,26 +145,26 @@
       "bio": "ceo @box - your business lives in content. unleash it with AI",
       "tweets": [
         {
-          "id": "2043192337111924930",
-          "text": "This chart puts the datacenter demands into perspective very clearly. Amazon has done more capex in the last 3 years than its entire history. \n\nRight now most AI adoption is on chat tools that are relatively token efficient. Comparatively, coding agents, use orders of magnitude more tokens, but are only used by a small population today.\n\nThese same kind of consumption patterns are about to come for the rest of knowledge work as well. The demand to process tokens for agents is probably 100s of times greater than we’re realizing right now. \n\nExpect these charts to keep going vertical.",
-          "createdAt": "2026-04-12T04:59:48.000Z",
-          "url": "https://x.com/levie/status/2043192337111924930",
-          "likes": 70,
-          "retweets": 15,
-          "replies": 16,
-          "isQuote": true,
-          "quotedTweetId": "2042743868592943405"
+          "id": "2043426157367095397",
+          "text": "Another week on the road meeting with a couple dozen IT and AI leaders from large enterprises across banking, media, retail, healthcare, consulting, tech, and sports, to discuss agents in the enterprise. \n\nSome quick takeaways:\n\n* Clear that we’re moving from chat era of AI to agents that use tools, process data, and start to execute real work in the enterprise. Complementing this, enterprises are often evolving from “let a thousand flowers bloom” approach to adoption to targeted automation efforts applied to specific areas of work and workflow.\n\n* Change management still will remain one of the biggest topics for enterprises. Most workflows aren’t setup to just drop agents directly in, and enterprises will need a ton of help to drive these efforts (both internally and from partners). One company has a head of AI in every business unit that roles up to a central team, just to keep all the functions coordinated.\n\n* Tokenmaxxing! Most companies operate with very strict OpEx budgets get locked in for the year ahead, so they’re going through very real trade-off discussions right now on how to budget for tokens. One company recently had an idea for a “shark tank” style way of pitching for compute budget. Others are trying to figure out how to ration compute to the best use-cases internally through some hierarchy of needs (my words not theirs).\n\n* Fixing fragmented and legacy systems remain a huge priority right now. Most enterprises are dealing with decades of either on-prem systems or systems they moved to the cloud but that still haven’t been modernized in any meaningful way. This means agents can’t easily tap into these data sources in a unified way yet, so companies are focused on how they modernize these.\n\n* Most companies are *not* talking about replacing jobs due to agents. The major use-cases for agents are things that the company wasn’t able to do before or couldn’t prioritize. Software upgrades, automating back office processes that were constraining other workflows, processing large amounts of documents to get new business or client insights, and so on. More emphasis on ways to make money vs. cut costs.\n\n* Headless software dominated my conversations. Enterprises need to be able to ensure all of their software works across any set of agents they choose. They will kick out vendors that don’t make this technically or economically easy.\n\n* Clear sense that it can be hard to standardize on anything right now given how fast things are moving. Blessing and a curse of the innovation curve right now - no one wants to get stuck in a paradigm that locks them into the wrong architecture. One other result of this is that companies realize they’re in a multi-agent world, which means that interoperability becomes paramount across systems.\n\n* Unanimous sense that everyone is working more than ever before. AI is not causing anyone to do less work right now, and similar to Silicon Valley people feel their teams are the busiest they’ve ever been.\n\nOne final meta observation not called out explicitly. It seems that despite Silicon Valley’s sense that AI has made hard things easy, the most powerful ways to use agents is more “technical” than prior eras of software. Skills, MCP, CLIs, etc. may be simple concepts for tech, but in the real world these are all esoteric concepts that will require technical people to help bring to life in the enterprise. \n\nThis both means diffusion will take real work and time, but also everyone’s estimation of engineering jobs is totally off. Engineers may not be “writing” software, but they will certainly be the ones to setup and operate the systems that actually automate most work in the enterprise.",
+          "createdAt": "2026-04-12T20:28:55.000Z",
+          "url": "https://x.com/levie/status/2043426157367095397",
+          "likes": 2981,
+          "retweets": 342,
+          "replies": 123,
+          "isQuote": false,
+          "quotedTweetId": null
         },
         {
-          "id": "2043051227387433144",
-          "text": "We will likely have more lawyers in the future than today, because:\n\n1) AI will cause so many more people to ask legal questions which will encourage them to need to verify or execute through an actual lawyer. \n\n2) AI will cause an explosion of more and more exotic legal terms that lawyers will be spending even more time reviewing redlines or new cases around.\n\n3) All the new areas of law that now are emerging around the use of AI itself in every single industry. AI introduces an explosion of IP, privacy, and regulatory compliance challenges across all verticals.\n\nThis has historical precedent as well. Between the creation of the PC and the internet (both technologies that made the legal profession far more efficient), the ABA pegs active attorneys having gone from roughly 400,000 in 1975 to roughly 1,375,000 in 2025.\n\nWhen we make professions more efficient and automated, often demand for them goes up not down.",
-          "createdAt": "2026-04-11T19:39:05.000Z",
-          "url": "https://x.com/levie/status/2043051227387433144",
-          "likes": 366,
-          "retweets": 48,
-          "replies": 44,
+          "id": "2043318118169354302",
+          "text": "Security another great example of a job category that is about to have its Jevons paradox moment as well. \n\n“And counterintuitively, I think better AI tooling for security will increase the demand for security talent, not decrease it. Autonomous exploitability automates the proving step, but it doesn't automate the response. More real findings surfaced faster means more triage, more remediation, more architectural decisions that need human judgment”\n\nAI is going to generate 100X more code, and along with that, there will be an enormous increase in security discoveries. AI is the only way to triage all of these new threats and risks, but an expert still will be needed on the other side to manage the process. Going to be a massive category of opportunity for talent.",
+          "createdAt": "2026-04-12T13:19:37.000Z",
+          "url": "https://x.com/levie/status/2043318118169354302",
+          "likes": 307,
+          "retweets": 44,
+          "replies": 21,
           "isQuote": true,
-          "quotedTweetId": "2042933925413040506"
+          "quotedTweetId": "2043301364546126093"
         }
       ]
     },
@@ -126,54 +175,35 @@
       "bio": "President & CEO @ycombinator —Founder @garryslist—Creator of GStack & GBrain—designer/engineer who helps founders—SF Dem accelerating the boom loop",
       "tweets": [
         {
-          "id": "2043198783006355747",
-          "text": "Here is my counterpoint after 3 months of releasing open source used by tens of thousands of agentic engineers per day. \n\nThin harness, fat skills: \n\nhttps://t.co/K2Sx8Cb4tz",
-          "createdAt": "2026-04-12T05:25:25.000Z",
-          "url": "https://x.com/garrytan/status/2043198783006355747",
-          "likes": 28,
-          "retweets": 1,
-          "replies": 2,
+          "id": "2043581361798500602",
+          "text": "New item in my SOUL md tonight https://t.co/iAwcQ2QCB7",
+          "createdAt": "2026-04-13T06:45:39.000Z",
+          "url": "https://x.com/garrytan/status/2043581361798500602",
+          "likes": 229,
+          "retweets": 13,
+          "replies": 39,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2043566405862236254",
+          "text": "Do the right job at the right layer \n\nEverything else is architecture astronomy https://t.co/jqiPf14F0B",
+          "createdAt": "2026-04-13T05:46:13.000Z",
+          "url": "https://x.com/garrytan/status/2043566405862236254",
+          "likes": 37,
+          "retweets": 0,
+          "replies": 4,
           "isQuote": true,
           "quotedTweetId": "2042925773300908103"
         },
         {
-          "id": "2043198780800197025",
-          "text": "If your memory dies when your harness dies, you built the harness too thick.\n\nMemory is markdown. Skills are markdown. Brain is a git repo. The harness is a thin conductor — it reads the files, it doesn't own them. https://t.co/JPjnu2FhV6",
-          "createdAt": "2026-04-12T05:25:24.000Z",
-          "url": "https://x.com/garrytan/status/2043198780800197025",
-          "likes": 119,
-          "retweets": 10,
-          "replies": 14,
-          "isQuote": true,
-          "quotedTweetId": "2042978500567609738"
-        },
-        {
-          "id": "2043188801175220306",
-          "text": "What a powerful education in latency and how to build voice systems \n\n… all just by chatting with the Claw https://t.co/0bHezE7lzW",
-          "createdAt": "2026-04-12T04:45:45.000Z",
-          "url": "https://x.com/garrytan/status/2043188801175220306",
-          "likes": 11,
-          "retweets": 0,
-          "replies": 3,
-          "isQuote": false,
-          "quotedTweetId": null
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Matt Turck",
-      "handle": "mattturck",
-      "bio": "VC at @FirstMarkCap.  Host: MAD Podcast; Organizer: Data Driven NYC, Author: MAD Landscape.",
-      "tweets": [
-        {
-          "id": "2043114808875077789",
-          "text": "\"There are some many vendors in AI for customer service, it's basically a solved problem\" https://t.co/Kd8GLBAFPL",
-          "createdAt": "2026-04-11T23:51:44.000Z",
-          "url": "https://x.com/mattturck/status/2043114808875077789",
-          "likes": 14,
-          "retweets": 1,
-          "replies": 1,
+          "id": "2043566215927328955",
+          "text": "This is the simplest distillation of what I have learned about agentic engineering this year \n\nPush smart fuzzy operations humans do into markdown skills. Fat skills. \n\nPush must-be-perfect deterministic operations into code. Fat code. \n\nThe harness? Keep it thin. https://t.co/3ESkNepZrZ",
+          "createdAt": "2026-04-13T05:45:28.000Z",
+          "url": "https://x.com/garrytan/status/2043566215927328955",
+          "likes": 450,
+          "retweets": 38,
+          "replies": 43,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -186,24 +216,35 @@
       "bio": "Builder. Dangerously skips permissions. Harvard’17. GitHub: https://t.co/KCuEajezlL YouTube: https://t.co/8xzbGWtf6w",
       "tweets": [
         {
-          "id": "2043202553538925031",
-          "text": "Human communication will be for\n- deciding what to work on &amp; what \"good\" looks like\n- keeping each other company &amp; preventing loneliness/establishing camaraderie\n- creative brainstorming &amp; bouncing ideas off each other\n\nNot for project syncs, status updates, handovers...",
-          "createdAt": "2026-04-12T05:40:24.000Z",
-          "url": "https://x.com/zarazhangrui/status/2043202553538925031",
-          "likes": 13,
-          "retweets": 4,
+          "id": "2043418831885086911",
+          "text": "tabula rasa",
+          "createdAt": "2026-04-12T19:59:49.000Z",
+          "url": "https://x.com/zarazhangrui/status/2043418831885086911",
+          "likes": 11,
+          "retweets": 0,
           "replies": 0,
           "isQuote": false,
           "quotedTweetId": null
         },
         {
-          "id": "2043187721989149146",
-          "text": "The most efficient way for humans to collaborate: do not collaborate\n\nOne person should own something end-to-end and work with agents",
-          "createdAt": "2026-04-12T04:41:28.000Z",
-          "url": "https://x.com/zarazhangrui/status/2043187721989149146",
-          "likes": 140,
-          "retweets": 15,
-          "replies": 49,
+          "id": "2043415661528129873",
+          "text": "Code: https://t.co/VpLLq4W2Yt",
+          "createdAt": "2026-04-12T19:47:13.000Z",
+          "url": "https://x.com/zarazhangrui/status/2043415661528129873",
+          "likes": 48,
+          "retweets": 2,
+          "replies": 2,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2043415572688629937",
+          "text": "PSA: You can vibe code your own \"New tab\" page in Chrome. I have turned mine into the ultimate solution to the \"too many tabs\" problem\n\n- See all your tabs with clear titles, grouped by domain\n- Closing any tab gives you \"swoosh\" sound and confetti effect 🎊\n- \"Easy wins\" grouped together: homepages, localhost tabs... batch-close them with one click\n- Duplicate tabs detected; close duplicates with one click\n- For tabs you're not done with, save it for later in a checklist\n\nThis is the Marie Kondo method for browser tabs\n\nOpen-sourced the code below",
+          "createdAt": "2026-04-12T19:46:52.000Z",
+          "url": "https://x.com/zarazhangrui/status/2043415572688629937",
+          "likes": 948,
+          "retweets": 28,
+          "replies": 40,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -216,13 +257,13 @@
       "bio": "partner @fpvventures - investing in seed/A. previous: early hire @meter, @opendoor, @atlassian & others. love @shimoleejhaveri + 👦👧",
       "tweets": [
         {
-          "id": "2043092455550259341",
-          "text": "VCs: please take this low valuation since I’m investing in you and my conviction is worth the price. I’m invested for the long long term. \n\n6 months later..\n\nSame VC: take the highest possible valuation because why not. Who cares about the partner or fund name. Less dilution is good. More money is good. (Also it’ll help me show marks to LPs so take it bro please).  \n\nTry to avoid these VCs like the plague. All they care about is their “deals” getting markups. I get it - generating returns is the job. \n\nBut, watch these people also run away when the company is not doing well. All those intros and goodwill suddenly disappear. \n\nTry to get missionaries over mercenaries. And please please please backchannel the person who’ll be joining your cap table!",
-          "createdAt": "2026-04-11T22:22:54.000Z",
-          "url": "https://x.com/nikunj/status/2043092455550259341",
-          "likes": 151,
-          "retweets": 6,
-          "replies": 9,
+          "id": "2043374140443553885",
+          "text": "I'm as SF-pilled as they come.. but more people should adopt the \"Doordash\" strategy for building companies. \n\nDoordash famously won the race against Uber Eats because they focused on suburban markets right outside cities. While the main players were all focused on the main cities, Doordash started with suburbs and then ate into the main markets. \n\nSimilarly, I think we'll see more companies started by people that are wildly ambitious, that are close to large cities but are tired of doing the 20-30 minute commute every day (Palo Alto is a good example). You can argue that @Waymo makes commuting not an issue, but people still don't want to sit in cars. \n\nWhen I was at @meter, I saw a lot plans of coworking spots that were starting in suburbs to fulfill this demand and I think that'll continue to happen vs. competing in hyper competitive cities. \n\nThis will skew to more experienced people than the 19 year old who wants to live in SF/NY/LA and that's perfectly fine. There will be markets for both. \n\nIf folks have tried this already, I'd love to learn how it's going!",
+          "createdAt": "2026-04-12T17:02:13.000Z",
+          "url": "https://x.com/nikunj/status/2043374140443553885",
+          "likes": 170,
+          "retweets": 1,
+          "replies": 20,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -235,37 +276,15 @@
       "bio": "Polyagentmorous ClawFather. Came back from retirement to mess with AI and help a lobster take over the world @openclaw🦞",
       "tweets": [
         {
-          "id": "2043136624469619050",
-          "text": "Harnesses can now been plugins - meaning it'd be trivial to replace the default Pi harness with e.g. Anthropic’s SDK or another custom one.\n\nThis won't magically allow Claude subscription, but it's useful to compare different implementations.\n\nUsing codex as harness will likely weaken personality, but should increase agentic mode to keep the agent working on longer-horizon tasks.\n\nSo far I gated strict mode to GPT since it's not yet tested with other models, but it's trivial to modify that if you use hackable install.",
-          "createdAt": "2026-04-12T01:18:25.000Z",
-          "url": "https://x.com/steipete/status/2043136624469619050",
-          "likes": 116,
-          "retweets": 1,
-          "replies": 5,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2043136620006961384",
-          "text": "2) Native Codex as the OpenClaw harness:\n\nplugins.entries.codex.enabled = true\nagents.defaults.model = \"codex/gpt-5.4\"\nagents.defaults.embeddedHarness = { runtime: \"codex\", fallback: \"none\" }\n\nCodex owns threads, resume, compaction, app-server execution. https://t.co/9DDpY6TMqf",
-          "createdAt": "2026-04-12T01:18:24.000Z",
-          "url": "https://x.com/steipete/status/2043136620006961384",
-          "likes": 165,
-          "retweets": 3,
-          "replies": 6,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2043136615640694797",
-          "text": "Two experiments in the next @openclaw to address some \"GPT is lazy\" issues: \n1) Strict mode:\n\nagents.defaults.embeddedPi.executionContract = \"strict-agentic\"\n\nThis tells GPT-5.x to keep working: read more code, call tools, make changes, or return a real blocker instead of stopping at “here’s the plan.” https://t.co/QMdeus6Y5J",
-          "createdAt": "2026-04-12T01:18:23.000Z",
-          "url": "https://x.com/steipete/status/2043136615640694797",
-          "likes": 1009,
-          "retweets": 58,
-          "replies": 82,
-          "isQuote": false,
-          "quotedTweetId": null
+          "id": "2043313467512463713",
+          "text": "They grow up so fast 🦞 https://t.co/5WoQMZPtys",
+          "createdAt": "2026-04-12T13:01:08.000Z",
+          "url": "https://x.com/steipete/status/2043313467512463713",
+          "likes": 1082,
+          "retweets": 16,
+          "replies": 49,
+          "isQuote": true,
+          "quotedTweetId": "2043302824994345302"
         }
       ]
     },
@@ -276,13 +295,13 @@
       "bio": "General Partner @SouthPkCommons, Co-Founder @Bevel_Health | Ex: Early Eng @facebook, CTO @Dropbox, Board @Flipkart | Optimist, Builder, Dad",
       "tweets": [
         {
-          "id": "2043144970060939487",
-          "text": "The big difference between a true \"agent\" and simply running an LLM in a loop (or an event-based trigger) is how you do intelligent long-horizon memory management.\n\nBy far the most interesting aspect of the Claude Code architecture was their 3-tier memory architecture.",
-          "createdAt": "2026-04-12T01:51:35.000Z",
-          "url": "https://x.com/adityaag/status/2043144970060939487",
-          "likes": 96,
-          "retweets": 4,
-          "replies": 8,
+          "id": "2043501400626491758",
+          "text": "It's interesting...the Anthropic culture reminds me a lot of early Facebook....despite OpenAI having a lot more ex-Facebook people\n\nSimilarities:\n--> People within the company are having a lot of fun\n--> There is a lot of naivete about the world\n--> There is a bottoms-up hacker culture\n--> There is insane \"mission\" alignment\n--> They might be taking themselves just a bit too seriously\n--> Winning solves a lot of things",
+          "createdAt": "2026-04-13T01:27:54.000Z",
+          "url": "https://x.com/adityaag/status/2043501400626491758",
+          "likes": 265,
+          "retweets": 3,
+          "replies": 14,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -290,7 +309,7 @@
     }
   ],
   "stats": {
-    "xBuilders": 11,
-    "totalTweets": 18
+    "xBuilders": 12,
+    "totalTweets": 19
   }
 }
