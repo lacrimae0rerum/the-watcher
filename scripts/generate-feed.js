@@ -13,17 +13,18 @@
 // Env vars needed: X_BEARER_TOKEN, POD2TXT_API_KEY
 // ============================================================================
 
-import { readFile, writeFile } from 'fs/promises';
-import { existsSync } from 'fs';
-import { join } from 'path';
+import { readFile, writeFile } from "fs/promises";
+import { existsSync } from "fs";
+import { join } from "path";
 
 // -- Constants ---------------------------------------------------------------
 
-const POD2TXT_BASE = 'https://pod2txt.vercel.app/api';
-const X_API_BASE = 'https://api.x.com/2';
+const POD2TXT_BASE = "https://pod2txt.vercel.app/api";
+const X_API_BASE = "https://api.x.com/2";
 // Some RSS hosts (notably Substack) block non-browser user agents from cloud IPs.
 // Using a real Chrome UA avoids 403 errors in GitHub Actions.
-const RSS_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
+const RSS_USER_AGENT =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
 const TWEET_LOOKBACK_HOURS = 24;
 const PODCAST_LOOKBACK_HOURS = 336; // 14 days — podcasts publish weekly/biweekly, not daily
 const BLOG_LOOKBACK_HOURS = 72;
@@ -31,8 +32,8 @@ const MAX_TWEETS_PER_USER = 3;
 const MAX_ARTICLES_PER_BLOG = 3;
 
 // State file lives in the repo root so it gets committed by GitHub Actions
-const SCRIPT_DIR = decodeURIComponent(new URL('.', import.meta.url).pathname);
-const STATE_PATH = join(SCRIPT_DIR, '..', 'state-feed.json');
+const SCRIPT_DIR = decodeURIComponent(new URL(".", import.meta.url).pathname);
+const STATE_PATH = join(SCRIPT_DIR, "..", "state-feed.json");
 
 // -- State Management --------------------------------------------------------
 
@@ -44,7 +45,7 @@ async function loadState() {
     return { seenTweets: {}, seenVideos: {}, seenArticles: {} };
   }
   try {
-    const state = JSON.parse(await readFile(STATE_PATH, 'utf-8'));
+    const state = JSON.parse(await readFile(STATE_PATH, "utf-8"));
     // Ensure seenArticles exists for older state files
     if (!state.seenArticles) state.seenArticles = {};
     return state;
@@ -71,8 +72,8 @@ async function saveState(state) {
 // -- Load Sources ------------------------------------------------------------
 
 async function loadSources() {
-  const sourcesPath = join(SCRIPT_DIR, '..', 'config', 'default-sources.json');
-  return JSON.parse(await readFile(sourcesPath, 'utf-8'));
+  const sourcesPath = join(SCRIPT_DIR, "..", "config", "default-sources.json");
+  return JSON.parse(await readFile(sourcesPath, "utf-8"));
 }
 
 // -- Podcast Fetching (RSS + pod2txt) ----------------------------------------
@@ -88,18 +89,22 @@ function parseRssFeed(xml) {
     const block = itemMatch[1];
 
     // Extract title (inside CDATA or plain text)
-    const titleMatch = block.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/)
-      || block.match(/<title>([\s\S]*?)<\/title>/);
-    const title = titleMatch ? titleMatch[1].trim() : 'Untitled';
+    const titleMatch =
+      block.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) ||
+      block.match(/<title>([\s\S]*?)<\/title>/);
+    const title = titleMatch ? titleMatch[1].trim() : "Untitled";
 
     // Extract GUID (unique episode identifier), stripping CDATA wrapper if present
-    const guidMatch = block.match(/<guid[^>]*><!\[CDATA\[([\s\S]*?)\]\]><\/guid>/)
-      || block.match(/<guid[^>]*>([\s\S]*?)<\/guid>/);
+    const guidMatch =
+      block.match(/<guid[^>]*><!\[CDATA\[([\s\S]*?)\]\]><\/guid>/) ||
+      block.match(/<guid[^>]*>([\s\S]*?)<\/guid>/);
     const guid = guidMatch ? guidMatch[1].trim() : null;
 
     // Extract publish date
     const pubDateMatch = block.match(/<pubDate>([\s\S]*?)<\/pubDate>/);
-    const publishedAt = pubDateMatch ? new Date(pubDateMatch[1].trim()).toISOString() : null;
+    const publishedAt = pubDateMatch
+      ? new Date(pubDateMatch[1].trim()).toISOString()
+      : null;
 
     // Extract episode link (for the feed output URL)
     const linkMatch = block.match(/<link>([\s\S]*?)<\/link>/);
@@ -112,6 +117,211 @@ function parseRssFeed(xml) {
   return episodes;
 }
 
+// -- YouTube Episode URL Lookup ----------------------------------------------
+// Podcast RSS feeds don't know about YouTube, so to get the exact YouTube
+// video URL for an episode we look up the channel's recent videos and match
+// by title. Free, no API key required. Tries Atom RSS first (stable but
+// returns 500 for some channels), falls back to scraping the /videos page.
+
+// Derives a YouTube Atom feed URL from a channel or playlist URL.
+// Handles three URL shapes: /@handle, /channel/UCxxx, /playlist?list=PLxxx.
+async function getYouTubeFeedUrl(channelUrl) {
+  if (!channelUrl || !channelUrl.includes("youtube.com")) return null;
+
+  const playlistMatch = channelUrl.match(/[?&]list=([A-Za-z0-9_-]+)/);
+  if (playlistMatch) {
+    return `https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistMatch[1]}`;
+  }
+
+  const channelIdMatch = channelUrl.match(/\/channel\/(UC[A-Za-z0-9_-]+)/);
+  if (channelIdMatch) {
+    return `https://www.youtube.com/feeds/videos.xml?channel_id=${channelIdMatch[1]}`;
+  }
+
+  // /@handle URLs need a round-trip: fetch the channel page and pull the
+  // channelId out of its HTML. YouTube embeds it in several places; the
+  // "channelId":"UC..." pattern in the JSON blob is the most reliable.
+  if (channelUrl.match(/\/@[A-Za-z0-9_.-]+/)) {
+    try {
+      const res = await fetch(channelUrl, {
+        headers: {
+          "User-Agent": RSS_USER_AGENT,
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+        signal: AbortSignal.timeout(15000),
+      });
+      if (!res.ok) return null;
+      const html = await res.text();
+      const idMatch =
+        html.match(/"channelId":"(UC[A-Za-z0-9_-]{20,})"/) ||
+        html.match(
+          /<meta\s+itemprop="(?:identifier|channelId)"\s+content="(UC[A-Za-z0-9_-]{20,})"/,
+        );
+      if (idMatch) {
+        return `https://www.youtube.com/feeds/videos.xml?channel_id=${idMatch[1]}`;
+      }
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
+// Scrapes recent videos from a YouTube channel's /videos page by parsing
+// the ytInitialData JSON embedded in the HTML. Used as a fallback when the
+// Atom RSS endpoint is unavailable. YouTube's internal data shapes change
+// occasionally, so we defensively navigate both the rich-grid (channel page)
+// and playlist-video-list (playlist page) structures.
+function parseYouTubePageData(html) {
+  const videos = [];
+  const m = html.match(/var\s+ytInitialData\s*=\s*({[\s\S]*?});\s*<\/script>/);
+  if (!m) return videos;
+
+  let data;
+  try {
+    data = JSON.parse(m[1]);
+  } catch {
+    return videos;
+  }
+
+  const tabs = data?.contents?.twoColumnBrowseResultsRenderer?.tabs || [];
+  for (const tab of tabs) {
+    const gridItems =
+      tab?.tabRenderer?.content?.richGridRenderer?.contents || [];
+    for (const it of gridItems) {
+      const v = it?.richItemRenderer?.content?.videoRenderer;
+      if (v?.videoId) {
+        const title = v.title?.runs?.[0]?.text || v.title?.simpleText || "";
+        if (title) {
+          videos.push({
+            title,
+            url: `https://www.youtube.com/watch?v=${v.videoId}`,
+          });
+        }
+      }
+    }
+    if (videos.length > 0) break;
+
+    const playlistItems =
+      tab?.tabRenderer?.content?.sectionListRenderer?.contents?.[0]
+        ?.itemSectionRenderer?.contents?.[0]?.playlistVideoListRenderer
+        ?.contents || [];
+    for (const it of playlistItems) {
+      const v = it?.playlistVideoRenderer;
+      if (v?.videoId) {
+        const title = v.title?.runs?.[0]?.text || v.title?.simpleText || "";
+        if (title) {
+          videos.push({
+            title,
+            url: `https://www.youtube.com/watch?v=${v.videoId}`,
+          });
+        }
+      }
+    }
+    if (videos.length > 0) break;
+  }
+  return videos;
+}
+
+// Fetches recent videos for a YouTube channel/playlist URL. Tries the Atom
+// feed first, then scrapes the /videos page if the feed is unavailable.
+async function fetchYouTubeVideos(channelUrl) {
+  const feedUrl = await getYouTubeFeedUrl(channelUrl);
+  if (feedUrl) {
+    try {
+      const res = await fetch(feedUrl, {
+        headers: { "User-Agent": RSS_USER_AGENT },
+        signal: AbortSignal.timeout(15000),
+      });
+      if (res.ok) {
+        const videos = parseYouTubeFeed(await res.text());
+        if (videos.length > 0) return videos;
+      }
+    } catch {
+      // fall through to scraping
+    }
+  }
+
+  if (!channelUrl || !channelUrl.includes("youtube.com")) return [];
+  // Playlist URLs should not be mutated; channel URLs need /videos appended
+  // so we hit the uploads grid rather than the channel home/shorts page.
+  const videosPageUrl = channelUrl.includes("/playlist?")
+    ? channelUrl
+    : channelUrl.replace(/\/$/, "") + "/videos";
+  try {
+    const res = await fetch(videosPageUrl, {
+      headers: {
+        "User-Agent": RSS_USER_AGENT,
+        "Accept-Language": "en-US,en;q=0.9",
+      },
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) return [];
+    return parseYouTubePageData(await res.text());
+  } catch {
+    return [];
+  }
+}
+
+// Parses a YouTube Atom feed and returns { title, url } for each entry.
+function parseYouTubeFeed(xml) {
+  const videos = [];
+  const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
+  let entryMatch;
+  while ((entryMatch = entryRegex.exec(xml)) !== null) {
+    const block = entryMatch[1];
+    const titleMatch = block.match(/<title>([\s\S]*?)<\/title>/);
+    const videoIdMatch = block.match(/<yt:videoId>([\s\S]*?)<\/yt:videoId>/);
+    if (titleMatch && videoIdMatch) {
+      videos.push({
+        title: titleMatch[1].trim(),
+        url: `https://www.youtube.com/watch?v=${videoIdMatch[1].trim()}`,
+      });
+    }
+  }
+  return videos;
+}
+
+// Lowercase, strip punctuation, collapse whitespace — so minor title
+// differences between a podcast feed and its YouTube upload don't block a match.
+function normalizeTitle(t) {
+  return t
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// Finds the YouTube video whose title best matches the podcast episode title.
+// Uses substring match first, then token overlap (>=50% of episode's content
+// words must appear in the video title). Returns null if no confident match.
+async function findYouTubeEpisodeUrl(channelUrl, episodeTitle) {
+  const videos = await fetchYouTubeVideos(channelUrl);
+  if (videos.length === 0) return null;
+
+  const needle = normalizeTitle(episodeTitle);
+  const needleTokens = new Set(needle.split(" ").filter((w) => w.length > 2));
+  if (needleTokens.size === 0) return null;
+
+  let bestUrl = null;
+  let bestScore = 0;
+  for (const v of videos) {
+    const hay = normalizeTitle(v.title);
+    if (hay && (hay.includes(needle) || needle.includes(hay))) {
+      return v.url;
+    }
+    const hayTokens = new Set(hay.split(" ").filter((w) => w.length > 2));
+    let overlap = 0;
+    for (const tok of needleTokens) if (hayTokens.has(tok)) overlap++;
+    const score = overlap / needleTokens.size;
+    if (score > bestScore) {
+      bestScore = score;
+      bestUrl = v.url;
+    }
+  }
+  return bestScore >= 0.5 ? bestUrl : null;
+}
+
 // Fetches a transcript from pod2txt. The API is async: first request may
 // return "processing", so we poll until "ready" (up to 5 attempts, ~2.5 min).
 async function fetchPod2txtTranscript(rssUrl, guid, apiKey) {
@@ -120,30 +330,35 @@ async function fetchPod2txtTranscript(rssUrl, guid, apiKey) {
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     const res = await fetch(`${POD2TXT_BASE}/transcript`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ feedurl: rssUrl, guid, apikey: apiKey })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ feedurl: rssUrl, guid, apikey: apiKey }),
     });
 
     if (!res.ok) {
-      const text = await res.text().catch(() => '');
+      const text = await res.text().catch(() => "");
       return { error: `HTTP ${res.status}: ${text}` };
     }
 
     const data = await res.json();
 
-    if (data.status === 'ready' && data.url) {
+    if (data.status === "ready" && data.url) {
       // Transcript is ready — fetch the text from the provided URL
       const txtRes = await fetch(data.url);
-      if (!txtRes.ok) return { error: `Failed to fetch transcript text: HTTP ${txtRes.status}` };
+      if (!txtRes.ok)
+        return {
+          error: `Failed to fetch transcript text: HTTP ${txtRes.status}`,
+        };
       const transcript = await txtRes.text();
       return { transcript };
     }
 
-    if (data.status === 'processing') {
-      console.error(`      pod2txt: processing (attempt ${attempt}/${maxAttempts}), waiting ${pollInterval / 1000}s...`);
+    if (data.status === "processing") {
+      console.error(
+        `      pod2txt: processing (attempt ${attempt}/${maxAttempts}), waiting ${pollInterval / 1000}s...`,
+      );
       if (attempt < maxAttempts) {
-        await new Promise(r => setTimeout(r, pollInterval));
+        await new Promise((r) => setTimeout(r, pollInterval));
       }
       continue;
     }
@@ -152,7 +367,7 @@ async function fetchPod2txtTranscript(rssUrl, guid, apiKey) {
     return { error: data.message || `Unexpected status: ${data.status}` };
   }
 
-  return { error: 'Timed out waiting for transcript processing' };
+  return { error: "Timed out waiting for transcript processing" };
 }
 
 // Main podcast fetching function. For each podcast:
@@ -174,24 +389,30 @@ async function fetchPodcastContent(podcasts, apiKey, state, errors) {
       console.error(`  Fetching RSS for ${podcast.name}...`);
       const rssRes = await fetch(podcast.rssUrl, {
         headers: {
-          'User-Agent': RSS_USER_AGENT,
-          'Accept': 'application/rss+xml, application/xml, text/xml, */*',
-          'Accept-Language': 'en-US,en;q=0.9',
-          'Cache-Control': 'no-cache',
-          'Connection': 'keep-alive'
+          "User-Agent": RSS_USER_AGENT,
+          Accept: "application/rss+xml, application/xml, text/xml, */*",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cache-Control": "no-cache",
+          Connection: "keep-alive",
         },
-        signal: AbortSignal.timeout(30000) // 30 second timeout for large feeds
+        signal: AbortSignal.timeout(30000), // 30 second timeout for large feeds
       });
 
       if (!rssRes.ok) {
-        console.error(`  ${podcast.name}: RSS fetch failed — HTTP ${rssRes.status}`);
-        errors.push(`Podcast: Failed to fetch RSS for ${podcast.name}: HTTP ${rssRes.status}`);
+        console.error(
+          `  ${podcast.name}: RSS fetch failed — HTTP ${rssRes.status}`,
+        );
+        errors.push(
+          `Podcast: Failed to fetch RSS for ${podcast.name}: HTTP ${rssRes.status}`,
+        );
         continue;
       }
 
       const rssXml = await rssRes.text();
       const episodes = parseRssFeed(rssXml);
-      console.error(`  ${podcast.name}: found ${episodes.length} episodes in RSS feed`);
+      console.error(
+        `  ${podcast.name}: found ${episodes.length} episodes in RSS feed`,
+      );
 
       // Check the 3 most recent episodes, skip already-seen ones
       for (const episode of episodes.slice(0, 3)) {
@@ -200,7 +421,9 @@ async function fetchPodcastContent(podcasts, apiKey, state, errors) {
           continue;
         }
 
-        console.error(`    Candidate: "${episode.title}" published=${episode.publishedAt || 'unknown'}`);
+        console.error(
+          `    Candidate: "${episode.title}" published=${episode.publishedAt || "unknown"}`,
+        );
         allCandidates.push({ podcast, ...episode });
       }
     } catch (err) {
@@ -208,14 +431,17 @@ async function fetchPodcastContent(podcasts, apiKey, state, errors) {
     }
   }
 
-  console.error(`  Total candidates: ${allCandidates.length}, cutoff: ${cutoff.toISOString()}`);
+  console.error(
+    `  Total candidates: ${allCandidates.length}, cutoff: ${cutoff.toISOString()}`,
+  );
 
   // Step 2: Filter by lookback window, sort newest first
   const withinWindow = allCandidates
-    .filter(v => !v.publishedAt || new Date(v.publishedAt) >= cutoff)
+    .filter((v) => !v.publishedAt || new Date(v.publishedAt) >= cutoff)
     .sort((a, b) => {
       // Newest first; dateless ones go to the end
-      if (a.publishedAt && b.publishedAt) return new Date(b.publishedAt) - new Date(a.publishedAt);
+      if (a.publishedAt && b.publishedAt)
+        return new Date(b.publishedAt) - new Date(a.publishedAt);
       if (a.publishedAt) return -1;
       if (b.publishedAt) return 1;
       return 0;
@@ -223,7 +449,7 @@ async function fetchPodcastContent(podcasts, apiKey, state, errors) {
 
   console.error(`  Within window: ${withinWindow.length} episode(s)`);
   for (const v of withinWindow) {
-    console.error(`    - "${v.title}" published=${v.publishedAt || 'unknown'}`);
+    console.error(`    - "${v.title}" published=${v.publishedAt || "unknown"}`);
   }
 
   // Step 3: Try each candidate until we get a transcript from pod2txt
@@ -231,33 +457,61 @@ async function fetchPodcastContent(podcasts, apiKey, state, errors) {
     console.error(`    Fetching transcript for "${selected.title}"...`);
 
     const result = await fetchPod2txtTranscript(
-      selected.podcast.rssUrl, selected.guid, apiKey
+      selected.podcast.rssUrl,
+      selected.guid,
+      apiKey,
     );
 
     // Mark as seen regardless so we don't retry failed episodes daily
     state.seenVideos[selected.guid] = Date.now();
 
     if (result.error) {
-      console.error(`    Transcript error: ${result.error} — skipping to next candidate`);
-      errors.push(`Podcast: Transcript error for "${selected.title}": ${result.error}`);
+      console.error(
+        `    Transcript error: ${result.error} — skipping to next candidate`,
+      );
+      errors.push(
+        `Podcast: Transcript error for "${selected.title}": ${result.error}`,
+      );
       continue;
     }
 
     if (!result.transcript) {
-      console.error(`    Empty transcript for "${selected.title}" — skipping to next candidate`);
+      console.error(
+        `    Empty transcript for "${selected.title}" — skipping to next candidate`,
+      );
       continue;
     }
 
-    console.error(`    Selected: "${selected.title}" (transcript: ${result.transcript.length} chars)`);
-    return [{
-      source: 'podcast',
-      name: selected.podcast.name,
-      title: selected.title,
-      guid: selected.guid,
-      url: selected.podcast.url,
-      publishedAt: selected.publishedAt,
-      transcript: result.transcript
-    }];
+    console.error(
+      `    Selected: "${selected.title}" (transcript: ${result.transcript.length} chars)`,
+    );
+
+    // Try to resolve the exact YouTube video URL for this episode. If the
+    // lookup fails (no YouTube channel configured, no title match, network
+    // error), fall back to the channel URL so the feed still works.
+    const youtubeUrl = await findYouTubeEpisodeUrl(
+      selected.podcast.url,
+      selected.title,
+    );
+    if (youtubeUrl) {
+      console.error(`    Matched YouTube episode URL: ${youtubeUrl}`);
+    } else {
+      console.error(
+        `    No YouTube episode match found — falling back to channel URL`,
+      );
+    }
+
+    return [
+      {
+        source: "podcast",
+        name: selected.podcast.name,
+        title: selected.title,
+        guid: selected.guid,
+        url: youtubeUrl || selected.podcast.url,
+        publishedAt: selected.publishedAt,
+        transcript: result.transcript,
+      },
+    ];
   }
 
   console.error(`    No candidates had transcripts available`);
@@ -271,15 +525,15 @@ async function fetchXContent(xAccounts, bearerToken, state, errors) {
   const cutoff = new Date(Date.now() - TWEET_LOOKBACK_HOURS * 60 * 60 * 1000);
 
   // Batch lookup all user IDs (1 API call)
-  const handles = xAccounts.map(a => a.handle);
+  const handles = xAccounts.map((a) => a.handle);
   let userMap = {};
 
   for (let i = 0; i < handles.length; i += 100) {
     const batch = handles.slice(i, i + 100);
     try {
       const res = await fetch(
-        `${X_API_BASE}/users/by?usernames=${batch.join(',')}&user.fields=name,description`,
-        { headers: { 'Authorization': `Bearer ${bearerToken}` } }
+        `${X_API_BASE}/users/by?usernames=${batch.join(",")}&user.fields=name,description`,
+        { headers: { Authorization: `Bearer ${bearerToken}` } },
       );
 
       if (!res.ok) {
@@ -288,11 +542,11 @@ async function fetchXContent(xAccounts, bearerToken, state, errors) {
       }
 
       const data = await res.json();
-      for (const user of (data.data || [])) {
+      for (const user of data.data || []) {
         userMap[user.username.toLowerCase()] = {
           id: user.id,
           name: user.name,
-          description: user.description || ''
+          description: user.description || "",
         };
       }
       if (data.errors) {
@@ -313,11 +567,11 @@ async function fetchXContent(xAccounts, bearerToken, state, errors) {
     try {
       const res = await fetch(
         `${X_API_BASE}/users/${userData.id}/tweets?` +
-        `max_results=5` +       // fetch 5, then filter to 3 new ones
-        `&tweet.fields=created_at,public_metrics,referenced_tweets,note_tweet` +
-        `&exclude=retweets,replies` +
-        `&start_time=${cutoff.toISOString()}`,
-        { headers: { 'Authorization': `Bearer ${bearerToken}` } }
+          `max_results=5` + // fetch 5, then filter to 3 new ones
+          `&tweet.fields=created_at,public_metrics,referenced_tweets,note_tweet` +
+          `&exclude=retweets,replies` +
+          `&start_time=${cutoff.toISOString()}`,
+        { headers: { Authorization: `Bearer ${bearerToken}` } },
       );
 
       if (!res.ok) {
@@ -325,7 +579,9 @@ async function fetchXContent(xAccounts, bearerToken, state, errors) {
           errors.push(`X API: Rate limited, skipping remaining accounts`);
           break;
         }
-        errors.push(`X API: Failed to fetch tweets for @${account.handle}: HTTP ${res.status}`);
+        errors.push(
+          `X API: Failed to fetch tweets for @${account.handle}: HTTP ${res.status}`,
+        );
         continue;
       }
 
@@ -347,8 +603,10 @@ async function fetchXContent(xAccounts, bearerToken, state, errors) {
           likes: t.public_metrics?.like_count || 0,
           retweets: t.public_metrics?.retweet_count || 0,
           replies: t.public_metrics?.reply_count || 0,
-          isQuote: t.referenced_tweets?.some(r => r.type === 'quoted') || false,
-          quotedTweetId: t.referenced_tweets?.find(r => r.type === 'quoted')?.id || null
+          isQuote:
+            t.referenced_tweets?.some((r) => r.type === "quoted") || false,
+          quotedTweetId:
+            t.referenced_tweets?.find((r) => r.type === "quoted")?.id || null,
         });
 
         // Mark as seen
@@ -358,14 +616,14 @@ async function fetchXContent(xAccounts, bearerToken, state, errors) {
       if (newTweets.length === 0) continue;
 
       results.push({
-        source: 'x',
+        source: "x",
         name: account.name,
         handle: account.handle,
         bio: userData.description,
-        tweets: newTweets
+        tweets: newTweets,
       });
 
-      await new Promise(r => setTimeout(r, 200));
+      await new Promise((r) => setTimeout(r, 200));
     } catch (err) {
       errors.push(`X API: Error fetching @${account.handle}: ${err.message}`);
     }
@@ -384,20 +642,24 @@ function parseAnthropicEngineeringIndex(html) {
   const articles = [];
 
   // Strategy 1: Look for article data in Next.js __NEXT_DATA__ script tag
-  const nextDataMatch = html.match(/<script[^>]*id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/i);
+  const nextDataMatch = html.match(
+    /<script[^>]*id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/i,
+  );
   if (nextDataMatch) {
     try {
       const data = JSON.parse(nextDataMatch[1]);
       // Navigate the Next.js page props to find article entries
       const pageProps = data?.props?.pageProps;
-      const posts = pageProps?.posts || pageProps?.articles || pageProps?.entries || [];
+      const posts =
+        pageProps?.posts || pageProps?.articles || pageProps?.entries || [];
       for (const post of posts) {
-        const slug = post.slug?.current || post.slug || '';
+        const slug = post.slug?.current || post.slug || "";
         articles.push({
-          title: post.title || 'Untitled',
+          title: post.title || "Untitled",
           url: `https://www.anthropic.com/engineering/${slug}`,
-          publishedAt: post.publishedOn || post.publishedAt || post.date || null,
-          description: post.summary || post.description || ''
+          publishedAt:
+            post.publishedOn || post.publishedAt || post.date || null,
+          description: post.summary || post.description || "",
         });
       }
       if (articles.length > 0) return articles;
@@ -416,10 +678,10 @@ function parseAnthropicEngineeringIndex(html) {
     if (seenSlugs.has(slug)) continue;
     seenSlugs.add(slug);
     articles.push({
-      title: '', // Will be filled when we fetch the article page
+      title: "", // Will be filled when we fetch the article page
       url: `https://www.anthropic.com/engineering/${slug}`,
       publishedAt: null,
-      description: ''
+      description: "",
     });
   }
   return articles;
@@ -441,10 +703,10 @@ function parseClaudeBlogIndex(html) {
     if (seenSlugs.has(slug)) continue;
     seenSlugs.add(slug);
     articles.push({
-      title: '', // Will be filled when we fetch the article page
+      title: "", // Will be filled when we fetch the article page
       url: `https://claude.com/blog/${slug}`,
       publishedAt: null,
-      description: ''
+      description: "",
     });
   }
   return articles;
@@ -454,33 +716,37 @@ function parseClaudeBlogIndex(html) {
 // Tries the embedded JSON first (Next.js SSR data), then falls back to
 // stripping HTML tags from the article body.
 function extractAnthropicArticleContent(html) {
-  let title = '';
-  let author = '';
+  let title = "";
+  let author = "";
   let publishedAt = null;
-  let content = '';
+  let content = "";
 
   // Try to get structured data from Next.js __NEXT_DATA__
-  const nextDataMatch = html.match(/<script[^>]*id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/i);
+  const nextDataMatch = html.match(
+    /<script[^>]*id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/i,
+  );
   if (nextDataMatch) {
     try {
       const data = JSON.parse(nextDataMatch[1]);
       const pageProps = data?.props?.pageProps;
-      const post = pageProps?.post || pageProps?.article || pageProps?.entry || pageProps;
-      title = post?.title || '';
-      author = post?.author?.name || post?.authors?.[0]?.name || '';
-      publishedAt = post?.publishedOn || post?.publishedAt || post?.date || null;
+      const post =
+        pageProps?.post || pageProps?.article || pageProps?.entry || pageProps;
+      title = post?.title || "";
+      author = post?.author?.name || post?.authors?.[0]?.name || "";
+      publishedAt =
+        post?.publishedOn || post?.publishedAt || post?.date || null;
 
       // Extract text from the body blocks (Sanity CMS portable text format)
       const body = post?.body || post?.content || [];
       if (Array.isArray(body)) {
         const textParts = [];
         for (const block of body) {
-          if (block._type === 'block' && block.children) {
-            const text = block.children.map(c => c.text || '').join('');
+          if (block._type === "block" && block.children) {
+            const text = block.children.map((c) => c.text || "").join("");
             if (text.trim()) textParts.push(text.trim());
           }
         }
-        content = textParts.join('\n\n');
+        content = textParts.join("\n\n");
       }
       if (content) return { title, author, publishedAt, content };
     } catch {
@@ -490,7 +756,7 @@ function extractAnthropicArticleContent(html) {
 
   // Fallback: extract title from <h1> and body from <article> or main content
   const h1Match = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
-  if (h1Match) title = h1Match[1].replace(/<[^>]+>/g, '').trim();
+  if (h1Match) title = h1Match[1].replace(/<[^>]+>/g, "").trim();
 
   // Try to find the article body and strip HTML tags
   const articleMatch = html.match(/<article[^>]*>([\s\S]*?)<\/article>/i);
@@ -498,12 +764,16 @@ function extractAnthropicArticleContent(html) {
 
   // Strip script/style tags first, then all remaining HTML tags
   content = bodyHtml
-    .replace(/<script[\s\S]*?<\/script>/gi, '')
-    .replace(/<style[\s\S]*?<\/style>/gi, '')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ')
-    .replace(/\s+/g, ' ')
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 
   return { title, author, publishedAt, content };
@@ -512,20 +782,21 @@ function extractAnthropicArticleContent(html) {
 // Extracts the main text content from a Claude Blog article page.
 // Uses JSON-LD schema data if present, then falls back to the rich text body.
 function extractClaudeBlogArticleContent(html) {
-  let title = '';
-  let author = '';
+  let title = "";
+  let author = "";
   let publishedAt = null;
-  let content = '';
+  let content = "";
 
   // Try JSON-LD structured data first (most reliable for metadata)
-  const jsonLdRegex = /<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi;
+  const jsonLdRegex =
+    /<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi;
   let jsonLdMatch;
   while ((jsonLdMatch = jsonLdRegex.exec(html)) !== null) {
     try {
       const ld = JSON.parse(jsonLdMatch[1]);
-      if (ld['@type'] === 'BlogPosting' || ld['@type'] === 'Article') {
-        title = ld.headline || ld.name || '';
-        author = ld.author?.name || '';
+      if (ld["@type"] === "BlogPosting" || ld["@type"] === "Article") {
+        title = ld.headline || ld.name || "";
+        author = ld.author?.name || "";
         publishedAt = ld.datePublished || null;
         break;
       }
@@ -535,17 +806,24 @@ function extractClaudeBlogArticleContent(html) {
   }
 
   // Extract body text from the Webflow rich text container
-  const richTextMatch = html.match(/<div[^>]*class="[^"]*u-rich-text-blog[^"]*"[^>]*>([\s\S]*?)<\/div>\s*<\/div>/i)
-    || html.match(/<div[^>]*class="[^"]*w-richtext[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+  const richTextMatch =
+    html.match(
+      /<div[^>]*class="[^"]*u-rich-text-blog[^"]*"[^>]*>([\s\S]*?)<\/div>\s*<\/div>/i,
+    ) ||
+    html.match(/<div[^>]*class="[^"]*w-richtext[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
 
   if (richTextMatch) {
     content = richTextMatch[1]
-      .replace(/<script[\s\S]*?<\/script>/gi, '')
-      .replace(/<style[\s\S]*?<\/style>/gi, '')
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ')
-      .replace(/\s+/g, ' ')
+      .replace(/<script[\s\S]*?<\/script>/gi, "")
+      .replace(/<style[\s\S]*?<\/style>/gi, "")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&nbsp;/g, " ")
+      .replace(/\s+/g, " ")
       .trim();
   }
 
@@ -554,20 +832,24 @@ function extractClaudeBlogArticleContent(html) {
     // Get title from <h1> if not already found
     if (!title) {
       const h1Match = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
-      if (h1Match) title = h1Match[1].replace(/<[^>]+>/g, '').trim();
+      if (h1Match) title = h1Match[1].replace(/<[^>]+>/g, "").trim();
     }
 
     // Strip the whole page down to text as a last resort
     content = html
-      .replace(/<script[\s\S]*?<\/script>/gi, '')
-      .replace(/<style[\s\S]*?<\/style>/gi, '')
-      .replace(/<nav[\s\S]*?<\/nav>/gi, '')
-      .replace(/<footer[\s\S]*?<\/footer>/gi, '')
-      .replace(/<header[\s\S]*?<\/header>/gi, '')
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ')
-      .replace(/\s+/g, ' ')
+      .replace(/<script[\s\S]*?<\/script>/gi, "")
+      .replace(/<style[\s\S]*?<\/style>/gi, "")
+      .replace(/<nav[\s\S]*?<\/nav>/gi, "")
+      .replace(/<footer[\s\S]*?<\/footer>/gi, "")
+      .replace(/<header[\s\S]*?<\/header>/gi, "")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&nbsp;/g, " ")
+      .replace(/\s+/g, " ")
       .trim();
   }
 
@@ -589,18 +871,20 @@ async function fetchBlogContent(blogs, state, errors) {
     try {
       // Step 1: Discover articles from the blog index page
       const indexRes = await fetch(blog.indexUrl, {
-        headers: { 'User-Agent': 'FollowBuilders/1.0 (feed aggregator)' }
+        headers: { "User-Agent": "FollowBuilders/1.0 (feed aggregator)" },
       });
       if (!indexRes.ok) {
-        errors.push(`Blog: Failed to fetch index for ${blog.name}: HTTP ${indexRes.status}`);
+        errors.push(
+          `Blog: Failed to fetch index for ${blog.name}: HTTP ${indexRes.status}`,
+        );
         continue;
       }
       const indexHtml = await indexRes.text();
 
       // Use the right parser based on which blog this is
-      if (blog.indexUrl.includes('anthropic.com')) {
+      if (blog.indexUrl.includes("anthropic.com")) {
         candidates = parseAnthropicEngineeringIndex(indexHtml);
-      } else if (blog.indexUrl.includes('claude.com')) {
+      } else if (blog.indexUrl.includes("claude.com")) {
         candidates = parseClaudeBlogIndex(indexHtml);
       }
 
@@ -615,7 +899,8 @@ async function fetchBlogContent(blogs, state, errors) {
       for (const article of candidates.slice(0, MAX_INDEX_SCAN)) {
         if (state.seenArticles[article.url]) continue; // already seen
         // If we have a date, check it's within the lookback window
-        if (article.publishedAt && new Date(article.publishedAt) < cutoff) continue;
+        if (article.publishedAt && new Date(article.publishedAt) < cutoff)
+          continue;
         newArticles.push(article);
         if (newArticles.length >= MAX_ARTICLES_PER_BLOG) break;
       }
@@ -625,26 +910,30 @@ async function fetchBlogContent(blogs, state, errors) {
         continue;
       }
 
-      console.error(`    Found ${newArticles.length} new article(s), fetching content...`);
+      console.error(
+        `    Found ${newArticles.length} new article(s), fetching content...`,
+      );
 
       // Step 3: Fetch full article content for each new article
       for (const article of newArticles) {
         try {
           // Fetch the full article page
           const articleRes = await fetch(article.url, {
-            headers: { 'User-Agent': 'FollowBuilders/1.0 (feed aggregator)' }
+            headers: { "User-Agent": "FollowBuilders/1.0 (feed aggregator)" },
           });
           if (!articleRes.ok) {
-            errors.push(`Blog: Failed to fetch article ${article.url}: HTTP ${articleRes.status}`);
+            errors.push(
+              `Blog: Failed to fetch article ${article.url}: HTTP ${articleRes.status}`,
+            );
             continue;
           }
           const articleHtml = await articleRes.text();
 
           // Use the right content extractor based on the blog
           let extracted;
-          if (article.url.includes('anthropic.com/engineering')) {
+          if (article.url.includes("anthropic.com/engineering")) {
             extracted = extractAnthropicArticleContent(articleHtml);
-          } else if (article.url.includes('claude.com/blog')) {
+          } else if (article.url.includes("claude.com/blog")) {
             extracted = extractClaudeBlogArticleContent(articleHtml);
           }
 
@@ -655,23 +944,25 @@ async function fetchBlogContent(blogs, state, errors) {
 
           // Merge extracted data with what we already have from the index
           results.push({
-            source: 'blog',
+            source: "blog",
             name: blog.name,
-            title: extracted.title || article.title || 'Untitled',
+            title: extracted.title || article.title || "Untitled",
             url: article.url,
             publishedAt: extracted.publishedAt || article.publishedAt || null,
-            author: extracted.author || '',
-            description: article.description || '',
-            content: extracted.content
+            author: extracted.author || "",
+            description: article.description || "",
+            content: extracted.content,
           });
 
           // Mark as seen
           state.seenArticles[article.url] = Date.now();
 
           // Small delay between article fetches to be polite
-          await new Promise(r => setTimeout(r, 500));
+          await new Promise((r) => setTimeout(r, 500));
         } catch (err) {
-          errors.push(`Blog: Error fetching article ${article.url}: ${err.message}`);
+          errors.push(
+            `Blog: Error fetching article ${article.url}: ${err.message}`,
+          );
         }
       }
     } catch (err) {
@@ -686,9 +977,9 @@ async function fetchBlogContent(blogs, state, errors) {
 
 async function main() {
   const args = process.argv.slice(2);
-  const tweetsOnly = args.includes('--tweets-only');
-  const podcastsOnly = args.includes('--podcasts-only');
-  const blogsOnly = args.includes('--blogs-only');
+  const tweetsOnly = args.includes("--tweets-only");
+  const podcastsOnly = args.includes("--podcasts-only");
+  const blogsOnly = args.includes("--blogs-only");
 
   // If a specific --*-only flag is set, only that feed type runs.
   // If no flag is set, all three run.
@@ -700,11 +991,11 @@ async function main() {
   const pod2txtKey = process.env.POD2TXT_API_KEY;
 
   if (runPodcasts && !pod2txtKey) {
-    console.error('POD2TXT_API_KEY not set');
+    console.error("POD2TXT_API_KEY not set");
     process.exit(1);
   }
   if (runTweets && !xBearerToken) {
-    console.error('X_BEARER_TOKEN not set');
+    console.error("X_BEARER_TOKEN not set");
     process.exit(1);
   }
 
@@ -714,8 +1005,13 @@ async function main() {
 
   // Fetch tweets
   if (runTweets) {
-    console.error('Fetching X/Twitter content...');
-    const xContent = await fetchXContent(sources.x_accounts, xBearerToken, state, errors);
+    console.error("Fetching X/Twitter content...");
+    const xContent = await fetchXContent(
+      sources.x_accounts,
+      xBearerToken,
+      state,
+      errors,
+    );
     console.error(`  Found ${xContent.length} builders with new tweets`);
 
     const totalTweets = xContent.reduce((sum, a) => sum + a.tweets.length, 0);
@@ -724,17 +1020,29 @@ async function main() {
       lookbackHours: TWEET_LOOKBACK_HOURS,
       x: xContent,
       stats: { xBuilders: xContent.length, totalTweets },
-      errors: errors.filter(e => e.startsWith('X API')).length > 0
-        ? errors.filter(e => e.startsWith('X API')) : undefined
+      errors:
+        errors.filter((e) => e.startsWith("X API")).length > 0
+          ? errors.filter((e) => e.startsWith("X API"))
+          : undefined,
     };
-    await writeFile(join(SCRIPT_DIR, '..', 'feed-x.json'), JSON.stringify(xFeed, null, 2));
-    console.error(`  feed-x.json: ${xContent.length} builders, ${totalTweets} tweets`);
+    await writeFile(
+      join(SCRIPT_DIR, "..", "feed-x.json"),
+      JSON.stringify(xFeed, null, 2),
+    );
+    console.error(
+      `  feed-x.json: ${xContent.length} builders, ${totalTweets} tweets`,
+    );
   }
 
   // Fetch podcasts
   if (runPodcasts) {
-    console.error('Fetching podcast content (RSS + pod2txt)...');
-    const podcasts = await fetchPodcastContent(sources.podcasts, pod2txtKey, state, errors);
+    console.error("Fetching podcast content (RSS + pod2txt)...");
+    const podcasts = await fetchPodcastContent(
+      sources.podcasts,
+      pod2txtKey,
+      state,
+      errors,
+    );
     console.error(`  Found ${podcasts.length} new episodes`);
 
     const podcastFeed = {
@@ -742,16 +1050,21 @@ async function main() {
       lookbackHours: PODCAST_LOOKBACK_HOURS,
       podcasts,
       stats: { podcastEpisodes: podcasts.length },
-      errors: errors.filter(e => e.startsWith('Podcast')).length > 0
-        ? errors.filter(e => e.startsWith('Podcast')) : undefined
+      errors:
+        errors.filter((e) => e.startsWith("Podcast")).length > 0
+          ? errors.filter((e) => e.startsWith("Podcast"))
+          : undefined,
     };
-    await writeFile(join(SCRIPT_DIR, '..', 'feed-podcasts.json'), JSON.stringify(podcastFeed, null, 2));
+    await writeFile(
+      join(SCRIPT_DIR, "..", "feed-podcasts.json"),
+      JSON.stringify(podcastFeed, null, 2),
+    );
     console.error(`  feed-podcasts.json: ${podcasts.length} episodes`);
   }
 
   // Fetch blog posts
   if (runBlogs && sources.blogs && sources.blogs.length > 0) {
-    console.error('Fetching blog content...');
+    console.error("Fetching blog content...");
     const blogContent = await fetchBlogContent(sources.blogs, state, errors);
     console.error(`  Found ${blogContent.length} new blog post(s)`);
 
@@ -760,10 +1073,15 @@ async function main() {
       lookbackHours: BLOG_LOOKBACK_HOURS,
       blogs: blogContent,
       stats: { blogPosts: blogContent.length },
-      errors: errors.filter(e => e.startsWith('Blog')).length > 0
-        ? errors.filter(e => e.startsWith('Blog')) : undefined
+      errors:
+        errors.filter((e) => e.startsWith("Blog")).length > 0
+          ? errors.filter((e) => e.startsWith("Blog"))
+          : undefined,
     };
-    await writeFile(join(SCRIPT_DIR, '..', 'feed-blogs.json'), JSON.stringify(blogFeed, null, 2));
+    await writeFile(
+      join(SCRIPT_DIR, "..", "feed-blogs.json"),
+      JSON.stringify(blogFeed, null, 2),
+    );
     console.error(`  feed-blogs.json: ${blogContent.length} posts`);
   }
 
@@ -775,7 +1093,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
-  console.error('Feed generation failed:', err.message);
+main().catch((err) => {
+  console.error("Feed generation failed:", err.message);
   process.exit(1);
 });
