@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-20T08:03:08.870Z",
+  "generatedAt": "2026-04-21T07:46:17.268Z",
   "lookbackHours": 24,
   "x": [
     {
@@ -9,15 +9,56 @@
       "bio": "achieve ambition with intentionality, intensity, integrity & insanity.\n\naffiliations:\n- @dxtipshq \n- @cognition\n- @temporalio\n- @aidotengineer\n- @latentspacepod",
       "tweets": [
         {
-          "id": "2045831117199102276",
-          "text": "https://t.co/RbLQSGze1v my guide",
-          "createdAt": "2026-04-19T11:45:22.000Z",
-          "url": "https://x.com/swyx/status/2045831117199102276",
-          "likes": 7,
+          "id": "2046388765820661939",
+          "text": "give us back Sky\n\nhttps://t.co/YIjHaa0jMR",
+          "createdAt": "2026-04-21T00:41:16.000Z",
+          "url": "https://x.com/swyx/status/2046388765820661939",
+          "likes": 3,
           "retweets": 0,
-          "replies": 2,
+          "replies": 1,
           "isQuote": false,
           "quotedTweetId": null
+        },
+        {
+          "id": "2046362691606855700",
+          "text": "the Codex x @skybysoftware acquisition may have been one of the best @openai deals made in the last year.\n\nI've been waiting for \"real\" computer use since @romainhuet demoed the ChatGPT App with 4o Vision at AIEWF 2024... and only now it's really, actually rolling out in a usable fashion.",
+          "createdAt": "2026-04-20T22:57:39.000Z",
+          "url": "https://x.com/swyx/status/2046362691606855700",
+          "likes": 93,
+          "retweets": 4,
+          "replies": 17,
+          "isQuote": true,
+          "quotedTweetId": "2046288243768082699"
+        },
+        {
+          "id": "2046222691418439689",
+          "text": "and @dexhorthy is quoting Z/L continuum in AIE Miami!!\n\nhttps://t.co/0KdjCJfZ8a\n\nidea catching on @altryne https://t.co/O2Q4OImv1k",
+          "createdAt": "2026-04-20T13:41:21.000Z",
+          "url": "https://x.com/swyx/status/2046222691418439689",
+          "likes": 30,
+          "retweets": 2,
+          "replies": 5,
+          "isQuote": true,
+          "quotedTweetId": "2043748676099866771"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Josh Woodward",
+      "handle": "joshwoodward",
+      "bio": "VP, @Google @GoogleLabs @GeminiApp @GoogleAIStudio",
+      "tweets": [
+        {
+          "id": "2046361644029378731",
+          "text": "Welcome back Ben! Can’t wait to see what you build! https://t.co/qWkdBgrksp",
+          "createdAt": "2026-04-20T22:53:30.000Z",
+          "url": "https://x.com/joshwoodward/status/2046361644029378731",
+          "likes": 138,
+          "retweets": 5,
+          "replies": 2,
+          "isQuote": true,
+          "quotedTweetId": "2046354715404025861"
         }
       ]
     },
@@ -28,37 +69,37 @@
       "bio": "Practical AI tutorials and interviews for busy people | Join 140K+ readers at https://t.co/XYKTmGVH14 | Product at Roblox",
       "tweets": [
         {
-          "id": "2046036593199497615",
-          "text": "I spent an hour plus this afternoon trying to get OpenClaw to work with GPT. \n\nI asked it to do a simple task to send me a weekly stats recap email that Opus had no trouble with. \n\nHere's how the conversation went:\n\n\"You completely messed up the previous template\"\n\n\"Sigh you made a mess. Why don’t you open the email template and I can edit manually\"\n\n\"no you totally screwed it up tbh. let's switch the model to sonnet\"\n\nAgain, big fan of OpenClaw (+ Codex) but this model simply doesn't seem to work with following through on agentic tasks (or just simple cron jobs).\n\nMaybe it's a skill issue on my part - although the AI builder groups I'm part of say similar things.\n\nHopefully, Spud / GPT 5.5 will solve this.",
-          "createdAt": "2026-04-20T01:21:51.000Z",
-          "url": "https://x.com/petergyang/status/2046036593199497615",
-          "likes": 70,
-          "retweets": 4,
-          "replies": 45,
-          "isQuote": true,
-          "quotedTweetId": "2045980068921684151"
+          "id": "2046434474603446535",
+          "text": "The only thing more fun than coding with agents is designing with agents",
+          "createdAt": "2026-04-21T03:42:54.000Z",
+          "url": "https://x.com/petergyang/status/2046434474603446535",
+          "likes": 40,
+          "retweets": 1,
+          "replies": 23,
+          "isQuote": false,
+          "quotedTweetId": null
         },
         {
-          "id": "2045980068921684151",
-          "text": "I switched my openclaw to gpt finally and it’s…not going to well.\n\nAny tips to optimize it for this model? https://t.co/eKvtNUunc9",
-          "createdAt": "2026-04-19T21:37:15.000Z",
-          "url": "https://x.com/petergyang/status/2045980068921684151",
-          "likes": 59,
+          "id": "2046434019307561342",
+          "text": "I feel like Codex's gap in frontend design skills can be easily made up if you use an AI design tool.\n\nMy favorite is @tomkrcha's Pencil",
+          "createdAt": "2026-04-21T03:41:05.000Z",
+          "url": "https://x.com/petergyang/status/2046434019307561342",
+          "likes": 41,
           "retweets": 0,
-          "replies": 49,
+          "replies": 6,
           "isQuote": false,
           "quotedTweetId": null
         },
         {
-          "id": "2045909612315172936",
-          "text": "Went from having multiple terminals open to just two apps open :) https://t.co/Wv8LXhRbnP",
-          "createdAt": "2026-04-19T16:57:17.000Z",
-          "url": "https://x.com/petergyang/status/2045909612315172936",
-          "likes": 950,
-          "retweets": 9,
-          "replies": 55,
-          "isQuote": false,
-          "quotedTweetId": null
+          "id": "2046433025337315651",
+          "text": "The more innovative the company the less of a \"2026 roadmap\" it actually has. https://t.co/LR4ObKvt97",
+          "createdAt": "2026-04-21T03:37:08.000Z",
+          "url": "https://x.com/petergyang/status/2046433025337315651",
+          "likes": 12,
+          "retweets": 1,
+          "replies": 1,
+          "isQuote": true,
+          "quotedTweetId": "2046249671253798960"
         }
       ]
     },
@@ -69,37 +110,34 @@
       "bio": "head of product @linear",
       "tweets": [
         {
-          "id": "2045910980597530836",
-          "text": "If a press release comes out from each of the major labs, which one do you feel would have the shortest distance between what they said and what they believe?",
-          "createdAt": "2026-04-19T17:02:43.000Z",
-          "url": "https://x.com/thenanyu/status/2045910980597530836",
-          "likes": 0,
+          "id": "2046317076164350411",
+          "text": "When is Venmo gonna finally turn off that feature that lets me see when two of my mutual friends are hooking up?",
+          "createdAt": "2026-04-20T19:56:24.000Z",
+          "url": "https://x.com/thenanyu/status/2046317076164350411",
+          "likes": 21,
           "retweets": 0,
-          "replies": 0,
+          "replies": 4,
           "isQuote": false,
           "quotedTweetId": null
-        },
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Amjad Masad",
+      "handle": "amasad",
+      "bio": "ceo @replit. civilizationist",
+      "tweets": [
         {
-          "id": "2045910308611326166",
-          "text": "I’ve always felt this as well, but I couldn’t put it to words until I read this. \n\nIt’s like asking “should I get a red Lambo or a green Lambo?” expecting the correct answer to be “you shouldn’t buy a Lambo because that’s a poor financial decision.” https://t.co/LZVOnNZ47Y",
-          "createdAt": "2026-04-19T17:00:03.000Z",
-          "url": "https://x.com/thenanyu/status/2045910308611326166",
-          "likes": 18,
-          "retweets": 0,
+          "id": "2046443294104883693",
+          "text": "Fairuz is the star of Kanye’s new album https://t.co/u8oIL4wEG3",
+          "createdAt": "2026-04-21T04:17:57.000Z",
+          "url": "https://x.com/amasad/status/2046443294104883693",
+          "likes": 134,
+          "retweets": 4,
           "replies": 6,
-          "isQuote": true,
-          "quotedTweetId": "2045879684957864153"
-        },
-        {
-          "id": "2045903644298465422",
-          "text": "If people think you’re bad at PR then they tend to believe you’re not lying to them, which, if you think about it, makes you good at PR. https://t.co/AWvcydiIDW",
-          "createdAt": "2026-04-19T16:33:34.000Z",
-          "url": "https://x.com/thenanyu/status/2045903644298465422",
-          "likes": 13,
-          "retweets": 0,
-          "replies": 1,
-          "isQuote": true,
-          "quotedTweetId": "2045653303992922519"
+          "isQuote": false,
+          "quotedTweetId": null
         }
       ]
     },
@@ -110,15 +148,45 @@
       "bio": "@vercel CEO",
       "tweets": [
         {
-          "id": "2045995362499076169",
-          "text": "Here's my update to the broader community about the ongoing incident investigation. I want to give you the rundown of the situation directly.\n\nA Vercel employee got compromised via the breach of an AI platform customer called https://t.co/7PY6gGtzgI that he was using. The details are being fully investigated.\n\nThrough a series of maneuvers that escalated from our colleague’s compromised Vercel Google Workspace account, the attacker got further access to Vercel environments.\n\nVercel stores all customer environment variables fully encrypted at rest. We have numerous defense-in-depth mechanisms to protect core systems and customer data. We do have a capability however to designate environment variables as “non-sensitive”. Unfortunately, the attacker got further access through their enumeration.\n\nWe believe the attacking group to be highly sophisticated and, I strongly suspect, significantly accelerated by AI. They moved with surprising velocity and in-depth understanding of Vercel.\n\nAt the moment, we believe the number of customers with security impact to be quite limited. We’ve reached out with utmost priority to the ones we have concerns about. All of our focus right now is on investigation, communication to customers, enhancement of security measures, and sanitization of our environments. We’ve deployed extensive protection measures and monitoring. We’ve analyzed our supply chain, ensuring Next.js, Turbopack, and our many open source projects remain safe for our community.\n\nThe recommendation for all Vercel customers is to follow the Security Bulletin closely (https://t.co/BLVnic9fJC). My advice to everyone is to follow the best practices of security response: secret rotation, monitoring access to your Vercel environments and linked services, and ensuring the proper use of the sensitive env variables feature.\n\nIn response to this, and to aid in the improvement of all of our customers’ security postures, we’ve already rolled out new capabilities in the dashboard, including an overview page of environment variables, and a better user interface for sensitive env var creation and management. As always, I’m totally open to your feedback.\n\nWe’re working with elite cybersecurity firms, industry peers, and law enforcement. We’ve reached out to Context to assist in understanding the full scale of the incident, in an effort to protect other organizations and the broader internet. I also want to thank the Google Mandiant team for their active engagement and assistance.\n\nIt’s my mission to turn this attack into the most formidable security response imaginable. It’s always been a top priority for me. Vercel employs some of the most dedicated security researchers and security-minded engineers in the world. I commit to keeping you updated and rolling out extensive improvements and defenses so you, our customers and community, can have the peace of mind that Vercel always has your back.",
-          "createdAt": "2026-04-19T22:38:01.000Z",
-          "url": "https://x.com/rauchg/status/2045995362499076169",
-          "likes": 5471,
-          "retweets": 809,
-          "replies": 322,
+          "id": "2046406894269747668",
+          "text": "I’m so encouraged by the way our team and industry peers have shown up to protect the internet.\n\nWe’ve now shipped over 20 product improvements across Dashboard and CLI to help your security posture.\n\nEasier to set up MFA, audit your Environment Variables, Activity logs and more https://t.co/5Qi2NEvUhw",
+          "createdAt": "2026-04-21T01:53:18.000Z",
+          "url": "https://x.com/rauchg/status/2046406894269747668",
+          "likes": 647,
+          "retweets": 33,
+          "replies": 50,
+          "isQuote": true,
+          "quotedTweetId": "2046400830300172625"
+        },
+        {
+          "id": "2046305710120829374",
+          "text": "Getting lots of questions about how to learn more about the incident. We're actively maintaining the security bulletin. That's the source.\n\nThe bulletin includes security best practices to take out of an abundance of caution. To reiterate, we directly contacted all Vercel customers that we believe to be impacted by the IOC shared in the bulletin.\n\nOne misconception we've seen that I need to call out. Deletion (e.g.: of an env var, project, account…) does not imply Rotation. Rotating keys means *invalidating* the previous value with the vendor/service you're using, and getting a new one. Do that.\n\ni.e.: if you only delete the resource on the Vercel side, the associated key can \"live on\" with the other provider, and be mis-used\nhttps://t.co/VJfx1ODUM8",
+          "createdAt": "2026-04-20T19:11:14.000Z",
+          "url": "https://x.com/rauchg/status/2046305710120829374",
+          "likes": 38,
+          "retweets": 4,
+          "replies": 3,
           "isQuote": false,
           "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Alex Albert",
+      "handle": "alexalbert__",
+      "bio": "Research @AnthropicAI. Opinions are my own!",
+      "tweets": [
+        {
+          "id": "2046277525207466003",
+          "text": "Jack's young money blog had a big impact on me when I was in college and navigating what I wanted to do post-grad. \n\nIf you are in your teens/20s and trying to figure out how to think about life, this book will offer you some good ideas. https://t.co/8Z1rpUzd36",
+          "createdAt": "2026-04-20T17:19:14.000Z",
+          "url": "https://x.com/alexalbert__/status/2046277525207466003",
+          "likes": 93,
+          "retweets": 1,
+          "replies": 3,
+          "isQuote": true,
+          "quotedTweetId": "2046194918528270381"
         }
       ]
     },
@@ -129,15 +197,34 @@
       "bio": "ceo @box - your business lives in content. unleash it with AI",
       "tweets": [
         {
-          "id": "2046067263326028108",
-          "text": "What gets missed with AI productivity gains is that by and large, most roles will continue to be as sophisticated as the tools allow. \n\nThis is why also thinking through “today’s jobs will be replaced with AI” is a fallacy. Everyone thinks the market is static, but it’s not.\n\nAs a result of everyone having access to the same technology which augments our work, then users of the tools will increasingly raise their level of output to the point where the prior definition of the job is no longer relevant. Thus, those that understand their particular field and grow in their skills will continue to be differentiated vs. others.\n\nIf you can do far more, then you start to tackle bigger and harder problems. If you do that, then the expertise still is required to get the job done fully. \n\nThe engineer with AI is going to be far more productive and capable with AI than the non-engineer trying to build the same piece of software. Building a lightweight app is no longer the definition of getting by in software development. Reviewing a contract will no longer be the definition of a paralegal. Splicing a video won’t be the definition of a video editor. Providing basic financial research won’t be the job of the financial analyst in the future.\n\nSimply put, AI will naturally cause most roles to actually grow in complexity rather than reduce in complexity, because we can do far more with the tools.",
-          "createdAt": "2026-04-20T03:23:44.000Z",
-          "url": "https://x.com/levie/status/2046067263326028108",
-          "likes": 278,
-          "retweets": 38,
-          "replies": 47,
+          "id": "2046397816755634340",
+          "text": "The jump from working with a chatbot to having an agent that actually helps automate a process requires a real amount of work. \n\nMost companies will need to have dedicated people that are responsible for bringing automation to their teams, instead of leaving this up to every individual employee. Partly because the work is more technical than we imagine today, and partly because it’s just hard to do this as a side project.\n\nThe job spec is to map out new workflows with agents, implement new systems to deploy agents, make sure the agent has all the right (up to date) context to work with, wiring up internal systems to connect to the agents, creating evals for the agents, figuring out where the human is in the loop, managing the system when there are new upgrades, helping with the change management of the existing business process, and so on.\n\nThese jobs may come from IT or engineering, or live directly in the business function itself. They’ll be called different things depending on the company, and in some sense it’s the future of software engineering that you’ll see a huge growth of in non-tech companies.\n\nMost companies will have to be hiring for this now or in the future, and it’s another example of the kind of new jobs that will be created in AI.",
+          "createdAt": "2026-04-21T01:17:14.000Z",
+          "url": "https://x.com/levie/status/2046397816755634340",
+          "likes": 499,
+          "retweets": 59,
+          "replies": 55,
           "isQuote": true,
-          "quotedTweetId": "2045667827735306745"
+          "quotedTweetId": "2046353968973160675"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Ryo Lu",
+      "handle": "ryolu_",
+      "bio": "Design @Cursor_ai. Early @NotionHQ, @Stripe, built startups. I make a world where anyone can make software. Aspiring k-pop idol.",
+      "tweets": [
+        {
+          "id": "2046246973783859559",
+          "text": "we love a clean start https://t.co/QgFKXyZZEI",
+          "createdAt": "2026-04-20T15:17:50.000Z",
+          "url": "https://x.com/ryolu_/status/2046246973783859559",
+          "likes": 185,
+          "retweets": 2,
+          "replies": 4,
+          "isQuote": true,
+          "quotedTweetId": "2046203674737672473"
         }
       ]
     },
@@ -148,37 +235,37 @@
       "bio": "President & CEO @ycombinator —Founder @garryslist—Creator of GStack & GBrain—designer/engineer who helps founders—SF Dem accelerating the boom loop",
       "tweets": [
         {
-          "id": "2046097200292511968",
-          "text": "GStack works great inside your OpenClaw/Hermes... and where it was designed to be used, inside Claude Code too.\n\nhttps://t.co/VPvWDzV5c0",
-          "createdAt": "2026-04-20T05:22:41.000Z",
-          "url": "https://x.com/garrytan/status/2046097200292511968",
-          "likes": 14,
-          "retweets": 1,
-          "replies": 3,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2046097059057651941",
-          "text": "When I run across needs inside my OpenClaw or in my regular usage, I just have Claude Code make it, and then I release it open source\n\nThis is GStack v1.4 - with a new /make-pdf skill \n\nIt works great with OpenClaw/Hermes as a tool. https://t.co/XgPejzWpoS",
-          "createdAt": "2026-04-20T05:22:08.000Z",
-          "url": "https://x.com/garrytan/status/2046097059057651941",
-          "likes": 90,
-          "retweets": 7,
-          "replies": 21,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2046062819322610009",
-          "text": "You've got to tell your OpenClaw to implement it to replace crons and subgents to the extent it can. That's the best hack I am using myself for now, but hopefully can get this fixed with better plugin APIs soon",
-          "createdAt": "2026-04-20T03:06:04.000Z",
-          "url": "https://x.com/garrytan/status/2046062819322610009",
-          "likes": 17,
+          "id": "2046465101759500767",
+          "text": "All of these people need to start startups at Y Combinator https://t.co/RY70TxT5US",
+          "createdAt": "2026-04-21T05:44:36.000Z",
+          "url": "https://x.com/garrytan/status/2046465101759500767",
+          "likes": 116,
           "retweets": 0,
-          "replies": 2,
+          "replies": 26,
+          "isQuote": true,
+          "quotedTweetId": "2046284184877187540"
+        },
+        {
+          "id": "2046464315918864385",
+          "text": "I wrote my friend @chrysb a quick note on how to implement GBrain style migrations for people who upgrade to new GBrain versions and want their setups to stay in sync as the core setup changes\n\nThis is for Alphaclaw but I think could be for any plugin or layer in the OpenClaw/Hermes ecosystem \n\nhttps://t.co/5GrG5RWfCH",
+          "createdAt": "2026-04-21T05:41:29.000Z",
+          "url": "https://x.com/garrytan/status/2046464315918864385",
+          "likes": 37,
+          "retweets": 2,
+          "replies": 4,
           "isQuote": false,
           "quotedTweetId": null
+        },
+        {
+          "id": "2046459740210036938",
+          "text": "Someone figured out my secret 👀 https://t.co/jWLX6F30GQ",
+          "createdAt": "2026-04-21T05:23:18.000Z",
+          "url": "https://x.com/garrytan/status/2046459740210036938",
+          "likes": 114,
+          "retweets": 2,
+          "replies": 12,
+          "isQuote": true,
+          "quotedTweetId": "2046437532335001611"
         }
       ]
     },
@@ -189,24 +276,13 @@
       "bio": "VC at @FirstMarkCap.  Host: MAD Podcast; Organizer: Data Driven NYC, Author: MAD Landscape.",
       "tweets": [
         {
-          "id": "2045987462409826604",
-          "text": "Yes VCs should do more due diligence but first software went serverless and now it’s becoming headless so there’s not much left to look at, really",
-          "createdAt": "2026-04-19T22:06:38.000Z",
-          "url": "https://x.com/mattturck/status/2045987462409826604",
-          "likes": 51,
+          "id": "2046284478151086178",
+          "text": "One head-scratching idea that gets repeated endlessly: the new TAM for AI is the size of the human labor market, dollar-for-dollar.  Many trillions!\n\nJust for like any labor automation technology in history, the price of AI services will be the marginal cost + a normal margin.",
+          "createdAt": "2026-04-20T17:46:52.000Z",
+          "url": "https://x.com/mattturck/status/2046284478151086178",
+          "likes": 16,
           "retweets": 0,
-          "replies": 14,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2045909221997224000",
-          "text": "When you ask Claude to evaluate a potential investment and it replies “cute, just not as good as me” lol https://t.co/HL1aByBAoj",
-          "createdAt": "2026-04-19T16:55:44.000Z",
-          "url": "https://x.com/mattturck/status/2045909221997224000",
-          "likes": 17,
-          "retweets": 0,
-          "replies": 6,
+          "replies": 5,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -219,15 +295,15 @@
       "bio": "Builder. Dangerously skips permissions. Harvard’17. GitHub: https://t.co/KCuEajezlL YouTube: https://t.co/8xzbGWtf6w",
       "tweets": [
         {
-          "id": "2045810170245386713",
-          "text": "As AI gets more capable, product teams should spend more time on external communication (talking to users, customers, etc) than internal communication\n\n1. Figuring out “what” to build will be a lot more important than building it. Getting this right requires sparks of inspiration that strike when you talk to external people, esp those who are every different from you. Since AI is very good at implementing solutions, humans should focus on understanding the PROBLEM\n\n2. Teams will be a lot smaller, so internal communication overhead will decrease dramatically. Teams that work extensively with agents are already seeing a huge decrease in the number of internal meetings & coordination work \n\n3. I’m seeing a more dramatic version of this with some of my indie entrepreneur friends: they spend all day talking to customers, and then just dump the recordings at their agents who will figure out what to do and handle the execution",
-          "createdAt": "2026-04-19T10:22:08.000Z",
-          "url": "https://x.com/zarazhangrui/status/2045810170245386713",
-          "likes": 146,
-          "retweets": 12,
-          "replies": 27,
-          "isQuote": false,
-          "quotedTweetId": null
+          "id": "2046454622852657264",
+          "text": "Agents speak HTML as their native language\n\nLet agents express themselves in their native language\n\n(for similar reasons, agents produce much better looking slides in HTML than in XML) https://t.co/vGAPawGNgu",
+          "createdAt": "2026-04-21T05:02:58.000Z",
+          "url": "https://x.com/zarazhangrui/status/2046454622852657264",
+          "likes": 34,
+          "retweets": 0,
+          "replies": 7,
+          "isQuote": true,
+          "quotedTweetId": "2046337462604279828"
         }
       ]
     },
@@ -238,35 +314,177 @@
       "bio": "partner @fpvventures - investing in seed/A. previous: early hire @meter, @opendoor, @atlassian & others. love @shimoleejhaveri + 👦👧",
       "tweets": [
         {
-          "id": "2046007615512256624",
-          "text": "Cybersecurity companies are going to be worth a lot.. the pace of attacks is only going to increase as model capabilities improve. \n\nHumans will continue to be the primary vector of attack - and we haven’t seen anything yet.\n\nHugops to all the infra providers 🫡",
-          "createdAt": "2026-04-19T23:26:43.000Z",
-          "url": "https://x.com/nikunj/status/2046007615512256624",
-          "likes": 79,
-          "retweets": 7,
+          "id": "2046465709438582945",
+          "text": "This is easily the best podcast episode I’ve heard this year..\n\nGenuine, kind, authentic. Absolutely incredible storytelling.\n\nI aspire to have the range of stories that @JaredBWeinstein shared on the pod. \n\n@jacksondahl &amp; @DialecticPod always crush but this was special 👏 https://t.co/EGzdrhzwKE",
+          "createdAt": "2026-04-21T05:47:01.000Z",
+          "url": "https://x.com/nikunj/status/2046465709438582945",
+          "likes": 20,
+          "retweets": 2,
+          "replies": 0,
+          "isQuote": true,
+          "quotedTweetId": "2046300890093764851"
+        },
+        {
+          "id": "2046373243070939360",
+          "text": "Every Indian in the US is T-3 hours away from their parents waking up, reading the news and messaging them “why are you not the ceo of Apple huh”",
+          "createdAt": "2026-04-20T23:39:35.000Z",
+          "url": "https://x.com/nikunj/status/2046373243070939360",
+          "likes": 130,
+          "retweets": 2,
+          "replies": 11,
+          "isQuote": false,
+          "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Peter Steinberger",
+      "handle": "steipete",
+      "bio": "Polyagentmorous ClawFather. Came back from retirement to mess with AI and help a lobster take over the world.\n@OpenClaw🦞 + @OpenAI",
+      "tweets": [
+        {
+          "id": "2046375922031321401",
+          "text": "🗃️ wacli 0.6.0 is out!\n\nBig security + reliability sweep for WhatsApp CLI.    Hardens SQLite/store path handling, sanitizes search queries, recovers sync/media panics, adds WACLI_STORE_DIR, and improves SIGINT exits. https://t.co/VabuMQgps5\n\n props @sdinakar7 for doing the work!",
+          "createdAt": "2026-04-20T23:50:14.000Z",
+          "url": "https://x.com/steipete/status/2046375922031321401",
+          "likes": 149,
+          "retweets": 17,
           "replies": 10,
           "isQuote": false,
           "quotedTweetId": null
         },
         {
-          "id": "2045910252760285615",
-          "text": "To all my future incoming DMs - yes this a subtweet of myself. And yes, I’m going to stop using it 😆",
-          "createdAt": "2026-04-19T16:59:50.000Z",
-          "url": "https://x.com/nikunj/status/2045910252760285615",
-          "likes": 7,
-          "retweets": 0,
-          "replies": 0,
+          "id": "2046356596683411924",
+          "text": "🧭 gog 0.13 is out!\n\nGmail forwarding with notes + attachments, autoreplies, full-body search, Markdown uploads to Google Docs, rendered Slides thumbnails, Sheets chart editing, secondary calendars, commenter-only Drive shares, and safer no-send controls. https://t.co/7nQoJaa0Ti",
+          "createdAt": "2026-04-20T22:33:26.000Z",
+          "url": "https://x.com/steipete/status/2046356596683411924",
+          "likes": 702,
+          "retweets": 41,
+          "replies": 19,
           "isQuote": false,
           "quotedTweetId": null
         },
         {
-          "id": "2045909979228762426",
-          "text": "Find someone who loves you as much as a VC who loves the word “fiduciary duty”",
-          "createdAt": "2026-04-19T16:58:44.000Z",
-          "url": "https://x.com/nikunj/status/2045909979228762426",
-          "likes": 23,
+          "id": "2046259696722465113",
+          "text": "Kudos to the folks from Tencent for working with us and providing evals to improve OpenClaw's harness performance!\n\nWe're also working with them to bring fixes/improvements back to the open source repo. \n\nGreat option for folks not comfortable with the terminal. https://t.co/sbmx7CMLB7",
+          "createdAt": "2026-04-20T16:08:24.000Z",
+          "url": "https://x.com/steipete/status/2046259696722465113",
+          "likes": 1051,
+          "retweets": 71,
+          "replies": 38,
+          "isQuote": true,
+          "quotedTweetId": "2046254527456886905"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Dan Shipper",
+      "handle": "danshipper",
+      "bio": "ceo @every | the only subscription you need to stay at the edge of AI",
+      "tweets": [
+        {
+          "id": "2046272643133825458",
+          "text": "media is cool again! https://t.co/bf7HSf4G8n",
+          "createdAt": "2026-04-20T16:59:50.000Z",
+          "url": "https://x.com/danshipper/status/2046272643133825458",
+          "likes": 52,
           "retweets": 1,
           "replies": 4,
+          "isQuote": true,
+          "quotedTweetId": "2046243114059477130"
+        },
+        {
+          "id": "2046231280430240141",
+          "text": "two agents are better than one",
+          "createdAt": "2026-04-20T14:15:29.000Z",
+          "url": "https://x.com/danshipper/status/2046231280430240141",
+          "likes": 91,
+          "retweets": 3,
+          "replies": 40,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2046224034619125871",
+          "text": "Opus 4.7 does good code reviews",
+          "createdAt": "2026-04-20T13:46:41.000Z",
+          "url": "https://x.com/danshipper/status/2046224034619125871",
+          "likes": 86,
+          "retweets": 1,
+          "replies": 16,
+          "isQuote": false,
+          "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Sam Altman",
+      "handle": "sama",
+      "bio": "AI is cool i guess",
+      "tweets": [
+        {
+          "id": "2046330825265086712",
+          "text": "Tim Cook is a legend.\n\nI am very thankful for everything he has done and I am very thankful for Apple.",
+          "createdAt": "2026-04-20T20:51:02.000Z",
+          "url": "https://x.com/sama/status/2046330825265086712",
+          "likes": 28528,
+          "retweets": 1510,
+          "replies": 1323,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2046330082726384051",
+          "text": "The internal working name for this was \"telepathy\", and it feels like it. https://t.co/9LAUTaaYAe",
+          "createdAt": "2026-04-20T20:48:05.000Z",
+          "url": "https://x.com/sama/status/2046330082726384051",
+          "likes": 2436,
+          "retweets": 99,
+          "replies": 270,
+          "isQuote": true,
+          "quotedTweetId": "2046291546325369065"
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Claude",
+      "handle": "claudeai",
+      "bio": "Claude is an AI assistant built by @anthropicai to be safe, accurate, and secure. Talk to Claude on https://t.co/ZhTwG8d1e5 or download the app.",
+      "tweets": [
+        {
+          "id": "2046328622869344429",
+          "text": "Available now on all paid plans.\n\nUpdate or download the Claude app to try it in Cowork: https://t.co/hwPB3zlk0w",
+          "createdAt": "2026-04-20T20:42:17.000Z",
+          "url": "https://x.com/claudeai/status/2046328622869344429",
+          "likes": 550,
+          "retweets": 12,
+          "replies": 19,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2046328621611065668",
+          "text": "Everything you build is saved to the new Live Artifacts tab, with version history. Come back tomorrow or next month, from any session, and pick up where you left off.",
+          "createdAt": "2026-04-20T20:42:16.000Z",
+          "url": "https://x.com/claudeai/status/2046328621611065668",
+          "likes": 872,
+          "retweets": 18,
+          "replies": 14,
+          "isQuote": false,
+          "quotedTweetId": null
+        },
+        {
+          "id": "2046328619249684989",
+          "text": "In Cowork, Claude can now build live artifacts: dashboards and trackers connected to your apps and files.\n\nOpen one any time and it refreshes with current data. https://t.co/oru97zRn8L",
+          "createdAt": "2026-04-20T20:42:16.000Z",
+          "url": "https://x.com/claudeai/status/2046328619249684989",
+          "likes": 13018,
+          "retweets": 872,
+          "replies": 494,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -274,7 +492,7 @@
     }
   ],
   "stats": {
-    "xBuilders": 9,
-    "totalTweets": 18
+    "xBuilders": 17,
+    "totalTweets": 32
   }
 }
