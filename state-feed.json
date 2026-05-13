@@ -172,13 +172,15 @@
     "2e79dafd-fc16-4887-9e14-85912127706a": 1778314369053,
     "41e0e0de-4a72-11f1-8f25-0bf25b7d3e24": 1778401359891,
     "e600d2f6-4594-11f1-8bd7-fbfbbecaebaa": 1778493615416,
-    "20105fae-4c96-11f1-a903-0b1789dff273": 1778577218599
+    "20105fae-4c96-11f1-a903-0b1789dff273": 1778577218599,
+    "a6ff5c8c-47f4-11f1-a8a5-03b48837c50f": 1778663998913
   },
   "seenArticles": {
     "https://claude.com/blog/new-in-claude-managed-agents": 1778128703010,
     "https://www.anthropic.com/engineering/april-23-postmortem": 1778401369288,
     "https://claude.com/blog/connectors-for-everyday-life": 1778401369937,
     "https://claude.com/blog/claude-managed-agents-memory": 1778401370484,
-    "https://www.anthropic.com/engineering/managed-agents": 1778493623998
+    "https://www.anthropic.com/engineering/managed-agents": 1778493623998,
+    "https://www.anthropic.com/engineering/claude-code-auto-mode": 1778663999562
   }
 }
