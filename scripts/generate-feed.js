@@ -30,6 +30,9 @@ const PODCAST_LOOKBACK_HOURS = 336; // 14 days — podcasts publish weekly/biwee
 const BLOG_LOOKBACK_HOURS = 72;
 const MAX_TWEETS_PER_USER = 3;
 const MAX_ARTICLES_PER_BLOG = 3;
+const X_USER_LOOKUP_BATCH_SIZE = 5;
+const X_RETRY_STATUSES = new Set([500, 502, 503, 504]);
+const X_RETRY_ATTEMPTS = 3;
 
 // State file lives in the repo root so it gets committed by GitHub Actions
 const SCRIPT_DIR = decodeURIComponent(new URL(".", import.meta.url).pathname);
@@ -520,24 +523,48 @@ async function fetchPodcastContent(podcasts, apiKey, state, errors) {
 
 // -- X/Twitter Fetching (Official API v2) ------------------------------------
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function fetchXWithRetry(url, options) {
+  let lastResponse;
+  for (let attempt = 1; attempt <= X_RETRY_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetch(url, options);
+      lastResponse = res;
+      if (!X_RETRY_STATUSES.has(res.status) || attempt === X_RETRY_ATTEMPTS) {
+        return res;
+      }
+    } catch (err) {
+      if (attempt === X_RETRY_ATTEMPTS) throw err;
+    }
+    await sleep(1000 * attempt);
+  }
+  return lastResponse;
+}
+
 async function fetchXContent(xAccounts, bearerToken, state, errors) {
   const results = [];
   const cutoff = new Date(Date.now() - TWEET_LOOKBACK_HOURS * 60 * 60 * 1000);
 
-  // Batch lookup all user IDs (1 API call)
+  // Batch lookup user IDs. Smaller batches make one flaky X response less likely
+  // to wipe out the whole feed.
   const handles = xAccounts.map((a) => a.handle);
   let userMap = {};
 
-  for (let i = 0; i < handles.length; i += 100) {
-    const batch = handles.slice(i, i + 100);
+  for (let i = 0; i < handles.length; i += X_USER_LOOKUP_BATCH_SIZE) {
+    const batch = handles.slice(i, i + X_USER_LOOKUP_BATCH_SIZE);
     try {
-      const res = await fetch(
+      const res = await fetchXWithRetry(
         `${X_API_BASE}/users/by?usernames=${batch.join(",")}&user.fields=name,description`,
         { headers: { Authorization: `Bearer ${bearerToken}` } },
       );
 
       if (!res.ok) {
-        errors.push(`X API: User lookup failed: HTTP ${res.status}`);
+        errors.push(
+          `X API: User lookup failed for ${batch.join(",")}: HTTP ${res.status}`,
+        );
         continue;
       }
 
@@ -565,7 +592,7 @@ async function fetchXContent(xAccounts, bearerToken, state, errors) {
     if (!userData) continue;
 
     try {
-      const res = await fetch(
+      const res = await fetchXWithRetry(
         `${X_API_BASE}/users/${userData.id}/tweets?` +
           `max_results=5` + // fetch 5, then filter to 3 new ones
           `&tweet.fields=created_at,public_metrics,referenced_tweets,note_tweet` +

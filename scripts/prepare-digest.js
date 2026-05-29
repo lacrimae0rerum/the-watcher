@@ -82,6 +82,21 @@ async function main() {
   if (!feedX) errors.push('Could not fetch tweet feed');
   if (!feedPodcasts) errors.push('Could not fetch podcast feed');
   if (!feedBlogs) errors.push('Could not fetch blog feed');
+  if (feedX?.errors?.length) {
+    errors.push(
+      ...feedX.errors.map((error) => `Tweet feed problem: ${error}`)
+    );
+  }
+  if (feedPodcasts?.errors?.length) {
+    errors.push(
+      ...feedPodcasts.errors.map((error) => `Podcast feed problem: ${error}`)
+    );
+  }
+  if (feedBlogs?.errors?.length) {
+    errors.push(
+      ...feedBlogs.errors.map((error) => `Blog feed problem: ${error}`)
+    );
+  }
 
   // 3. Load prompts with priority: user custom > remote (GitHub) > local default
   //
