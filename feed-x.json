@@ -1,7 +1,26 @@
 {
-  "generatedAt": "2026-07-12T01:19:30.460Z",
+  "generatedAt": "2026-07-12T07:09:00.834Z",
   "lookbackHours": 24,
   "x": [
+    {
+      "source": "x",
+      "name": "Swyx",
+      "handle": "swyx",
+      "bio": "achieve ambition with intentionality, intensity, integrity & insanity.\n\naffiliations:\n- @dxtipshq \n- @cognition\n- @temporalio\n- @aidotengineer\n- @latentspacepod",
+      "tweets": [
+        {
+          "id": "2076155833428431012",
+          "text": "if you only learned about jevons paradox primarily wrt software demand in the age of agentic engineering, you may not have fully internalized jevons parodox’s impact under the conditions of:\n\n- humans who can wield coding agents well*\n- coding agents breaking containment to all other knowledge work\n\nas the efficiency of labor goes up/unit cost of knowledge work goes broadly down, the demand for total work and better knowledge goes up, not down.\n\nwhat happened to coding isnt the exception; it’s the herald.\n\n*aka AI Engineers",
+          "createdAt": "2026-07-12T04:04:58.000Z",
+          "url": "https://x.com/swyx/status/2076155833428431012",
+          "likes": 143,
+          "retweets": 9,
+          "replies": 28,
+          "isQuote": true,
+          "quotedTweetId": "2076036901824532530"
+        }
+      ]
+    },
     {
       "source": "x",
       "name": "Thibault Sottiaux",
@@ -9,37 +28,26 @@
       "bio": "Codex & ChatGPT @OpenAI",
       "tweets": [
         {
-          "id": "2076054439140720719",
-          "text": "New poster for our office that shows how resets of the Codex usage limits affects part of our systems. Data is beautiful. https://t.co/84DCX4XfbF",
-          "createdAt": "2026-07-11T21:22:04.000Z",
-          "url": "https://x.com/thsottiaux/status/2076054439140720719",
-          "likes": 2488,
-          "retweets": 69,
-          "replies": 228,
+          "id": "2076145711922696371",
+          "text": "At different times you complained about speed, code slop, frontend quality, ... With each release we improve and GPT 5.6 Sol is  \n\n✅Fast and token efficient\n✅Hardcore at back-end dev\n✅Great at front-end\n✅Does not use useEffect everywhere \n\nWhat is next?",
+          "createdAt": "2026-07-12T03:24:45.000Z",
+          "url": "https://x.com/thsottiaux/status/2076145711922696371",
+          "likes": 2557,
+          "retweets": 55,
+          "replies": 805,
           "isQuote": false,
           "quotedTweetId": null
         },
         {
-          "id": "2076021263945039876",
-          "text": "You know it's a good model when you grow more in 1 day than last two weeks combined.\n\nInstall the desktop app from https://t.co/K5PquKnV4q and give it a go! https://t.co/WyQwrT98Xo",
-          "createdAt": "2026-07-11T19:10:14.000Z",
-          "url": "https://x.com/thsottiaux/status/2076021263945039876",
-          "likes": 2785,
-          "retweets": 75,
-          "replies": 375,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2075961345351307739",
-          "text": "If you were using Codex before, two things to do\n\n1. Keep using Codex. It is for you\n2. Tell your friends and family about ChatGPT Work who you always wanted to show Codex but they’re not as technical and don’t work with code every day\n\nand tell me how it goes",
-          "createdAt": "2026-07-11T15:12:08.000Z",
-          "url": "https://x.com/thsottiaux/status/2075961345351307739",
-          "likes": 3713,
-          "retweets": 107,
-          "replies": 737,
-          "isQuote": false,
-          "quotedTweetId": null
+          "id": "2076119366647894371",
+          "text": "If you aren't yet bold enough to install the Codex app, you can stay in the presence of your orange crab and point it at GPT 5.6 Sol. Takes 5 minutes. Kudos to Theo for explaining one of the ways to get this done.\n\nStep 1: Install CLIProxyAPI\nStep 2: Connect\nStep 3: Define following alias and enjoy claudex\n\n```\nalias claudex='CLAUDE_CODE_SUBAGENT_MODEL=gpt-5.6-sol \\\nCLAUDE_CODE_ALWAYS_ENABLE_EFFORT=1 \\\nCLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=3 \\\nENABLE_TOOL_SEARCH=false \\\nclaude --model gpt-5.6-sol'\n```\n\nIf this gets blocked, I owe you a reset.",
+          "createdAt": "2026-07-12T01:40:04.000Z",
+          "url": "https://x.com/thsottiaux/status/2076119366647894371",
+          "likes": 3871,
+          "retweets": 243,
+          "replies": 315,
+          "isQuote": true,
+          "quotedTweetId": "2076114415368482854"
         }
       ]
     },
@@ -50,35 +58,54 @@
       "bio": "Practical AI tutorials and interviews for busy people | Get my best AI skills and guides at https://t.co/6VAA6p81x6",
       "tweets": [
         {
-          "id": "2076112137475506378",
-          "text": "Go Argentina!! 🇦🇷",
-          "createdAt": "2026-07-12T01:11:20.000Z",
-          "url": "https://x.com/petergyang/status/2076112137475506378",
-          "likes": 2,
+          "id": "2076151105080447404",
+          "text": "The score is 3 vs 1 but imo this was a very mixed performance from Argentina.\n\nNot sure how they’ll do against England.",
+          "createdAt": "2026-07-12T03:46:11.000Z",
+          "url": "https://x.com/petergyang/status/2076151105080447404",
+          "likes": 31,
           "retweets": 0,
-          "replies": 1,
+          "replies": 17,
           "isQuote": false,
           "quotedTweetId": null
         },
         {
-          "id": "2076050876314300478",
-          "text": "This is super cool but I wonder how all these benchmarks work? How do you benchmark design taste? https://t.co/Lj4eIDjq3Y",
-          "createdAt": "2026-07-11T21:07:54.000Z",
-          "url": "https://x.com/petergyang/status/2076050876314300478",
-          "likes": 18,
-          "retweets": 1,
-          "replies": 15,
-          "isQuote": true,
-          "quotedTweetId": "2075672492312768683"
+          "id": "2076143769192484900",
+          "text": "They’re playing so badly even up one man",
+          "createdAt": "2026-07-12T03:17:02.000Z",
+          "url": "https://x.com/petergyang/status/2076143769192484900",
+          "likes": 20,
+          "retweets": 2,
+          "replies": 4,
+          "isQuote": false,
+          "quotedTweetId": null
         },
         {
-          "id": "2075999617666445714",
-          "text": "My process for a new project this weekend:\n\n-&gt; Use Fable to build plan.html with design guidelines\n-&gt; Use Claude Design to make components + screens\n-&gt; Get gpt 5.6 to build",
-          "createdAt": "2026-07-11T17:44:13.000Z",
-          "url": "https://x.com/petergyang/status/2075999617666445714",
-          "likes": 144,
-          "retweets": 3,
-          "replies": 22,
+          "id": "2076132077054095751",
+          "text": "Well shit",
+          "createdAt": "2026-07-12T02:30:34.000Z",
+          "url": "https://x.com/petergyang/status/2076132077054095751",
+          "likes": 1,
+          "retweets": 0,
+          "replies": 0,
+          "isQuote": false,
+          "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Guillermo Rauch",
+      "handle": "rauchg",
+      "bio": "@vercel CEO",
+      "tweets": [
+        {
+          "id": "2076151956440261008",
+          "text": "Easy money (Swiss francs)",
+          "createdAt": "2026-07-12T03:49:34.000Z",
+          "url": "https://x.com/rauchg/status/2076151956440261008",
+          "likes": 298,
+          "retweets": 6,
+          "replies": 26,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -91,15 +118,15 @@
       "bio": "ceo @box - your business lives in content. unleash it with AI",
       "tweets": [
         {
-          "id": "2075963779599466894",
-          "text": "This is a great post if youre thinking about applied AI in the enterprise. The headline of this post is about what companies have huge upside from AI, but the deepest nuggets are about what AI transformation looks like in an organization.\n\nIt’s fundamentally about changing the underlying workflow or business process. As we move from chat tools to agents, those agents actually have to be deployed against workflows, which usually span multiple functions in an org. This is a different way of deploying AI than solely rolling it out to end users. It takes much more work upfront, but the results are the things that actually drive significant ROI. \n\n“Software asks the employee to adopt a tool, but infrastructure changes the operating layer underneath the employee. The employee should still know what happened, and the process owner should still be able to pause the workflow, change a rule, approve an exception, or pull a person back in when needed. But the value should not depend on someone remembering to use the AI every day.”\n\nThe winners of this will be the platforms that can be deployed for specific workflows and business processes with a deep domain expertise. The playbook will often heavily require FDE support, change management, getting data well organized, be able to have comprehensive evals for the workflows, and much more to get right.",
-          "createdAt": "2026-07-11T15:21:49.000Z",
-          "url": "https://x.com/levie/status/2075963779599466894",
-          "likes": 510,
-          "retweets": 76,
-          "replies": 42,
+          "id": "2076116544980214164",
+          "text": "The job that AI was supposed to replace is experiencing the opposite of the expected outcome. Software job postings are outpacing other fields.\n\nWhy is that? If you lower the cost of production of something that has lots of use cases, people want more things produced. We’ve seen this play out in the industrial world constantly, and now we’re finally seeing it in knowledge work.\n\nBecause software now is much lower to cost per unit, people want way more of it. So we start to use software for all new things and people and companies light up more software projects than ever before. \n\nBut because the job itself is not fully automated (and likely won’t be for as far out as we can see), you still need people that understand these systems to maintain the code, decide what to build, run it over the long run, update it, and more. That all requires people to do work. \n\nThe same thing is going to happen in many other fields as well as we bring down the cost of production of previously extremely scarce areas of work. Agents will cause more abundance than replacement.",
+          "createdAt": "2026-07-12T01:28:51.000Z",
+          "url": "https://x.com/levie/status/2076116544980214164",
+          "likes": 193,
+          "retweets": 20,
+          "replies": 31,
           "isQuote": true,
-          "quotedTweetId": "2075696599242821979"
+          "quotedTweetId": "2075762741881770383"
         }
       ]
     },
@@ -110,37 +137,45 @@
       "bio": "President & CEO @ycombinator —Founder @garryslist—Creator of GStack & GBrain—designer/engineer who helps founders—SF Dem accelerating the boom loop",
       "tweets": [
         {
-          "id": "2076002866582675674",
-          "text": "Defund the grifters who created the SF Doom Loop https://t.co/VSQ7a7XDZe",
-          "createdAt": "2026-07-11T17:57:08.000Z",
-          "url": "https://x.com/garrytan/status/2076002866582675674",
-          "likes": 210,
-          "retweets": 12,
-          "replies": 13,
+          "id": "2075944103867830352",
+          "text": "If you want to supercharge building in California again, you're going to need to repeal and reform CEQA\n\nMillions of units of housing are blocked every year using CEQA. Housing should be built by-right, and not require the level of review it does today. https://t.co/TE4s7Dz7jD",
+          "createdAt": "2026-07-11T14:03:38.000Z",
+          "url": "https://x.com/garrytan/status/2075944103867830352",
+          "likes": 219,
+          "retweets": 15,
+          "replies": 27,
           "isQuote": true,
-          "quotedTweetId": "2075645217991233593"
+          "quotedTweetId": "2075943775655055659"
         },
         {
-          "id": "2075975184293765564",
-          "text": "Make something agents want https://t.co/vJRQkdIoV3",
-          "createdAt": "2026-07-11T16:07:08.000Z",
-          "url": "https://x.com/garrytan/status/2075975184293765564",
-          "likes": 423,
-          "retweets": 14,
-          "replies": 50,
-          "isQuote": true,
-          "quotedTweetId": "2075670027244900579"
-        },
+          "id": "2075933358660730901",
+          "text": "So much could go wrong\n\nBut the interesting question is always: what happens if things go right?",
+          "createdAt": "2026-07-11T13:20:56.000Z",
+          "url": "https://x.com/garrytan/status/2075933358660730901",
+          "likes": 1612,
+          "retweets": 145,
+          "replies": 207,
+          "isQuote": false,
+          "quotedTweetId": null
+        }
+      ]
+    },
+    {
+      "source": "x",
+      "name": "Matt Turck",
+      "handle": "mattturck",
+      "bio": "VC at @FirstMarkCap.  Host: MAD Podcast; Organizer: Data Driven NYC, Author: MAD Landscape.",
+      "tweets": [
         {
-          "id": "2075945096860807494",
-          "text": "CEQA kills thousands of units of housing every year in San Francisco, here's just one example https://t.co/DfZe836WOU",
-          "createdAt": "2026-07-11T14:07:34.000Z",
-          "url": "https://x.com/garrytan/status/2075945096860807494",
-          "likes": 28,
-          "retweets": 2,
-          "replies": 1,
-          "isQuote": true,
-          "quotedTweetId": "1471520127094976514"
+          "id": "2076141940484010189",
+          "text": "Argentina struggled against the world's #64, almost got eliminated by the world's #26, and they're now in extra time against the world's #19 which is down to 10 players.",
+          "createdAt": "2026-07-12T03:09:46.000Z",
+          "url": "https://x.com/mattturck/status/2076141940484010189",
+          "likes": 4966,
+          "retweets": 418,
+          "replies": 105,
+          "isQuote": false,
+          "quotedTweetId": null
         }
       ]
     },
@@ -151,15 +186,15 @@
       "bio": "Builder. Dangerously skips permissions. Harvard’17. GitHub: https://t.co/KCuEajezlL YouTube: https://t.co/8xzbGWtf6w",
       "tweets": [
         {
-          "id": "2075930909669515753",
-          "text": "The line between \"builder\" and \"creator\" is blurring\n\nThis is the best time for builders to create content and for creators to build products",
-          "createdAt": "2026-07-11T13:11:12.000Z",
-          "url": "https://x.com/zarazhangrui/status/2075930909669515753",
-          "likes": 230,
-          "retweets": 9,
-          "replies": 45,
-          "isQuote": false,
-          "quotedTweetId": null
+          "id": "2076130810143367453",
+          "text": "Ok 5.6 Sol is very good at front end 👌 https://t.co/vubmHarGCG",
+          "createdAt": "2026-07-12T02:25:32.000Z",
+          "url": "https://x.com/zarazhangrui/status/2076130810143367453",
+          "likes": 110,
+          "retweets": 1,
+          "replies": 26,
+          "isQuote": true,
+          "quotedTweetId": "2075003007520096416"
         }
       ]
     },
@@ -170,81 +205,13 @@
       "bio": "partner @fpvventures - investing in seed/A. previous: early hire @meter, @opendoor, @atlassian & others. love @shimoleejhaveri + 👦👧",
       "tweets": [
         {
-          "id": "2076022807365079342",
-          "text": "Ok Fable and Sol got me a fully working iOS app in a few hours based on the backend and the web app.. \n\nwhat an insane world we live in 🤯 https://t.co/RWTUEaHYrM https://t.co/mECJqpkd8h",
-          "createdAt": "2026-07-11T19:16:22.000Z",
-          "url": "https://x.com/nikunj/status/2076022807365079342",
-          "likes": 24,
+          "id": "2076150076087611433",
+          "text": "Argentina has the mandate of heaven.. what a strike by Alvarez. \n\nEngland vs. Argentina\n\nFrance vs. Spain\n\nPure cinema 💥",
+          "createdAt": "2026-07-12T03:42:05.000Z",
+          "url": "https://x.com/nikunj/status/2076150076087611433",
+          "likes": 23,
           "retweets": 1,
-          "replies": 1,
-          "isQuote": true,
-          "quotedTweetId": "2075714070091882694"
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Peter Steinberger",
-      "handle": "steipete",
-      "bio": "Polyagentmorous ClawFather. Came back from retirement to mess with AI and help a lobster take over the world.\n@OpenClaw🦞 + @OpenAI",
-      "tweets": [
-        {
-          "id": "2076013212043182375",
-          "text": "Let me verify a couple of load-bearing facts before I give you the architecture assessment.",
-          "createdAt": "2026-07-11T18:38:14.000Z",
-          "url": "https://x.com/steipete/status/2076013212043182375",
-          "likes": 698,
-          "retweets": 14,
-          "replies": 60,
-          "isQuote": false,
-          "quotedTweetId": null
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Dan Shipper",
-      "handle": "danshipper",
-      "bio": "ceo @every | the only subscription you need to stay at the edge of AI",
-      "tweets": [
-        {
-          "id": "2075767886254064011",
-          "text": "seems bad https://t.co/ypfdrPXWkn",
-          "createdAt": "2026-07-11T02:23:24.000Z",
-          "url": "https://x.com/danshipper/status/2075767886254064011",
-          "likes": 80,
-          "retweets": 5,
-          "replies": 5,
-          "isQuote": true,
-          "quotedTweetId": "2075692804907671758"
-        }
-      ]
-    },
-    {
-      "source": "x",
-      "name": "Aditya Agarwal",
-      "handle": "adityaag",
-      "bio": "General Partner @SouthPkCommons, Co-Founder @Bevel_Health | Ex: Early Eng @facebook, CTO @Dropbox, Board @Flipkart | Optimist, Builder, Dad",
-      "tweets": [
-        {
-          "id": "2076084443920683119",
-          "text": "Halfs --&gt; Quarters\nFreeflow --&gt; VAR\nPlayer and Coach Reviews --&gt; Coming Soon\n\nThe World Cup 2048 will be brought to you by FIFA-NFL.",
-          "createdAt": "2026-07-11T23:21:17.000Z",
-          "url": "https://x.com/adityaag/status/2076084443920683119",
-          "likes": 7,
-          "retweets": 0,
-          "replies": 0,
-          "isQuote": false,
-          "quotedTweetId": null
-        },
-        {
-          "id": "2076047290083733539",
-          "text": "Everything in AI moves so fast.\n\nWe are going to get here:\n- Run all the agents in the cloud\n- Choose any model (frontier, OSS, Chinese, American)\n- Choose any harness\n- Have full tracing\n- Have recursive improvement loops\n\nI know it will be there but can it happen already?",
-          "createdAt": "2026-07-11T20:53:39.000Z",
-          "url": "https://x.com/adityaag/status/2076047290083733539",
-          "likes": 80,
-          "retweets": 6,
-          "replies": 16,
+          "replies": 6,
           "isQuote": false,
           "quotedTweetId": null
         }
@@ -257,43 +224,32 @@
       "bio": "AI is cool i guess",
       "tweets": [
         {
-          "id": "2076036901824532530",
-          "text": "so far at least, i'm pretty sure AI has been net job-creating.\n\nthis was not what i expected--although i was much less pessimistic than others, i thought by this level of capability we'd have seen some impact.\n\nit is possible this direction keeps going!",
-          "createdAt": "2026-07-11T20:12:22.000Z",
-          "url": "https://x.com/sama/status/2076036901824532530",
-          "likes": 7437,
-          "retweets": 280,
-          "replies": 1223,
+          "id": "2075983427019612242",
+          "text": "there are a lot of benchmarks that suggest 5.6 sol is the best model in the world right now, but the most reliable way to tell is that elon is obsessed with me again",
+          "createdAt": "2026-07-11T16:39:53.000Z",
+          "url": "https://x.com/sama/status/2075983427019612242",
+          "likes": 49330,
+          "retweets": 2330,
+          "replies": 3404,
           "isQuote": false,
           "quotedTweetId": null
         },
         {
-          "id": "2076034163418014199",
-          "text": "whoa https://t.co/JogchHWDm2",
-          "createdAt": "2026-07-11T20:01:30.000Z",
-          "url": "https://x.com/sama/status/2076034163418014199",
-          "likes": 1645,
-          "retweets": 41,
-          "replies": 216,
+          "id": "2075982820322025788",
+          "text": "30% of the cost was on fable at these levels of usage? https://t.co/KzFoHj7cB4",
+          "createdAt": "2026-07-11T16:37:28.000Z",
+          "url": "https://x.com/sama/status/2075982820322025788",
+          "likes": 9734,
+          "retweets": 225,
+          "replies": 388,
           "isQuote": true,
-          "quotedTweetId": "2076021263945039876"
-        },
-        {
-          "id": "2075985056846451123",
-          "text": "\"physicians found fewer flaws in GPT-5.6 responses than physician-written responses.\" https://t.co/n4J37XVqNM",
-          "createdAt": "2026-07-11T16:46:22.000Z",
-          "url": "https://x.com/sama/status/2075985056846451123",
-          "likes": 4061,
-          "retweets": 234,
-          "replies": 334,
-          "isQuote": true,
-          "quotedTweetId": "2075689779937833302"
+          "quotedTweetId": "2075963734745342361"
         }
       ]
     }
   ],
   "stats": {
     "xBuilders": 10,
-    "totalTweets": 19
+    "totalTweets": 15
   }
 }
