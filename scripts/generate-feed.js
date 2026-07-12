@@ -1042,15 +1042,27 @@ async function main() {
     console.error(`  Found ${xContent.length} builders with new tweets`);
 
     const totalTweets = xContent.reduce((sum, a) => sum + a.tweets.length, 0);
+    const xErrors = errors.filter((e) => e.startsWith("X API"));
+
+    if (xErrors.length > 0) {
+      console.error("  X API errors:");
+      for (const error of xErrors) {
+        console.error(`    - ${error}`);
+      }
+    }
+
+    if (xContent.length === 0 && xErrors.length > 0) {
+      throw new Error(
+        `X feed failed: 0 builders returned and ${xErrors.length} X API error(s) occurred`,
+      );
+    }
+
     const xFeed = {
       generatedAt: new Date().toISOString(),
       lookbackHours: TWEET_LOOKBACK_HOURS,
       x: xContent,
       stats: { xBuilders: xContent.length, totalTweets },
-      errors:
-        errors.filter((e) => e.startsWith("X API")).length > 0
-          ? errors.filter((e) => e.startsWith("X API"))
-          : undefined,
+      errors: xErrors.length > 0 ? xErrors : undefined,
     };
     await writeFile(
       join(SCRIPT_DIR, "..", "feed-x.json"),
