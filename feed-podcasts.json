@@ -1,11 +1,8 @@
 {
-  "generatedAt": "2026-08-24T06:28:49.201Z",
+  "generatedAt": "2026-08-25T06:28:07.341Z",
   "lookbackHours": 336,
   "podcasts": [],
   "stats": {
     "podcastEpisodes": 0
-  },
-  "errors": [
-    "Podcast: Transcript error for \"🔬The BioAI Phase Shift - Matthew McPartlon &amp; Neil Patil, Chai Discovery\": HTTP 404: {\"status\":\"error\",\"message\":\"Episode not found\"}"
-  ]
+  }
 }
