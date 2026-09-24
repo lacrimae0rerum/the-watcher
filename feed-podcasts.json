@@ -1,8 +1,13 @@
 {
-  "generatedAt": "2026-09-23T06:42:40.752Z",
+  "generatedAt": "2026-09-24T06:42:41.675Z",
   "lookbackHours": 336,
   "podcasts": [],
   "stats": {
     "podcastEpisodes": 0
-  }
+  },
+  "errors": [
+    "Podcast: Transcript error for \"🔬Bio-security is an AI Arms Race - Eric Nguyen (CEO, Radical Numerics)\": HTTP 404: {\"status\":\"error\",\"message\":\"Episode not found\"}",
+    "Podcast: Transcript error for \"🔬 An Oscar, Two Asteroids, and the Algorithm in Your sklearn: John Platt on AI for Science\": HTTP 404: {\"status\":\"error\",\"message\":\"Episode not found\"}",
+    "Podcast: Transcript error for \"Jev: System One models for Prod, not God — with Diogo Almeida, CEO, TypeSafe AI\": HTTP 404: {\"status\":\"error\",\"message\":\"Episode not found\"}"
+  ]
 }
