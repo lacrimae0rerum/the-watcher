@@ -92,6 +92,53 @@ export function isFeedSnapshot(value) {
 }
 
 /**
+ * Creates the generic input an editor needs to remix a thematic digest.
+ */
+export function prepare({ digestPackage, preferences, content, prompts }) {
+  requireRecord(digestPackage, 'prepare.digestPackage');
+  requireRecord(preferences, 'prepare.preferences');
+  requireRecord(content, 'prepare.content');
+  requireRecord(prompts, 'prepare.prompts');
+
+  return Object.freeze({
+    digest: Object.freeze({
+      ...digestPackage,
+      id: requireString(digestPackage.id, 'prepare.digestPackage.id'),
+      declaration: requireString(
+        digestPackage.declaration,
+        'prepare.digestPackage.declaration',
+      ),
+    }),
+    preferences: Object.freeze({ ...preferences }),
+    content: Object.freeze({ ...content }),
+    prompts: Object.freeze({ ...prompts }),
+  });
+}
+
+/**
+ * Delivers an edition through the adapter selected by its target type.
+ */
+export async function deliver({ edition, target, adapters }) {
+  requireRecord(edition, 'deliver.edition');
+  requireRecord(target, 'deliver.target');
+  requireRecord(adapters, 'deliver.adapters');
+
+  const type = requireString(target.type, 'deliver.target.type');
+  const adapter = adapters[type];
+  requireRecord(adapter, `deliver.adapters.${type}`);
+  if (typeof adapter.deliver !== 'function') {
+    throw new TypeError(`deliver.adapters.${type}.deliver must be a function`);
+  }
+
+  const validatedEdition = Object.freeze({
+    ...edition,
+    text: requireString(edition.text, 'deliver.edition.text'),
+  });
+  const validatedTarget = Object.freeze({ ...target, type });
+  return adapter.deliver(validatedEdition, validatedTarget);
+}
+
+/**
  * Collects configured sources through source-type adapters.
  */
 export async function collectFeed({ sources, collectors, checkpoint, generatedAt }) {

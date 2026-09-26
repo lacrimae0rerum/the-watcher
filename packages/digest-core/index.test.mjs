@@ -56,6 +56,54 @@ test('digest-core constructs and validates normalized content contracts', async 
   );
 });
 
+test('prepare creates a generic remix package for a thematic digest', async () => {
+  const { prepare } = await import('./index.js');
+
+  const remix = prepare({
+    digestPackage: {
+      id: 'field-notes',
+      declaration: 'A digest of useful field notes.',
+    },
+    preferences: { language: 'en', frequency: 'weekly' },
+    content: { notes: [{ title: 'A portable idea' }] },
+    prompts: { compose: 'Summarize the notes.' },
+  });
+
+  assert.deepEqual(remix, {
+    digest: {
+      id: 'field-notes',
+      declaration: 'A digest of useful field notes.',
+    },
+    preferences: { language: 'en', frequency: 'weekly' },
+    content: { notes: [{ title: 'A portable idea' }] },
+    prompts: { compose: 'Summarize the notes.' },
+  });
+});
+
+test('deliver selects the target adapter and passes it a validated edition', async () => {
+  const { deliver } = await import('./index.js');
+  const calls = [];
+
+  const result = await deliver({
+    edition: { text: 'A finished digest.', metadata: { language: 'en' } },
+    target: { type: 'archive', destination: 'weekly' },
+    adapters: {
+      archive: {
+        deliver: async (edition, target) => {
+          calls.push({ edition, target });
+          return { delivered: true, id: 'edition-1' };
+        },
+      },
+    },
+  });
+
+  assert.deepEqual(calls, [{
+    edition: { text: 'A finished digest.', metadata: { language: 'en' } },
+    target: { type: 'archive', destination: 'weekly' },
+  }]);
+  assert.deepEqual(result, { delivered: true, id: 'edition-1' });
+});
+
 test('collectFeed dispatches a source and returns a normalized checkpointed snapshot', async () => {
   const { collectFeed } = await import('./index.js');
   const generatedAt = '2026-09-26T01:00:00Z';

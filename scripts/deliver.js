@@ -25,6 +25,8 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import { homedir } from 'os';
 import { config as loadEnv } from 'dotenv';
+import { deliver } from '../packages/digest-core/index.js';
+import { delivery as packageDelivery } from '../packages/ai-builders-digest/index.js';
 
 // -- Constants ---------------------------------------------------------------
 
@@ -126,7 +128,7 @@ async function sendTelegram(text, botToken, chatId) {
 
 // Sends the digest via Resend's email API.
 // The user provides their own Resend API key and email address.
-async function sendEmail(text, apiKey, toEmail) {
+async function sendEmail(text, apiKey, toEmail, branding) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -134,11 +136,12 @@ async function sendEmail(text, apiKey, toEmail) {
       'Authorization': `Bearer ${apiKey}`
     },
     body: JSON.stringify({
-      from: 'AI Builders Digest <digest@resend.dev>',
+      from: branding.sender,
       to: [toEmail],
-      subject: `AI Builders Digest — ${new Date().toLocaleDateString('en-US', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-      })}`,
+      subject: `${branding.subjectPrefix} — ${new Date().toLocaleDateString(
+        branding.subjectLocale,
+        branding.subjectDateOptions,
+      )}`,
       text: text
     })
   });
@@ -160,7 +163,7 @@ async function main() {
     config = JSON.parse(await readFile(CONFIG_PATH, 'utf-8'));
   }
 
-  const delivery = config.delivery || { method: 'stdout' };
+  const deliveryConfig = config.delivery || { method: 'stdout' };
   const digestText = await getDigestText();
 
   if (!digestText || digestText.trim().length === 0) {
@@ -169,45 +172,57 @@ async function main() {
   }
 
   try {
-    switch (delivery.method) {
-      case 'telegram': {
-        const botToken = process.env.TELEGRAM_BOT_TOKEN;
-        const chatId = delivery.chatId;
-        if (!botToken) throw new Error('TELEGRAM_BOT_TOKEN not found in .env');
-        if (!chatId) throw new Error('delivery.chatId not found in config.json');
-        await sendTelegram(digestText, botToken, chatId);
-        console.log(JSON.stringify({
-          status: 'ok',
-          method: 'telegram',
-          message: 'Digest sent to Telegram'
-        }));
-        break;
-      }
-
-      case 'email': {
-        const apiKey = process.env.RESEND_API_KEY;
-        const toEmail = delivery.email;
-        if (!apiKey) throw new Error('RESEND_API_KEY not found in .env');
-        if (!toEmail) throw new Error('delivery.email not found in config.json');
-        await sendEmail(digestText, apiKey, toEmail);
-        console.log(JSON.stringify({
-          status: 'ok',
-          method: 'email',
-          message: `Digest sent to ${toEmail}`
-        }));
-        break;
-      }
-
-      case 'stdout':
-      default:
-        // Just print to terminal — the agent or OpenClaw handles delivery
-        console.log(digestText);
-        break;
+    const adapters = {
+      telegram: {
+        deliver: async (edition, target) => {
+          const botToken = process.env.TELEGRAM_BOT_TOKEN;
+          const chatId = target.chatId;
+          if (!botToken) throw new Error('TELEGRAM_BOT_TOKEN not found in .env');
+          if (!chatId) throw new Error('delivery.chatId not found in config.json');
+          await sendTelegram(edition.text, botToken, chatId);
+          return {
+            status: 'ok',
+            method: 'telegram',
+            message: 'Digest sent to Telegram'
+          };
+        },
+      },
+      email: {
+        deliver: async (edition, target) => {
+          const apiKey = process.env.RESEND_API_KEY;
+          const toEmail = target.email;
+          if (!apiKey) throw new Error('RESEND_API_KEY not found in .env');
+          if (!toEmail) throw new Error('delivery.email not found in config.json');
+          await sendEmail(edition.text, apiKey, toEmail, packageDelivery.email);
+          return {
+            status: 'ok',
+            method: 'email',
+            message: `Digest sent to ${toEmail}`
+          };
+        },
+      },
+      stdout: {
+        deliver: async (edition) => {
+          console.log(edition.text);
+          return null;
+        },
+      },
+    };
+    const type = Object.hasOwn(adapters, deliveryConfig.method)
+      ? deliveryConfig.method
+      : 'stdout';
+    const result = await deliver({
+      edition: { text: digestText },
+      target: { ...deliveryConfig, type },
+      adapters,
+    });
+    if (result) {
+      console.log(JSON.stringify(result));
     }
   } catch (err) {
     console.log(JSON.stringify({
       status: 'error',
-      method: delivery.method,
+      method: deliveryConfig.method,
       message: err.message
     }));
     process.exit(1);
