@@ -80,14 +80,14 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
   - Checks: capture RED and GREEN results for `node --test`; run stdout delivery as the runtime harness.
   - Commit: `c18de81dd89bb2d10ae51b5f3b226299f1de594a` (`feat(digest): generalize preparation and delivery`).
 
-- [ ] **ADP-4 — Cut over the AI Builders package and documentation**
+- [x] **ADP-4 — Cut over the AI Builders package and documentation**
   - Route: delegated direct writer.
   - Trigger evidence: user-facing skill instructions, prompts, examples, workflow, metadata, and READMEs require coordinated edits.
   - Move current sources and editorial policy into `ai-builders-digest`.
   - Update skill orchestration, examples, workflow, package metadata, and documentation to describe independent thematic packages and the shared core accurately.
   - Acceptance: installation and usage instructions name `ai-builders-digest`; architecture documentation names `digest-core`; the exact declaration appears consistently; documented transcript and request behavior matches code.
   - Checks: full `node --test`; package preparation and stdout-delivery smoke tests; structural link/path readback.
-  - Commit: pending.
+  - Commit: `3e8aea3c6fc5d6d12613e60b0153a37b1d7f5166` (`feat(ai-builders): cut over thematic package`).
 
 ## Progress and evidence
 
@@ -120,7 +120,16 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
 - 2026-09-26: ADP-3 parent spot check — `node --test`: passed 9 tests, 0 failed.
 - 2026-09-26: ADP-3 native assessment — `high` because `scripts/deliver.js` crosses a process boundary; RDD remained globally off.
 - 2026-09-26: ADP-3 independent verification — passed all requirements plus 9 tests, the in-memory delivery harness, both syntax checks, and `git diff --check 86ef1ec..HEAD`; no regressions found. Direct delivery execution remained intentionally skipped because the pre-existing `dotenv` dependency is not installed and real adapters can cause external effects.
+- 2026-09-26: ADP-4 RED — package asset ownership test failed as intended with 1 of 9 tests failing because the source catalog still resolved outside `packages/ai-builders-digest/`; compatibility resolution then failed as intended with 1 of 10 tests and `resolveUserFile is not a function`.
+- 2026-09-26: ADP-4 GREEN — `node --test`: passed 10 tests, 0 failed after moving the catalog, schema, prompts, and sample under `packages/ai-builders-digest/` and adding canonical-first legacy path resolution.
+- 2026-09-26: ADP-4 package asset harness — the required package import/access command passed and printed `ai-builders-digest`; the package-owned catalog and all five prompts were readable.
+- 2026-09-26: ADP-4 preparation/stdout smoke — the in-memory public `prepare()` → `deliver()` harness passed and printed `stdout:ai-builders-digest` without remote calls or delivery effects.
+- 2026-09-26: ADP-4 script checks — `node --check` passed for `scripts/generate-feed.js`, `scripts/prepare-digest.js`, and `scripts/deliver.js`; direct delivery execution remained intentionally skipped because `dotenv` is not installed and real adapters can cause external effects.
+- 2026-09-26: ADP-4 structural documentation readback — passed across 17 changed documentation, workflow, package, prompt, example, and metadata files. It confirmed the exact declaration, canonical package and local-state names, pod2txt terminology, three feed/up-to-five prompt request claims, X → official blogs → podcasts sample order without `@` handles, package-owned referenced paths, and removal of the unsupported root MIT claim.
+- 2026-09-26: ADP-4 rollback boundary — revert the ADP-4 implementation and evidence commits to restore the root `config/`, `prompts/`, and `examples/` assets plus the `~/.follow-builders` canonical namespace; ADP-1/2/3 generic contracts, algorithms, delivery mechanics, and generated feed snapshots remain unchanged.
+- 2026-09-26: ADP-4 authored line count relative to `79966ac` — 373 additions plus deletions; generated feed snapshots excluded because none changed.
+- 2026-09-26: ADP-4 parent assessment — pending.
 
 ## Next step
 
-Create the ADP-4 child branch from the verified ADP-3 boundary and complete the AI Builders package/documentation cutover.
+Run the pending parent assessment for the completed ADP-4 review slice.
