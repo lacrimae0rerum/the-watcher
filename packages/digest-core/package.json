@@ -1,0 +1,10 @@
+{
+  "name": "digest-core",
+  "version": "0.1.0",
+  "description": "Generic contracts for collecting and normalizing digest content",
+  "type": "module",
+  "exports": "./index.js",
+  "files": [
+    "index.js"
+  ]
+}
