@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 // ============================================================================
-// Follow Builders — Prepare Digest
+// AI Builders Digest — Prepare Digest
 // ============================================================================
 // Gathers everything the LLM needs to produce a digest:
-// - Fetches the central feeds (tweets + podcasts)
+// - Fetches the central feeds (X posts + podcasts + blogs)
 // - Fetches the latest prompts from GitHub
 // - Reads the user's config (language, delivery method)
 // - Outputs a single JSON blob to stdout
@@ -25,12 +25,12 @@ import {
   digestPackage,
   preparation,
   prompts as packagePrompts,
+  resolveUserFile,
 } from '../packages/ai-builders-digest/index.js';
 
 // -- Constants ---------------------------------------------------------------
 
-const USER_DIR = join(homedir(), '.follow-builders');
-const CONFIG_PATH = join(USER_DIR, 'config.json');
+const CONFIG_PATH = resolveUserFile(homedir(), 'config.json');
 
 // -- Fetch helpers -----------------------------------------------------------
 
@@ -84,19 +84,17 @@ async function main() {
 
   // 3. Load prompts with priority: user custom > remote (GitHub) > local default
   //
-  // If the user has a custom prompt at ~/.follow-builders/prompts/<file>,
+  // If the user has a custom prompt at ~/.ai-builders-digest/prompts/<file>,
   // use that (they personalized it — don't overwrite with remote updates).
   // Otherwise, fetch the latest from GitHub so they get central improvements.
   // If GitHub is unreachable, fall back to the local copy shipped with the skill.
   const resolvedPrompts = {};
-  const userPromptsDir = join(USER_DIR, 'prompts');
-
   for (const bundledPrompt of Object.values(packagePrompts)) {
     const filename = decodeURIComponent(
       new URL(bundledPrompt).pathname.split('/').pop(),
     );
     const key = filename.replace('.md', '').replace(/-/g, '_');
-    const userPath = join(userPromptsDir, filename);
+    const userPath = resolveUserFile(homedir(), join('prompts', filename));
 
     // Priority 1: user's custom prompt (they personalized it)
     if (existsSync(userPath)) {

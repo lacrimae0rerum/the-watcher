@@ -1,10 +1,8 @@
 **English** | [中文](README.zh-CN.md)
 
-# Follow Builders, Not Influencers
+# AI Builders Digest
 
-An AI-powered digest that tracks the top builders in AI — researchers, founders, PMs,
-and engineers who are actually building things — and delivers curated summaries of
-what they're saying.
+AI builders digest — monitors top AI builders on X and YouTube podcasts, remixes their content into digestible summaries. Follow builders, not influencers.
 
 **Philosophy:** Follow people who build products and have original opinions, not
 influencers who regurgitate information.
@@ -23,7 +21,7 @@ WhatsApp, etc.) with:
 ## Quick Start
 
 1. Install the skill in your agent (OpenClaw or Claude Code)
-2. Say "set up follow builders" or invoke `/follow-builders`
+2. Say "set up AI builders digest" or invoke `/ai-builders-digest`
 3. The agent walks you through setup conversationally — no config files to edit
 
 The agent will ask you:
@@ -56,7 +54,7 @@ Tell your agent what you want — "Make summaries more concise," "Focus on actio
 insights," "Use a more casual tone." The agent updates the prompts for you.
 
 **Direct editing (power users):**
-Edit the files in the `prompts/` folder:
+Edit the files in `packages/ai-builders-digest/prompts/`:
 - `summarize-podcast.md` — how podcast episodes are summarized
 - `summarize-tweets.md` — how X/Twitter posts are summarized
 - `summarize-blogs.md` — how blog posts are summarized
@@ -87,17 +85,17 @@ These are plain English instructions, not code. Changes take effect on the next 
 ### OpenClaw
 ```bash
 # From ClawhHub (coming soon)
-clawhub install follow-builders
+clawhub install ai-builders-digest
 
 # Or manually
-git clone https://github.com/zarazhangrui/follow-builders.git ~/skills/follow-builders
-cd ~/skills/follow-builders/scripts && npm install
+git clone https://github.com/zarazhangrui/follow-builders.git ~/skills/ai-builders-digest
+cd ~/skills/ai-builders-digest/scripts && npm install
 ```
 
 ### Claude Code
 ```bash
-git clone https://github.com/zarazhangrui/follow-builders.git ~/.claude/skills/follow-builders
-cd ~/.claude/skills/follow-builders/scripts && npm install
+git clone https://github.com/zarazhangrui/follow-builders.git ~/.claude/skills/ai-builders-digest
+cd ~/.claude/skills/ai-builders-digest/scripts && npm install
 ```
 
 ## Requirements
@@ -111,20 +109,21 @@ is fetched centrally and updated daily.
 ## How It Works
 
 1. A central feed is updated daily with the latest content from all sources
-   (blog articles via web scraping, YouTube transcripts via Supadata, X/Twitter via official API)
-2. Your agent fetches the feed — one HTTP request, no API keys
+   (blog articles via web scraping, podcast transcripts via pod2txt, X/Twitter via the official API)
+2. The preparation script makes three feed requests in parallel and up to five remote
+   prompt requests, while preferring user overrides and retaining bundled fallbacks
 3. Your agent remixes the raw content into a digestible summary using your preferences
 4. The digest is delivered to your messaging app (or shown in-chat)
 
-See [examples/sample-digest.md](examples/sample-digest.md) for what the output looks like.
+`ai-builders-digest` owns the source catalog, user configuration schema, prompts,
+editorial policy, and branding. It uses the generic `digest-core` collection,
+preparation, and delivery interfaces without putting AI-builder policy in the core.
+
+See [the sample digest](packages/ai-builders-digest/examples/sample-digest.md) for what the output looks like.
 
 ## Privacy
 
 - No API keys are sent anywhere — all content is fetched centrally
-- If you use Telegram/email delivery, those keys are stored locally in `~/.follow-builders/.env`
+- If you use Telegram/email delivery, those keys are stored locally in `~/.ai-builders-digest/.env`
 - The skill only reads public content (public blog posts, public YouTube videos, public X posts)
 - Your configuration, preferences, and reading history stay on your machine
-
-## License
-
-MIT

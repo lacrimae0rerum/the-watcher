@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "description": "User configuration for Follow Builders skill. Stored at ~/.follow-builders/config.json",
+  "description": "User configuration for ai-builders-digest. Stored at ~/.ai-builders-digest/config.json",
   "type": "object",
   "properties": {
     "platform": {

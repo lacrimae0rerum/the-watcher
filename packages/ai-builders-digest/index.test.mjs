@@ -6,6 +6,7 @@ const expectedDeclaration = 'AI builders digest — monitors top AI builders on 
 
 test('ai-builders-digest exports its thematic manifest', async () => {
   const {
+    config,
     declaration,
     editorialPolicies,
     prompts,
@@ -15,10 +16,20 @@ test('ai-builders-digest exports its thematic manifest', async () => {
   assert.equal(declaration, expectedDeclaration);
   assert.deepEqual(sources.channels, ['x', 'podcasts', 'blogs']);
 
+  const packageDirectory = new URL('./', import.meta.url).href;
+  assert.equal(sources.catalog.href.startsWith(packageDirectory), true);
+  assert.equal(config.schema.href.startsWith(packageDirectory), true);
+  assert.equal(
+    Object.values(prompts).every(({ href }) => href.startsWith(packageDirectory)),
+    true,
+  );
+
   const sourceCatalog = JSON.parse(await readFile(sources.catalog, 'utf8'));
   assert.ok(sourceCatalog.x_accounts.length > 0);
   assert.ok(sourceCatalog.podcasts.length > 0);
   assert.ok(sourceCatalog.blogs.length > 0);
+  const configSchema = JSON.parse(await readFile(config.schema, 'utf8'));
+  assert.match(configSchema.description, /ai-builders-digest/);
 
   assert.deepEqual(Object.keys(prompts), [
     'summarizePodcast',
@@ -58,7 +69,7 @@ test('ai-builders-digest owns preparation topology and delivery branding', async
   );
   assert.equal(
     preparation.promptBaseUrl,
-    'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/prompts/',
+    'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/packages/ai-builders-digest/prompts/',
   );
   assert.deepEqual(delivery.email, {
     sender: 'AI Builders Digest <digest@resend.dev>',
@@ -71,6 +82,20 @@ test('ai-builders-digest owns preparation topology and delivery branding', async
       day: 'numeric',
     },
   });
+});
+
+test('ai-builders-digest resolves canonical user state before the legacy fallback', async () => {
+  const { resolveUserFile } = await import('./index.js');
+  const home = '/home/ada';
+  const canonical = '/home/ada/.ai-builders-digest/config.json';
+  const legacy = '/home/ada/.follow-builders/config.json';
+
+  assert.equal(resolveUserFile(home, 'config.json', () => false), canonical);
+  assert.equal(resolveUserFile(home, 'config.json', (path) => path === legacy), legacy);
+  assert.equal(
+    resolveUserFile(home, 'config.json', (path) => [canonical, legacy].includes(path)),
+    canonical,
+  );
 });
 
 test('AI Builders collectors normalize X, podcast, and web content through digest-core', async () => {
