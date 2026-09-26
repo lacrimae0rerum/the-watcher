@@ -16,6 +16,8 @@
 import { readFile, writeFile } from "fs/promises";
 import { existsSync } from "fs";
 import { join } from "path";
+import { collectFeed } from "../packages/digest-core/index.js";
+import { createCollectors } from "../packages/ai-builders-digest/index.js";
 
 // -- Constants ---------------------------------------------------------------
 
@@ -1029,16 +1031,48 @@ async function main() {
   const sources = await loadSources();
   const state = await loadState();
   const errors = [];
+  const collected = {};
+  let checkpoint = { seen: {} };
+  const collectors = createCollectors({
+    x: async ({ entries }) => {
+      collected.x = await fetchXContent(entries, xBearerToken, state, errors);
+      return collected.x;
+    },
+    podcast: async ({ entries }) => {
+      collected.podcasts = await fetchPodcastContent(
+        entries,
+        pod2txtKey,
+        state,
+        errors,
+      );
+      return collected.podcasts;
+    },
+    web: async ({ entries }) => {
+      collected.blogs = await fetchBlogContent(entries, state, errors);
+      return collected.blogs;
+    },
+  });
+  async function collectSource(source, errorPrefix) {
+    const result = await collectFeed({
+      sources: [source],
+      collectors,
+      checkpoint,
+      generatedAt: new Date().toISOString(),
+    });
+    checkpoint = result.checkpoint;
+    errors.push(
+      ...result.snapshot.errors.map((error) => `${errorPrefix}: ${error}`),
+    );
+  }
 
   // Fetch tweets
   if (runTweets) {
     console.error("Fetching X/Twitter content...");
-    const xContent = await fetchXContent(
-      sources.x_accounts,
-      xBearerToken,
-      state,
-      errors,
+    await collectSource(
+      { id: "x", type: "x", entries: sources.x_accounts },
+      "X API",
     );
+    const xContent = collected.x || [];
     console.error(`  Found ${xContent.length} builders with new tweets`);
 
     const totalTweets = xContent.reduce((sum, a) => sum + a.tweets.length, 0);
@@ -1076,12 +1110,11 @@ async function main() {
   // Fetch podcasts
   if (runPodcasts) {
     console.error("Fetching podcast content (RSS + pod2txt)...");
-    const podcasts = await fetchPodcastContent(
-      sources.podcasts,
-      pod2txtKey,
-      state,
-      errors,
+    await collectSource(
+      { id: "podcasts", type: "podcast", entries: sources.podcasts },
+      "Podcast",
     );
+    const podcasts = collected.podcasts || [];
     console.error(`  Found ${podcasts.length} new episodes`);
 
     const podcastFeed = {
@@ -1104,7 +1137,11 @@ async function main() {
   // Fetch blog posts
   if (runBlogs && sources.blogs && sources.blogs.length > 0) {
     console.error("Fetching blog content...");
-    const blogContent = await fetchBlogContent(sources.blogs, state, errors);
+    await collectSource(
+      { id: "blogs", type: "web", entries: sources.blogs },
+      "Blog",
+    );
+    const blogContent = collected.blogs || [];
     console.error(`  Found ${blogContent.length} new blog post(s)`);
 
     const blogFeed = {
