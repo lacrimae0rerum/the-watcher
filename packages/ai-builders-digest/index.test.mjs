@@ -98,6 +98,14 @@ test('ai-builders-digest resolves canonical user state before the legacy fallbac
   );
 });
 
+test('ai-builders-digest exports its canonical runtime identity', async () => {
+  const { runtime } = await import('./index.js');
+
+  assert.deepEqual(runtime, {
+    userAgent: 'AI-Builders-Digest/1.0 (feed aggregator)',
+  });
+});
+
 test('AI Builders collectors normalize X, podcast, and web content through digest-core', async () => {
   const { collectFeed, isContentItem } = await import('../digest-core/index.js');
   const { createCollectors } = await import('./index.js');

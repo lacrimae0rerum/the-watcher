@@ -32,7 +32,7 @@ which openclaw 2>/dev/null && echo "PLATFORM=openclaw" || echo "PLATFORM=other"
 
 - **Other** (Claude Code, Cursor, etc.): Non-persistent agent. Terminal closes = agent stops.
   For automatic delivery, users MUST set up Telegram or Email. Without it, digests
-  are on-demand only (user types `/ai` to get one).
+  are on-demand only (user types `/ai-builders-digest` to get one).
   Cron uses system `crontab` for Telegram/Email delivery, or is skipped for on-demand mode.
 
 Save the detected platform in config.json as `"platform": "openclaw"` or `"platform": "other"`.
@@ -85,7 +85,7 @@ when you're not in this terminal. You have two options:
 1. **Telegram** — I'll send it as a Telegram message (free, takes ~5 min to set up)
 2. **Email** — I'll email it to you (requires a free Resend account)
 
-Or you can skip this and just type /ai whenever you want your digest — but it
+Or you can skip this and just type /ai-builders-digest whenever you want your digest — but it
 won't arrive automatically."
 
 **If they choose Telegram:**
@@ -116,7 +116,7 @@ Then they need a Resend API key:
 Add the key to the .env file.
 
 **If they choose on-demand:**
-Set `delivery.method` to `"stdout"`. Tell them: "No problem — just type /ai
+Set `delivery.method` to `"stdout"`. Tell them: "No problem — just type /ai-builders-digest
 whenever you want your digest. No automatic delivery will be set up."
 
 ### Step 4: Language
@@ -275,12 +275,12 @@ SKILL_DIR="<absolute path to the skill directory>"
 ```
 Note: this runs the prepare script and pipes its output directly to delivery,
 bypassing the agent entirely. The digest won't be remixed by an LLM — it will
-deliver the raw JSON. For full remixed digests, the user should use /ai manually
+deliver the raw JSON. For full remixed digests, the user should use /ai-builders-digest manually
 or switch to OpenClaw.
 
 **Non-persistent agent + on-demand only (no Telegram/Email):**
 Skip cron setup entirely. Tell the user: "Since you chose on-demand delivery,
-there's no scheduled job. Just type /ai whenever you want your digest."
+there's no scheduled job. Just type /ai-builders-digest whenever you want your digest."
 
 ### Step 9: Welcome Digest
 
@@ -303,7 +303,7 @@ Just tell me and I'll adjust."
 Then add the appropriate closing line based on their setup:
 - **OpenClaw or Telegram/Email delivery:** "Your next digest will arrive
   automatically at [their chosen time]."
-- **On-demand only:** "Type /ai anytime you want your next digest."
+- **On-demand only:** "Type /ai-builders-digest anytime you want your next digest."
 
 Wait for their response and apply any feedback (update config.json or prompt files
 as needed). Then confirm the changes.
@@ -312,7 +312,7 @@ as needed). Then confirm the changes.
 
 ## Content Delivery — Digest Run
 
-This workflow runs on cron schedule or when the user invokes `/ai`.
+This workflow runs on cron schedule or when the user invokes `/ai-builders-digest`.
 
 ### Step 1: Load Config
 
@@ -410,8 +410,8 @@ Read `config.delivery.method` from the JSON:
 
 **If "telegram" or "email":**
 ```bash
-echo '<your digest text>' > /tmp/fb-digest.txt
-cd ${CLAUDE_SKILL_DIR}/scripts && node deliver.js --file /tmp/fb-digest.txt 2>/dev/null
+echo '<your digest text>' > /tmp/ai-builders-digest.txt
+cd ${CLAUDE_SKILL_DIR}/scripts && node deliver.js --file /tmp/ai-builders-digest.txt 2>/dev/null
 ```
 If delivery fails, show the digest in the terminal as fallback.
 
@@ -471,7 +471,7 @@ After any configuration change, confirm what you changed.
 
 ## Manual Trigger
 
-When the user invokes `/ai` or asks for their digest manually:
+When the user invokes `/ai-builders-digest` or asks for their digest manually:
 1. Skip cron check — run the digest workflow immediately
 2. Use the same fetch → remix → deliver flow as the cron run
 3. Tell the user you're fetching fresh content (it takes a minute or two)

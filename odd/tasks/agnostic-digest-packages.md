@@ -127,7 +127,11 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
 - 2026-09-26: ADP-4 script checks — `node --check` passed for `scripts/generate-feed.js`, `scripts/prepare-digest.js`, and `scripts/deliver.js`; direct delivery execution remained intentionally skipped because `dotenv` is not installed and real adapters can cause external effects.
 - 2026-09-26: ADP-4 structural documentation readback — passed across 17 changed documentation, workflow, package, prompt, example, and metadata files. It confirmed the exact declaration, canonical package and local-state names, pod2txt terminology, three feed/up-to-five prompt request claims, X → official blogs → podcasts sample order without `@` handles, package-owned referenced paths, and removal of the unsupported root MIT claim.
 - 2026-09-26: ADP-4 rollback boundary — revert the ADP-4 implementation and evidence commits to restore the root `config/`, `prompts/`, and `examples/` assets plus the `~/.follow-builders` canonical namespace; ADP-1/2/3 generic contracts, algorithms, delivery mechanics, and generated feed snapshots remain unchanged.
-- 2026-09-26: ADP-4 authored line count relative to `79966ac` — 373 additions plus deletions; generated feed snapshots excluded because none changed.
+- 2026-09-26: ADP-4 correction RED — `node --test` failed as intended with 10 passed and 1 failed because the public `runtime` export was undefined.
+- 2026-09-26: ADP-4 correction GREEN — `node --test` passed 11 tests, the canonical runtime harness printed `AI-Builders-Digest/1.0 (feed aggregator)`, and all three script syntax checks passed.
+- 2026-09-26: ADP-4 correction structural readback — confirmed canonical `/ai-builders-digest` invocations and `/tmp/ai-builders-digest.txt` in `SKILL.md`, two active `runtime.userAgent` uses, and no active `FollowBuilders/1.0` runtime source.
+- 2026-09-26: ADP-4 correction commit — this commit (`fix(ai-builders): canonicalize remaining runtime identifiers`); rollback it to restore only the superseded User-Agent, invocation, and temporary-path identifiers.
+- 2026-09-26: ADP-4 authored line count relative to `79966ac` — 414 additions plus deletions; generated feed snapshots excluded because none changed.
 - 2026-09-26: ADP-4 parent assessment — pending.
 
 ## Next step
