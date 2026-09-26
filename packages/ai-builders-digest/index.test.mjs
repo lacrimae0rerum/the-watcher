@@ -41,6 +41,38 @@ test('ai-builders-digest exports its thematic manifest', async () => {
   });
 });
 
+test('ai-builders-digest owns preparation topology and delivery branding', async () => {
+  const { delivery, digestPackage, preparation } = await import('./index.js');
+
+  assert.deepEqual(digestPackage, {
+    id: 'ai-builders-digest',
+    declaration: expectedDeclaration,
+  });
+  assert.deepEqual(
+    preparation.feeds.map(({ id, contentKey }) => [id, contentKey]),
+    [['x', 'x'], ['podcasts', 'podcasts'], ['blogs', 'blogs']],
+  );
+  assert.equal(
+    preparation.feeds.every(({ url }) => url.startsWith('https://')),
+    true,
+  );
+  assert.equal(
+    preparation.promptBaseUrl,
+    'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/prompts/',
+  );
+  assert.deepEqual(delivery.email, {
+    sender: 'AI Builders Digest <digest@resend.dev>',
+    subjectPrefix: 'AI Builders Digest',
+    subjectLocale: 'en-US',
+    subjectDateOptions: {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    },
+  });
+});
+
 test('AI Builders collectors normalize X, podcast, and web content through digest-core', async () => {
   const { collectFeed, isContentItem } = await import('../digest-core/index.js');
   const { createCollectors } = await import('./index.js');
