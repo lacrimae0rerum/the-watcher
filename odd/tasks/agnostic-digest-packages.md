@@ -60,7 +60,7 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
   - Add the minimum package layout and exports required to pass them.
   - Acceptance: the exact product declaration is exported by `ai-builders-digest`; generic core exports do not contain AI-builder branding.
   - Checks: capture RED and GREEN results for `node --test`; run the package entrypoint as a runtime harness.
-  - Commits: implementation `8ba9379175709eb75fcf8239a2026bf9c448435c`; evidence in the follow-up commit containing this record.
+  - Commits: implementation `8ba9379175709eb75fcf8239a2026bf9c448435c`; evidence `b8df5f1bf084d8b69fddff037bb15981de86ced8`.
 
 - [ ] **ADP-2 — Normalize collection and checkpoint behavior**
   - Route: delegated direct writer.
