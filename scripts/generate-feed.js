@@ -19,6 +19,7 @@ import { join } from "path";
 import { collectFeed } from "../packages/digest-core/index.js";
 import {
   createCollectors,
+  runtime,
   sources as packageSources,
 } from "../packages/ai-builders-digest/index.js";
 
@@ -902,7 +903,7 @@ async function fetchBlogContent(blogs, state, errors) {
     try {
       // Step 1: Discover articles from the blog index page
       const indexRes = await fetch(blog.indexUrl, {
-        headers: { "User-Agent": "FollowBuilders/1.0 (feed aggregator)" },
+        headers: { "User-Agent": runtime.userAgent },
       });
       if (!indexRes.ok) {
         errors.push(
@@ -950,7 +951,7 @@ async function fetchBlogContent(blogs, state, errors) {
         try {
           // Fetch the full article page
           const articleRes = await fetch(article.url, {
-            headers: { "User-Agent": "FollowBuilders/1.0 (feed aggregator)" },
+            headers: { "User-Agent": runtime.userAgent },
           });
           if (!articleRes.ok) {
             errors.push(

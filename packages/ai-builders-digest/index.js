@@ -8,6 +8,10 @@ export const digestPackage = Object.freeze({
   declaration,
 });
 
+export const runtime = Object.freeze({
+  userAgent: 'AI-Builders-Digest/1.0 (feed aggregator)',
+});
+
 export const sources = Object.freeze({
   catalog: new URL('./config/default-sources.json', import.meta.url),
   channels: Object.freeze(['x', 'podcasts', 'blogs']),
