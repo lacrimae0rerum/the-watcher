@@ -1,0 +1,10 @@
+{
+  "name": "ai-builders-digest",
+  "version": "0.1.0",
+  "description": "Thematic digest package for following AI builders",
+  "type": "module",
+  "exports": "./index.js",
+  "files": [
+    "index.js"
+  ]
+}
