@@ -1,11 +1,14 @@
 {
   "name": "ai-builders-digest",
   "version": "0.1.0",
-  "description": "Thematic digest package for following AI builders",
+  "description": "AI builders digest — monitors top AI builders on X and YouTube podcasts, remixes their content into digestible summaries. Follow builders, not influencers.",
   "type": "module",
   "exports": "./index.js",
   "files": [
     "index.js",
-    "collection.js"
+    "collection.js",
+    "config/",
+    "examples/",
+    "prompts/"
   ]
 }

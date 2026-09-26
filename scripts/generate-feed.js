@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // ============================================================================
-// Follow Builders — Central Feed Generator
+// AI Builders Digest — Central Feed Generator
 // ============================================================================
 // Runs on GitHub Actions (daily at 6am UTC) to fetch content and publish
 // feed-x.json, feed-podcasts.json, and feed-blogs.json.
@@ -17,7 +17,10 @@ import { readFile, writeFile } from "fs/promises";
 import { existsSync } from "fs";
 import { join } from "path";
 import { collectFeed } from "../packages/digest-core/index.js";
-import { createCollectors } from "../packages/ai-builders-digest/index.js";
+import {
+  createCollectors,
+  sources as packageSources,
+} from "../packages/ai-builders-digest/index.js";
 
 // -- Constants ---------------------------------------------------------------
 
@@ -77,8 +80,7 @@ async function saveState(state) {
 // -- Load Sources ------------------------------------------------------------
 
 async function loadSources() {
-  const sourcesPath = join(SCRIPT_DIR, "..", "config", "default-sources.json");
-  return JSON.parse(await readFile(sourcesPath, "utf-8"));
+  return JSON.parse(await readFile(packageSources.catalog, "utf-8"));
 }
 
 // -- Podcast Fetching (RSS + pod2txt) ----------------------------------------

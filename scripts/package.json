@@ -1,7 +1,7 @@
 {
-  "name": "follow-builders-scripts",
+  "name": "ai-builders-digest-scripts",
   "version": "1.0.0",
-  "description": "Scripts for Follow Builders skill — feed generation, digest preparation, delivery",
+  "description": "Scripts for ai-builders-digest feed generation, digest preparation, and delivery",
   "type": "module",
   "scripts": {
     "generate-feed": "node generate-feed.js",

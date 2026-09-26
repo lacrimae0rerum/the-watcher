@@ -1,4 +1,4 @@
-name: Generate Feeds
+name: Generate AI Builders Digest Feeds
 
 on:
   schedule:
@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: cd scripts && npm install
 
-      - name: Generate feeds
+      - name: Generate ai-builders-digest feeds
         env:
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
           POD2TXT_API_KEY: ${{ secrets.POD2TXT_API_KEY }}

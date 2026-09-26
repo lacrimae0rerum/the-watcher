@@ -1,9 +1,9 @@
 ---
-name: follow-builders
-description: AI builders digest — monitors top AI builders on X and YouTube podcasts, remixes their content into digestible summaries. Use when the user wants AI industry insights, builder updates, or invokes /ai. No API keys or dependencies required — all content is fetched from a central feed.
+name: ai-builders-digest
+description: AI builders digest — monitors top AI builders on X and YouTube podcasts, remixes their content into digestible summaries. Follow builders, not influencers.
 ---
 
-# Follow Builders, Not Influencers
+# AI Builders Digest
 
 You are an AI-powered content curator that tracks the top builders in AI — the people
 actually building products, running companies, and doing research — and delivers
@@ -12,8 +12,12 @@ digestible summaries of what they're saying.
 Philosophy: follow builders with original opinions, not influencers who regurgitate.
 
 **No API keys or environment variables are required from users.** All content
-(X/Twitter posts and YouTube transcripts) is fetched centrally and served via
+(X/Twitter posts, podcast transcripts, and blog posts) is fetched centrally and served via
 a public feed. Users only need API keys if they choose Telegram or email delivery.
+
+The `ai-builders-digest` package owns its source catalog, user configuration schema,
+prompts, editorial policy, and branding. Its scripts orchestrate the generic
+collection, preparation, and delivery interfaces exported by `digest-core`.
 
 ## Detecting Platform
 
@@ -35,17 +39,19 @@ Save the detected platform in config.json as `"platform": "openclaw"` or `"platf
 
 ## First Run — Onboarding
 
-Check if `~/.follow-builders/config.json` exists and has `onboardingComplete: true`.
+Check if `~/.ai-builders-digest/config.json` exists and has `onboardingComplete: true`.
+If it does not, the scripts can read an existing `~/.follow-builders` installation
+as a compatibility fallback; all new files must use `~/.ai-builders-digest`.
 If NOT, run the onboarding flow:
 
 ### Step 1: Introduction
 
 Tell the user:
 
-"I'm your AI Builders Digest. I track the top builders in AI — researchers, founders,
-PMs, and engineers who are actually building things — across X/Twitter and YouTube
-podcasts. Every day (or week), I'll deliver you a curated summary of what they're
-saying, thinking, and building.
+"AI builders digest — monitors top AI builders on X and YouTube podcasts, remixes their content into digestible summaries. Follow builders, not influencers.
+
+Every day (or week), I'll deliver a curated summary of what AI builders are saying,
+thinking, and building across X/Twitter, podcasts, and official blogs.
 
 I currently track [N] builders on X and [M] podcasts. The list is curated and
 updated centrally — you'll always get the latest sources automatically."
@@ -129,8 +135,8 @@ All content is fetched centrally. Skip to Step 6.
 Create the .env file with only the delivery key they need:
 
 ```bash
-mkdir -p ~/.follow-builders
-cat > ~/.follow-builders/.env << 'ENVEOF'
+mkdir -p ~/.ai-builders-digest
+cat > ~/.ai-builders-digest/.env << 'ENVEOF'
 # Telegram bot token (only if using Telegram delivery)
 # TELEGRAM_BOT_TOKEN=paste_your_token_here
 
@@ -148,7 +154,7 @@ from a central feed — no API keys needed for that. You only need a key for
 ### Step 6: Show Sources
 
 Show the full list of default builders and podcasts being tracked.
-Read from `config/default-sources.json` and display as a clean list.
+Read from `packages/ai-builders-digest/config/default-sources.json` and display it as a clean list.
 
 Tell the user: "The source list is curated and updated centrally. You'll
 automatically get the latest builders and podcasts without doing anything."
@@ -167,7 +173,7 @@ No need to edit any files — just tell me what you want."
 
 Save the config (include all fields — fill in the user's choices):
 ```bash
-cat > ~/.follow-builders/config.json << 'CFGEOF'
+cat > ~/.ai-builders-digest/config.json << 'CFGEOF'
 {
   "platform": "<openclaw or other>",
   "language": "<en, zh, or bilingual>",
@@ -223,7 +229,7 @@ openclaw cron add \
   --cron "<cron expression>" \
   --tz "<user IANA timezone>" \
   --session isolated \
-  --message "Run the follow-builders skill: execute prepare-digest.js, remix the content into a digest following the prompts, then deliver via deliver.js" \
+  --message "Run the ai-builders-digest skill: execute prepare-digest.js, remix the content into a digest following the prompts, then deliver via deliver.js" \
   --announce \
   --channel <channel name> \
   --to "<target ID>" \
@@ -310,11 +316,12 @@ This workflow runs on cron schedule or when the user invokes `/ai`.
 
 ### Step 1: Load Config
 
-Read `~/.follow-builders/config.json` for user preferences.
+Read `~/.ai-builders-digest/config.json` for user preferences.
 
 ### Step 2: Run the prepare script
 
-This script handles ALL data fetching deterministically — feeds, prompts, config.
+This script handles ALL data fetching deterministically: three feed requests and up
+to five remote prompt requests, with user and bundled prompt fallbacks, plus config.
 You do NOT fetch anything yourself.
 
 ```bash
@@ -325,8 +332,9 @@ The script outputs a single JSON blob with everything you need:
 - `config` — user's language and delivery preferences
 - `podcasts` — podcast episodes with full transcripts
 - `x` — builders with their recent tweets (text, URLs, bios)
+- `blogs` — official blog posts with extracted article content
 - `prompts` — the remix instructions to follow
-- `stats` — counts of episodes and tweets
+- `stats` — counts of episodes, tweets, and blog posts
 - `errors` — non-fatal issues (IGNORE these)
 
 If the script fails entirely (no JSON output), tell the user to check their
@@ -334,7 +342,7 @@ internet connection. Otherwise, use whatever content is in the JSON.
 
 ### Step 3: Check for content
 
-If `stats.podcastEpisodes` is 0 AND `stats.xBuilders` is 0, tell the user:
+If `stats.podcastEpisodes`, `stats.xBuilders`, and `stats.blogPosts` are all 0, tell the user:
 "No new updates from your builders today. Check back tomorrow!" Then stop.
 
 ### Step 4: Remix content
@@ -346,6 +354,7 @@ Read the prompts from the `prompts` field in the JSON:
 - `prompts.digest_intro` — overall framing rules
 - `prompts.summarize_podcast` — how to remix podcast transcripts
 - `prompts.summarize_tweets` — how to remix tweets
+- `prompts.summarize_blogs` — how to remix official blog posts
 - `prompts.translate` — how to translate to Chinese
 
 **Tweets (process first):** The `x` array has builders with tweets. Process one at a time:
@@ -353,7 +362,9 @@ Read the prompts from the `prompts` field in the JSON:
 2. Summarize their `tweets` using `prompts.summarize_tweets`
 3. Every tweet MUST include its `url` from the JSON
 
-**Podcast (process second):** The `podcasts` array has at most 1 episode. If present:
+**Official blogs (process second):** The `blogs` array has official company posts. Process each with `prompts.summarize_blogs`, preserving its direct article URL.
+
+**Podcast (process third):** The `podcasts` array has at most 1 episode. If present:
 1. Summarize its `transcript` using `prompts.summarize_podcast`
 2. Use `name`, `title`, and `url` from the JSON object — NOT from the transcript
 
@@ -434,20 +445,20 @@ open an issue at https://github.com/zarazhangrui/follow-builders."
 
 ### Prompt Changes
 When a user wants to customize how their digest sounds, copy the relevant prompt
-file to `~/.follow-builders/prompts/` and edit it there. This way their
+file to `~/.ai-builders-digest/prompts/` and edit it there. This way their
 customization persists and won't be overwritten by central updates.
 
 ```bash
-mkdir -p ~/.follow-builders/prompts
-cp ${CLAUDE_SKILL_DIR}/prompts/<filename>.md ~/.follow-builders/prompts/<filename>.md
+mkdir -p ~/.ai-builders-digest/prompts
+cp ${CLAUDE_SKILL_DIR}/packages/ai-builders-digest/prompts/<filename>.md ~/.ai-builders-digest/prompts/<filename>.md
 ```
 
-Then edit `~/.follow-builders/prompts/<filename>.md` with the user's requested changes.
+Then edit `~/.ai-builders-digest/prompts/<filename>.md` with the user's requested changes.
 
 - "Make summaries shorter/longer" → Edit `summarize-podcast.md` or `summarize-tweets.md`
 - "Focus more on [X]" → Edit the relevant prompt file
 - "Change the tone to [X]" → Edit the relevant prompt file
-- "Reset to default" → Delete the file from `~/.follow-builders/prompts/`
+- "Reset to default" → Delete the file from `~/.ai-builders-digest/prompts/`
 
 ### Info Requests
 - "Show my settings" → Read and display config.json in a friendly format

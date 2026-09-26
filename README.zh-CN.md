@@ -1,8 +1,10 @@
 [English](README.md) | **中文**
 
-# 追踪建造者，而非网红
+# AI Builders Digest
 
-一个 AI 驱动的信息聚合工具，追踪 AI 领域最顶尖的建造者——研究员、创始人、产品经理和工程师——并将他们的最新动态整理成易于消化的摘要推送给你。
+> AI builders digest — monitors top AI builders on X and YouTube podcasts, remixes their content into digestible summaries. Follow builders, not influencers.
+
+这是一个 AI 驱动的信息聚合工具，追踪 AI 领域的重要建造者，并将他们的最新动态整理成易于阅读的摘要。
 
 **理念：** 追踪那些真正在做产品、有独立见解的人，而非只会搬运信息的网红。
 
@@ -19,7 +21,7 @@
 ## 快速开始
 
 1. 在你的 AI agent 中安装此 skill（OpenClaw 或 Claude Code）
-2. 输入 "set up follow builders" 或执行 `/follow-builders`
+2. 输入 "set up AI builders digest" 或执行 `/ai-builders-digest`
 3. Agent 会以对话方式引导你完成设置——不需要手动编辑任何配置文件
 
 Agent 会询问你：
@@ -49,7 +51,7 @@ Skill 使用纯文本 prompt 文件来控制内容的摘要方式。你可以通
 直接告诉你的 agent——"摘要写得更简练一些"、"多关注可操作的洞察"、"用更轻松的语气"。Agent 会自动帮你更新 prompt。
 
 **直接编辑（高级用户）：**
-编辑 `prompts/` 文件夹中的文件：
+编辑 `packages/ai-builders-digest/prompts/` 文件夹中的文件：
 - `summarize-podcast.md` — 播客节目的摘要方式
 - `summarize-tweets.md` — X/Twitter 帖子的摘要方式
 - `summarize-blogs.md` — 博客文章的摘要方式
@@ -80,17 +82,17 @@ Skill 使用纯文本 prompt 文件来控制内容的摘要方式。你可以通
 ### OpenClaw
 ```bash
 # 从 ClawhHub 安装（即将上线）
-clawhub install follow-builders
+clawhub install ai-builders-digest
 
 # 或手动安装
-git clone https://github.com/zarazhangrui/follow-builders.git ~/skills/follow-builders
-cd ~/skills/follow-builders/scripts && npm install
+git clone https://github.com/zarazhangrui/follow-builders.git ~/skills/ai-builders-digest
+cd ~/skills/ai-builders-digest/scripts && npm install
 ```
 
 ### Claude Code
 ```bash
-git clone https://github.com/zarazhangrui/follow-builders.git ~/.claude/skills/follow-builders
-cd ~/.claude/skills/follow-builders/scripts && npm install
+git clone https://github.com/zarazhangrui/follow-builders.git ~/.claude/skills/ai-builders-digest
+cd ~/.claude/skills/ai-builders-digest/scripts && npm install
 ```
 
 ## 系统要求
@@ -102,20 +104,18 @@ cd ~/.claude/skills/follow-builders/scripts && npm install
 
 ## 工作原理
 
-1. 中心化 feed 每日更新，抓取所有信息源的最新内容（博客文章通过网页抓取，YouTube 字幕通过 Supadata，X/Twitter 通过官方 API）
-2. 你的 agent 获取 feed——一次 HTTP 请求，不需要 API key
+1. 中心化 feed 每日更新，抓取所有信息源的最新内容（博客文章通过网页抓取，播客字幕通过 pod2txt，X/Twitter 通过官方 API）
+2. 准备脚本并行发起三个 feed 请求，并最多发起五个远程 prompt 请求，同时优先采用用户自定义内容并保留内置回退副本
 3. 你的 agent 根据你的偏好将原始内容重新混编为易消化的摘要
 4. 摘要推送到你的通讯工具（或直接在聊天中显示）
 
-查看 [examples/sample-digest.md](examples/sample-digest.md) 了解输出示例。
+`ai-builders-digest` 负责信息源目录、用户配置 schema、prompt、编辑策略和品牌内容；它通过通用的 `digest-core` 收集、准备和推送接口工作，核心 package 不包含 AI 建造者主题策略。
+
+查看[摘要示例](packages/ai-builders-digest/examples/sample-digest.md)了解输出格式。
 
 ## 隐私
 
 - 不发送任何 API key——所有内容由中心化服务获取
-- 如果你使用 Telegram/邮件推送，相关 key 仅存储在本地 `~/.follow-builders/.env`
+- 如果你使用 Telegram/邮件推送，相关 key 仅存储在本地 `~/.ai-builders-digest/.env`
 - Skill 只读取公开内容（公开的博客文章、YouTube 视频和 X 帖子）
 - 你的配置、偏好和阅读记录都保留在你自己的设备上
-
-## 许可证
-
-MIT
