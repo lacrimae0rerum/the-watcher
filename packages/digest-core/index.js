@@ -90,3 +90,56 @@ export function isFeedSnapshot(value) {
     return false;
   }
 }
+
+/**
+ * Collects configured sources through source-type adapters.
+ */
+export async function collectFeed({ sources, collectors, checkpoint, generatedAt }) {
+  if (!Array.isArray(sources)) {
+    throw new TypeError('collectFeed.sources must be an array');
+  }
+  requireRecord(collectors, 'collectFeed.collectors');
+  requireRecord(checkpoint, 'collectFeed.checkpoint');
+  requireRecord(checkpoint.seen, 'collectFeed.checkpoint.seen');
+
+  const nextCheckpoint = JSON.parse(JSON.stringify(checkpoint));
+  const items = [];
+  const errors = [];
+  const normalizedGeneratedAt = normalizeDate(generatedAt, 'collectFeed.generatedAt');
+
+  for (const source of sources) {
+    requireRecord(source, 'collectFeed.sources[]');
+    const sourceId = requireString(source.id, 'collectFeed.sources[].id');
+    const sourceType = requireString(source.type, 'collectFeed.sources[].type');
+    try {
+      const collector = collectors[sourceType];
+      requireRecord(collector, `collectFeed.collectors.${sourceType}`);
+      if (typeof collector.collect !== 'function') {
+        throw new TypeError(`collectFeed.collectors.${sourceType}.collect must be a function`);
+      }
+
+      const collected = await collector.collect(source);
+      if (!Array.isArray(collected)) {
+        throw new TypeError(`Collector ${sourceType} must return an array`);
+      }
+      for (const input of collected) {
+        const item = createContentItem(input);
+        const checkpointId = `${sourceId}:${item.id}`;
+        if (Object.hasOwn(nextCheckpoint.seen, checkpointId)) continue;
+        items.push(item);
+        nextCheckpoint.seen[checkpointId] = normalizedGeneratedAt;
+      }
+    } catch (error) {
+      errors.push(`${sourceId}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  return {
+    snapshot: createFeedSnapshot({
+      generatedAt: normalizedGeneratedAt,
+      items,
+      errors,
+    }),
+    checkpoint: nextCheckpoint,
+  };
+}

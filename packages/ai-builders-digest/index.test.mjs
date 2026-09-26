@@ -40,3 +40,78 @@ test('ai-builders-digest exports its thematic manifest', async () => {
     mobileFirst: true,
   });
 });
+
+test('AI Builders collectors normalize X, podcast, and web content through digest-core', async () => {
+  const { collectFeed, isContentItem } = await import('../digest-core/index.js');
+  const { createCollectors } = await import('./index.js');
+  const collectors = createCollectors({
+    x: async () => [{
+      source: 'x',
+      name: 'Ada Builder',
+      handle: 'ada',
+      bio: 'Builds useful tools.',
+      tweets: [{
+        id: 'tweet-1',
+        text: 'A small interface shipped today.',
+        createdAt: '2026-09-26T00:00:00Z',
+        url: 'https://x.com/ada/status/tweet-1',
+        likes: 7,
+        retweets: 2,
+        replies: 1,
+        isQuote: false,
+        quotedTweetId: null,
+      }],
+    }],
+    podcast: async () => [{
+      source: 'podcast',
+      name: 'Builder Radio',
+      title: 'Deep modules',
+      guid: 'episode-1',
+      url: 'https://www.youtube.com/watch?v=episode-1',
+      publishedAt: '2026-09-25T00:00:00Z',
+      transcript: 'A deep module hides complexity.',
+    }],
+    web: async () => [{
+      source: 'blog',
+      name: 'Builder Journal',
+      title: 'Locality wins',
+      url: 'https://example.com/locality',
+      publishedAt: '2026-09-24T00:00:00Z',
+      author: 'Grace Writer',
+      description: 'A short description.',
+      content: 'Fix behavior once at the shared seam.',
+    }],
+  });
+
+  const { snapshot } = await collectFeed({
+    sources: [
+      { id: 'x', type: 'x' },
+      { id: 'podcasts', type: 'podcast' },
+      { id: 'blogs', type: 'web' },
+    ],
+    collectors,
+    checkpoint: { seen: {} },
+    generatedAt: '2026-09-26T01:00:00Z',
+  });
+
+  assert.equal(snapshot.items.every(isContentItem), true);
+  assert.deepEqual(snapshot.items.map(({ id, kind, source, title, content }) => [
+    id, kind, source, title, content,
+  ]), [
+    ['tweet-1', 'post', 'x', 'Ada Builder', 'A small interface shipped today.'],
+    ['episode-1', 'episode', 'podcasts', 'Deep modules', 'A deep module hides complexity.'],
+    ['https://example.com/locality', 'article', 'blogs', 'Locality wins', 'Fix behavior once at the shared seam.'],
+  ]);
+  assert.deepEqual(snapshot.items[0].metadata, {
+    channel: 'x',
+    handle: 'ada',
+    bio: 'Builds useful tools.',
+    likes: 7,
+    retweets: 2,
+    replies: 1,
+    isQuote: false,
+    quotedTweetId: null,
+  });
+  assert.equal(snapshot.items[1].metadata.guid, 'episode-1');
+  assert.equal(snapshot.items[2].metadata.description, 'A short description.');
+});

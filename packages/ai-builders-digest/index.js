@@ -20,3 +20,5 @@ export const editorialPolicies = Object.freeze({
   tone: 'sharp and conversational',
   mobileFirst: true,
 });
+
+export { createCollectors } from './collection.js';
