@@ -49,7 +49,7 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
 - Chain strategy: `feature-branch-chain`, selected by the user.
 - Branch: `feat/agnostic-digest-packages`.
 - First reviewed boundary: `ff444307fdb1de23b70fbbefabe6a43e91e2bf04`.
-- Planned chain: tracker → ADP-1 contracts → ADP-2 collection → ADP-3 preparation/delivery → ADP-4 package cutover/docs.
+- Planned chain: tracker → ADP-1 contracts → ADP-2 collection → ADP-3 preparation/delivery → ADP-4 package cutover/docs → ADP-4 identifier correction.
 
 ## Tasks
 
@@ -87,7 +87,7 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
   - Update skill orchestration, examples, workflow, package metadata, and documentation to describe independent thematic packages and the shared core accurately.
   - Acceptance: installation and usage instructions name `ai-builders-digest`; architecture documentation names `digest-core`; the exact declaration appears consistently; documented transcript and request behavior matches code.
   - Checks: full `node --test`; package preparation and stdout-delivery smoke tests; structural link/path readback.
-  - Commit: `3e8aea3c6fc5d6d12613e60b0153a37b1d7f5166` (`feat(ai-builders): cut over thematic package`).
+  - Commits: cutover `3e8aea3c6fc5d6d12613e60b0153a37b1d7f5166`; correction `122b7e85432e2535279069fab835696ab9fc4906`.
 
 ## Progress and evidence
 
@@ -130,10 +130,13 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
 - 2026-09-26: ADP-4 correction RED — `node --test` failed as intended with 10 passed and 1 failed because the public `runtime` export was undefined.
 - 2026-09-26: ADP-4 correction GREEN — `node --test` passed 11 tests, the canonical runtime harness printed `AI-Builders-Digest/1.0 (feed aggregator)`, and all three script syntax checks passed.
 - 2026-09-26: ADP-4 correction structural readback — confirmed canonical `/ai-builders-digest` invocations and `/tmp/ai-builders-digest.txt` in `SKILL.md`, two active `runtime.userAgent` uses, and no active `FollowBuilders/1.0` runtime source.
-- 2026-09-26: ADP-4 correction commit — this commit (`fix(ai-builders): canonicalize remaining runtime identifiers`); rollback it to restore only the superseded User-Agent, invocation, and temporary-path identifiers.
+- 2026-09-26: ADP-4 correction commit — `122b7e85432e2535279069fab835696ab9fc4906` (`fix(ai-builders): canonicalize remaining runtime identifiers`); rollback it to restore only the superseded User-Agent, invocation, and temporary-path identifiers.
 - 2026-09-26: ADP-4 authored line count relative to `79966ac` — 414 additions plus deletions; generated feed snapshots excluded because none changed.
-- 2026-09-26: ADP-4 parent assessment — pending.
+- 2026-09-26: ADP-4 parent spot check — `node --test`: passed 11 tests, 0 failed.
+- 2026-09-26: ADP-4 native assessment — `high` because delivery/workflow files cross process and shell boundaries; RDD remained globally off.
+- 2026-09-26: ADP-4 independent reverification — passed the package/runtime harness, 11 tests, all three script syntax checks, diff checks, documentation/path inspection, and corrected-identifier search with no regressions.
+- 2026-09-26: ADP-4 delivery split — `79966ac..7a82cc6` is a 373-line cutover slice on `feat/agnostic-digest-packages-04-ai-builders-cutover`; `7a82cc6..122b7e8` is a dependent 43-line correction slice on `feat/agnostic-digest-packages-05-identifier-correction`. Both stay under the 400-line budget and must integrate together.
 
 ## Next step
 
-Run the pending parent assessment for the completed ADP-4 review slice.
+All implementation tasks are verified. Delivery remains user-owned: push/open the tracker and five dependent child PRs only if explicitly requested.
