@@ -71,14 +71,14 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
   - Checks: capture RED and GREEN results for `node --test`; run a fixture-backed generation harness without remote calls.
   - Commit: `4bb70405b3938c5c6c76696d6d99d12b1e1f7f6f` (`feat(collection): normalize source adapters`).
 
-- [ ] **ADP-3 — Generalize preparation and delivery**
+- [x] **ADP-3 — Generalize preparation and delivery**
   - Route: delegated direct writer.
   - Trigger evidence: preparation, delivery, package configuration, prompt resolution, and tests span multiple non-trivial files.
   - Add failing tests for `prepare()` and `deliver()` through their confirmed public interfaces.
   - Make feed topology, prompt set, branding, and delivery subject/sender package-owned.
   - Acceptance: a thematic package can produce a `RemixPackage` and deliver an `Edition` without core knowledge of AI builders.
   - Checks: capture RED and GREEN results for `node --test`; run stdout delivery as the runtime harness.
-  - Commit: pending.
+  - Commit: `c18de81dd89bb2d10ae51b5f3b226299f1de594a` (`feat(digest): generalize preparation and delivery`).
 
 - [ ] **ADP-4 — Cut over the AI Builders package and documentation**
   - Route: delegated direct writer.
@@ -111,7 +111,14 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
 - 2026-09-26: ADP-2 parent spot check — `node --test`: passed 6 tests, 0 failed.
 - 2026-09-26: ADP-2 native assessment — `high` because `scripts/generate-feed.js` crosses a process boundary; RDD remained globally off.
 - 2026-09-26: ADP-2 independent verification — passed all requirements plus `node --test`, the fixture harness, `node --check scripts/generate-feed.js`, and `git diff --check af4d306..HEAD`; no regressions found.
+- 2026-09-26: ADP-3 RED — successive `node --test` runs failed as intended with `prepare is not a function` (1 of 7 tests), `deliver is not a function` (1 of 8 tests), and the package-owned `digestPackage` export missing (1 of 9 tests).
+- 2026-09-26: ADP-3 GREEN — `node --test`: passed 9 tests, 0 failed.
+- 2026-09-26: ADP-3 runtime harness — the required import harness called generic `prepare`, routed `deliver` through an in-memory stdout adapter without network access, and passed with `demo:Hello`.
+- 2026-09-26: ADP-3 verification — both script syntax checks and `git diff --check 86ef1ec..HEAD` passed with no output.
+- 2026-09-26: ADP-3 rollback boundary — revert `c18de81dd89bb2d10ae51b5f3b226299f1de594a` to remove only generic preparation/delivery, thematic preparation and delivery configuration, public tests, and script routing; ADP-1/ADP-2 contracts, collectors, generated feed snapshots, and the ADP-4 cutover remain unchanged.
+- 2026-09-26: ADP-3 authored line count relative to `86ef1ec` — 392 additions plus deletions; generated feed snapshots excluded because none changed.
+- 2026-09-26: ADP-3 parent assessment — pending independent verification.
 
 ## Next step
 
-Create the ADP-3 child branch from the verified ADP-2 boundary and generalize preparation/delivery.
+Complete the independent parent assessment for ADP-3 before starting ADP-4.
