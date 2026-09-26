@@ -62,14 +62,14 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
   - Checks: capture RED and GREEN results for `node --test`; run the package entrypoint as a runtime harness.
   - Commits: implementation `8ba9379175709eb75fcf8239a2026bf9c448435c`; evidence `b8df5f1bf084d8b69fddff037bb15981de86ced8`.
 
-- [ ] **ADP-2 — Normalize collection and checkpoint behavior**
+- [x] **ADP-2 — Normalize collection and checkpoint behavior**
   - Route: delegated direct writer.
   - Trigger evidence: extraction spans the generator, package modules, schemas, state compatibility, and tests.
   - Add one failing behavior test at a time for normalized X, podcast, and web items plus checkpoint deduplication.
   - Move provider-specific collection behind source adapters while preserving current behavior.
   - Acceptance: collectors return normalized `ContentItem` values and a `FeedSnapshot` without thematic terminology in core interfaces.
   - Checks: capture RED and GREEN results for `node --test`; run a fixture-backed generation harness without remote calls.
-  - Commit: pending.
+  - Commit: `4bb70405b3938c5c6c76696d6d99d12b1e1f7f6f` (`feat(collection): normalize source adapters`).
 
 - [ ] **ADP-3 — Generalize preparation and delivery**
   - Route: delegated direct writer.
@@ -103,6 +103,12 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
 - 2026-09-26: ADP-1 authored line count — 340 additions (233 package code, tests, and metadata; 107 task-document lines first tracked on this branch).
 - 2026-09-26: Parent spot check — `node --test`: passed 2 tests, 0 failed.
 - 2026-09-26: RDD was globally off. Native risk assessment returned `high/unassessable` because local untracked `.atl/` and `.codegraph/` required explicit inventory handling; the required independent verifier then passed all ADP-1 requirements and both commands with no findings.
+- 2026-09-26: ADP-2 RED — successive `node --test` runs failed as intended with `collectFeed is not a function`; the duplicate item remaining in `snapshot.items`; collector error `unavailable` escaping; and `createCollectors is not a function` (one failed test in each run).
+- 2026-09-26: ADP-2 GREEN — `node --test`: passed 6 tests, 0 failed.
+- 2026-09-26: ADP-2 fixture harness — `node -e "import('./packages/digest-core/index.js').then(async ({ collectFeed }) => { const result = await collectFeed({ sources: [{ id: 'demo', type: 'demo' }], collectors: { demo: { collect: async () => [{ id: '1', kind: 'note', source: 'demo', title: 'Fixture', url: 'https://example.com/item', publishedAt: '2026-09-26T00:00:00Z', content: 'Body' }] } }, checkpoint: { seen: {} }, generatedAt: '2026-09-26T01:00:00Z' }); if (result.snapshot.items.length !== 1 || !result.checkpoint.seen['demo:1']) process.exit(1); console.log(result.snapshot.items[0].id) })"`: passed and printed `1` without network calls.
+- 2026-09-26: ADP-2 rollback boundary — revert `4bb70405b3938c5c6c76696d6d99d12b1e1f7f6f` to remove `collectFeed`, thematic collection adapters, their public tests, and generator routing; legacy provider algorithms, state keys, and generated feed snapshots remain unchanged.
+- 2026-09-26: ADP-2 authored line count relative to `af4d306` — 385 additions plus deletions; generated feed snapshots excluded because none changed.
+- 2026-09-26: ADP-2 parent assessment state — pending.
 
 ## Next step
 
