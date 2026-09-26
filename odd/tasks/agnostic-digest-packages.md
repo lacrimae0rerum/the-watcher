@@ -108,8 +108,10 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
 - 2026-09-26: ADP-2 fixture harness — `node -e "import('./packages/digest-core/index.js').then(async ({ collectFeed }) => { const result = await collectFeed({ sources: [{ id: 'demo', type: 'demo' }], collectors: { demo: { collect: async () => [{ id: '1', kind: 'note', source: 'demo', title: 'Fixture', url: 'https://example.com/item', publishedAt: '2026-09-26T00:00:00Z', content: 'Body' }] } }, checkpoint: { seen: {} }, generatedAt: '2026-09-26T01:00:00Z' }); if (result.snapshot.items.length !== 1 || !result.checkpoint.seen['demo:1']) process.exit(1); console.log(result.snapshot.items[0].id) })"`: passed and printed `1` without network calls.
 - 2026-09-26: ADP-2 rollback boundary — revert `4bb70405b3938c5c6c76696d6d99d12b1e1f7f6f` to remove `collectFeed`, thematic collection adapters, their public tests, and generator routing; legacy provider algorithms, state keys, and generated feed snapshots remain unchanged.
 - 2026-09-26: ADP-2 authored line count relative to `af4d306` — 385 additions plus deletions; generated feed snapshots excluded because none changed.
-- 2026-09-26: ADP-2 parent assessment state — pending.
+- 2026-09-26: ADP-2 parent spot check — `node --test`: passed 6 tests, 0 failed.
+- 2026-09-26: ADP-2 native assessment — `high` because `scripts/generate-feed.js` crosses a process boundary; RDD remained globally off.
+- 2026-09-26: ADP-2 independent verification — passed all requirements plus `node --test`, the fixture harness, `node --check scripts/generate-feed.js`, and `git diff --check af4d306..HEAD`; no regressions found.
 
 ## Next step
 
-Create the ADP-2 child branch from the verified ADP-1 boundary and normalize collection/checkpoint behavior.
+Create the ADP-3 child branch from the verified ADP-2 boundary and generalize preparation/delivery.
