@@ -101,7 +101,9 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
 - 2026-09-26: ADP-1 refactor pass reviewed naming and validation flow; no behavior change was needed.
 - 2026-09-26: ADP-1 rollback boundary — revert the ADP-1 implementation and evidence commits to remove only `packages/digest-core/`, `packages/ai-builders-digest/`, and this task evidence; existing source configuration, prompts, and generated feed snapshots remain unchanged.
 - 2026-09-26: ADP-1 authored line count — 340 additions (233 package code, tests, and metadata; 107 task-document lines first tracked on this branch).
+- 2026-09-26: Parent spot check — `node --test`: passed 2 tests, 0 failed.
+- 2026-09-26: RDD was globally off. Native risk assessment returned `high/unassessable` because local untracked `.atl/` and `.codegraph/` required explicit inventory handling; the required independent verifier then passed all ADP-1 requirements and both commands with no findings.
 
 ## Next step
 
-Proceed to ADP-2 only after the ADP-1 review boundary is accepted.
+Create the ADP-2 child branch from the verified ADP-1 boundary and normalize collection/checkpoint behavior.
