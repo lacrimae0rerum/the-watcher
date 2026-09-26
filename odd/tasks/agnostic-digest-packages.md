@@ -117,8 +117,10 @@ Independent thematic packages should be able to reuse one small, behavior-rich c
 - 2026-09-26: ADP-3 verification — both script syntax checks and `git diff --check 86ef1ec..HEAD` passed with no output.
 - 2026-09-26: ADP-3 rollback boundary — revert `c18de81dd89bb2d10ae51b5f3b226299f1de594a` to remove only generic preparation/delivery, thematic preparation and delivery configuration, public tests, and script routing; ADP-1/ADP-2 contracts, collectors, generated feed snapshots, and the ADP-4 cutover remain unchanged.
 - 2026-09-26: ADP-3 authored line count relative to `86ef1ec` — 392 additions plus deletions; generated feed snapshots excluded because none changed.
-- 2026-09-26: ADP-3 parent assessment — pending independent verification.
+- 2026-09-26: ADP-3 parent spot check — `node --test`: passed 9 tests, 0 failed.
+- 2026-09-26: ADP-3 native assessment — `high` because `scripts/deliver.js` crosses a process boundary; RDD remained globally off.
+- 2026-09-26: ADP-3 independent verification — passed all requirements plus 9 tests, the in-memory delivery harness, both syntax checks, and `git diff --check 86ef1ec..HEAD`; no regressions found. Direct delivery execution remained intentionally skipped because the pre-existing `dotenv` dependency is not installed and real adapters can cause external effects.
 
 ## Next step
 
-Complete the independent parent assessment for ADP-3 before starting ADP-4.
+Create the ADP-4 child branch from the verified ADP-3 boundary and complete the AI Builders package/documentation cutover.
