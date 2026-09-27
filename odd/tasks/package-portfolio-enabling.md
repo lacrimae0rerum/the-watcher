@@ -59,7 +59,7 @@ A validated package selector and dynamic loader are prerequisites for package-sc
 
 ## Tasks
 
-- [ ] **PPE-1 — Select and validate the generator package at runtime**
+- [x] **PPE-1 — Select and validate the generator package at runtime**
   - Route: delegated direct writer.
   - Trigger evidence: implementation adds a runtime module and tests and changes the non-trivial generator entrypoint.
   - Add one failing public-interface test at a time for the default AI Builders selection, explicit canonical IDs, missing values, separator/traversal rejection, unknown package failure, and thematic interface validation.
@@ -95,7 +95,10 @@ A validated package selector and dynamic loader are prerequisites for package-sc
 - 2026-09-27: Independent verification passed all PPE-1 acceptance criteria. Its initial concern about validating `declaration` was withdrawn after Section 3, Section 4, and Section 10.2 confirmed declaration is part of the thematic identity interface.
 - 2026-09-27: Parent spot check reran full `node --test`: 23 passed, 0 failed.
 - 2026-09-27: Pre-commit authored size is 358 additions plus deletions across the runtime module, tests, generator wiring, and this record.
+- 2026-09-27: PPE-1 work-unit commit — `ce833ad1fb80f5d84d3c213ff8ec4ae141bbbd84` (`feat(digest): select generator package at runtime`).
+- 2026-09-27: Committed-range `git diff --check 361b153..ce833ad` passed with no output. The exact work-unit diff is 354 insertions and 12 deletions across four files.
+- 2026-09-27: Post-commit status contains only the preserved unrelated modified `.gitignore` and untracked `.codegraph/.gitignore`.
 
 ## Next step
 
-Create the local PPE-1 work-unit commit, record its identity, and close the task evidence.
+PPE-1 is complete. The next dependency-ready slice is package-scoped state and feed paths, which remains unimplemented and requires separate authorization.
