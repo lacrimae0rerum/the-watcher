@@ -84,7 +84,7 @@ A validated package selector and dynamic loader are prerequisites for package-sc
     - `git diff --check 361b153..HEAD` after commit, with the pre-existing trailing whitespace in `docs/digest-package-portfolio-design.md:3` reported separately if still present in the historical base range.
   - Rollback boundary: revert the PPE-1 work-unit commit to remove only the selector/loader seam, its tests, generator wiring, and this task evidence; prior core/package extraction and the portfolio design remain unchanged.
 
-- [ ] **PPE-2 — Isolate generated state and feeds by package**
+- [x] **PPE-2 — Isolate generated state and feeds by package**
   - Route: delegated direct writer.
   - Trigger evidence: implementation changes the shared runtime module, its tests, and the non-trivial generator entrypoint.
   - Add strict-TDD public-seam coverage for legacy AI Builders paths, non-default package directories, disjoint sibling namespaces, fixed filenames, and invalid-ID rejection.
@@ -133,7 +133,10 @@ A validated package selector and dynamic loader are prerequisites for package-sc
 - 2026-09-27: Independent verification passed every PPE-2 acceptance criterion with no findings.
 - 2026-09-27: Parent spot check reran full `node --test`: 27 passed, 0 failed.
 - 2026-09-27: Pre-commit PPE-2 authored size is 124 additions plus deletions across the resolver, tests, generator wiring, and this record.
+- 2026-09-27: PPE-2 work-unit commit — `c19ac0c1edfac2692b7aec8871b9a1db88f01ab0` (`feat(digest): isolate package feed artifacts`).
+- 2026-09-27: Committed-range `git diff --check f861809..c19ac0c` passed with no output. The exact work-unit diff is 111 insertions and 21 deletions across four files.
+- 2026-09-27: Post-commit status contains only the preserved unrelated modified `.gitignore` and untracked `.codegraph/.gitignore`.
 
 ## Next step
 
-Create the local PPE-2 work-unit commit, record its identity, and close the task evidence.
+PPE-2 is complete. The next dependency-ready slice is descriptor-driven collection and preparation; it remains unimplemented and requires separate authorization.
