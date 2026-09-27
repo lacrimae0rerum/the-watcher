@@ -25,6 +25,55 @@ export function resolveArtifactPaths(id, repositoryRoot) {
   };
 }
 
+export function buildPreparationEnvelope({ remix, feeds, errors, generatedAt }) {
+  const legacyAiBuilders = remix.digest.id === DEFAULT_PACKAGE_ID;
+  const feedX = feeds.x;
+  const feedPodcasts = feeds.podcasts;
+  const feedBlogs = feeds.blogs;
+
+  return {
+    status: 'ok',
+    generatedAt,
+    digest: remix.digest,
+    preferences: remix.preferences,
+    content: remix.content,
+    ...(legacyAiBuilders
+      ? {
+          config: remix.preferences,
+          podcasts: remix.content.podcasts,
+          x: remix.content.x,
+          blogs: remix.content.blogs,
+        }
+      : {}),
+    stats: {
+      channels: Object.fromEntries(
+        Object.entries(remix.content).map(([channel, items]) => [
+          channel,
+          Array.isArray(items) ? items.length : 0,
+        ]),
+      ),
+      ...(legacyAiBuilders
+        ? {
+            podcastEpisodes: feedPodcasts?.podcasts?.length || 0,
+            xBuilders: feedX?.x?.length || 0,
+            totalTweets: (feedX?.x || []).reduce(
+              (sum, account) => sum + account.tweets.length,
+              0,
+            ),
+            blogPosts: feedBlogs?.blogs?.length || 0,
+            feedGeneratedAt:
+              feedX?.generatedAt ||
+              feedPodcasts?.generatedAt ||
+              feedBlogs?.generatedAt ||
+              null,
+          }
+        : {}),
+    },
+    prompts: remix.prompts,
+    errors: errors.length > 0 ? errors : undefined,
+  };
+}
+
 export function selectPackageId(args) {
   if (args.some((arg) => arg.startsWith('--package='))) {
     throw new Error('Use --package <canonical-id>');
@@ -70,6 +119,24 @@ export function validateDigestPackage(packageModule, requestedId) {
           packageModule.sources.catalog.trim()),
     ],
     ['createCollectors', typeof packageModule.createCollectors === 'function'],
+    [
+      'digestPackage.declaration',
+      typeof packageModule.digestPackage?.declaration === 'string' &&
+        packageModule.digestPackage.declaration.trim(),
+    ],
+    [
+      'prompts',
+      packageModule.prompts !== null &&
+        typeof packageModule.prompts === 'object' &&
+        !Array.isArray(packageModule.prompts),
+    ],
+    ['preparation.feeds', Array.isArray(packageModule.preparation?.feeds)],
+    [
+      'preparation.promptBaseUrl',
+      typeof packageModule.preparation?.promptBaseUrl === 'string' &&
+        packageModule.preparation.promptBaseUrl.trim(),
+    ],
+    ['resolveUserFile', typeof packageModule.resolveUserFile === 'function'],
   ];
   const invalidExport = checks.find(([, valid]) => !valid)?.[0];
   if (invalidExport) {

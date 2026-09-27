@@ -104,6 +104,26 @@ A validated package selector and dynamic loader are prerequisites for package-sc
     - Candidate and committed-range diff checks.
   - Rollback boundary: revert the PPE-2 work-unit commit to restore fixed generator paths and remove only the resolver, its tests, generator wiring, and PPE-2 evidence; PPE-1 and existing root artifacts remain unchanged.
 
+- [x] **PPE-3 — Select packages during preparation with a compatible generic envelope**
+  - Route: delegated direct writer.
+  - Trigger evidence: implementation changes the shared runtime seam, tests, and the non-trivial preparation entrypoint.
+  - Add strict-TDD public-seam coverage for package selection during preparation and for an additive generic envelope containing package identity, `content`, per-channel `stats`, prompts, preferences, and errors.
+  - Replace the static AI Builders preparation import with the validated package loader and package-owned user-file, feed, and prompt descriptors.
+  - Preserve the legacy top-level `x`, `podcasts`, and `blogs` keys and their current stats while the root skill still consumes them.
+  - Acceptance:
+    1. No `--package` continues selecting `ai-builders-digest`.
+    2. `--package <canonical-id>` uses the same fail-closed selector and loader as generation.
+    3. The output adds package identity plus generic content and per-channel stats without removing or changing the existing AI Builders envelope.
+    4. Feed URLs, prompt priority, user configuration fallback, remote behavior, and delivery remain unchanged.
+    5. No collection descriptor, sibling package, workflow, skill, source catalog, or delivery change is introduced.
+  - Checks:
+    - RED evidence from focused tests before implementation.
+    - GREEN: focused tests and full `node --test`.
+    - Runtime harness through a pure envelope builder without network calls.
+    - `node --check scripts/prepare-digest.js`.
+    - Candidate and committed-range diff checks.
+  - Rollback boundary: revert the PPE-3 work-unit commit to restore the static AI Builders preparation import and legacy-only output; PPE-1 and PPE-2 remain unchanged.
+
 ## Progress and evidence
 
 - 2026-09-27: Repository `AGENTS.md` is absent; global injected project instructions remain authoritative.
@@ -136,7 +156,15 @@ A validated package selector and dynamic loader are prerequisites for package-sc
 - 2026-09-27: PPE-2 work-unit commit — `c19ac0c1edfac2692b7aec8871b9a1db88f01ab0` (`feat(digest): isolate package feed artifacts`).
 - 2026-09-27: Committed-range `git diff --check f861809..c19ac0c` passed with no output. The exact work-unit diff is 111 insertions and 21 deletions across four files.
 - 2026-09-27: Post-commit status contains only the preserved unrelated modified `.gitignore` and untracked `.codegraph/.gitignore`.
+- 2026-09-27: User deferred descriptor-driven collection until a second concrete thematic package exists, avoiding a speculative single-implementation abstraction. PPE-3 was authorized as package-aware preparation with additive generic fields and temporary AI Builders compatibility aliases.
+- 2026-09-27: PPE-3 RED — focused tests first failed because the preparation envelope helper was absent, required preparation exports were not validated, the CLI lacked generic package identity, unknown packages were ignored, and non-AI output inherited AI Builders-only aliases.
+- 2026-09-27: PPE-3 GREEN — focused runtime and preparation tests passed 21 tests; full `node --test` passed 32 tests.
+- 2026-09-27: The pure no-network envelope harness passed; syntax checks for the runtime, preparation script, and tests passed; candidate diff checks passed.
+- 2026-09-27: Native assessment was unavailable because intended untracked files require explicit review inventory; with RDD off, the returned plan required writer self-verification plus an independent verifier.
+- 2026-09-27: Independent verification initially found that legacy AI Builders aliases were emitted for every package. The bounded correction gated those aliases and legacy stats to `ai-builders-digest`; reverification passed with no remaining findings.
+- 2026-09-27: PPE-3 preserves AI Builders' existing top-level `config`, `x`, `podcasts`, `blogs`, and legacy stats while every package receives generic identity, preferences, content, per-channel counts, prompts, and errors.
+- 2026-09-27: PPE-3 rollback boundary — revert the PPE-3 work-unit commit to restore the static AI Builders preparation import and legacy-only output; PPE-1 and PPE-2 remain unchanged.
 
 ## Next step
 
-PPE-2 is complete. The next dependency-ready slice is descriptor-driven collection and preparation; it remains unimplemented and requires separate authorization.
+PPE-3 is complete. Descriptor-driven collection remains intentionally deferred until a second concrete thematic package exists. The next dependency-ready slice is package-aware delivery or the first separately authorized sibling package.
