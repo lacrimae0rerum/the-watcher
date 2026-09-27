@@ -192,3 +192,43 @@ test('package validation rejects missing or empty generator exports', () => {
     );
   }
 });
+
+test('package validation rejects missing preparation exports', () => {
+  const validModule = {
+    digestPackage: {
+      id: 'test-digest',
+      declaration: 'Test digest declaration',
+    },
+    declaration: 'Test digest declaration',
+    runtime: { userAgent: 'Test-Digest/1.0' },
+    sources: { catalog: new URL('file:///catalog.json') },
+    prompts: { digestIntro: new URL('file:///digest-intro.md') },
+    preparation: {
+      feeds: [],
+      promptBaseUrl: 'https://example.com/prompts/',
+    },
+    resolveUserFile() {},
+    createCollectors() {},
+  };
+  const invalidExports = [
+    ['digestPackage.declaration', { digestPackage: { id: 'test-digest' } }],
+    ['prompts', { prompts: undefined }],
+    ['preparation.feeds', { preparation: { feeds: undefined } }],
+    [
+      'preparation.promptBaseUrl',
+      { preparation: { feeds: [], promptBaseUrl: '' } },
+    ],
+    ['resolveUserFile', { resolveUserFile: undefined }],
+  ];
+
+  for (const [exportName, replacement] of invalidExports) {
+    assert.throws(
+      () =>
+        validateDigestPackage(
+          { ...validModule, ...replacement },
+          'test-digest',
+        ),
+      new RegExp(exportName.replace('.', '\\.')),
+    );
+  }
+});

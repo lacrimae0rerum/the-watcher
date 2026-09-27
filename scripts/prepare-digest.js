@@ -22,15 +22,10 @@ import { join } from 'path';
 import { homedir } from 'os';
 import { prepare } from '../packages/digest-core/index.js';
 import {
-  digestPackage,
-  preparation,
-  prompts as packagePrompts,
-  resolveUserFile,
-} from '../packages/ai-builders-digest/index.js';
-
-// -- Constants ---------------------------------------------------------------
-
-const CONFIG_PATH = resolveUserFile(homedir(), 'config.json');
+  buildPreparationEnvelope,
+  loadDigestPackage,
+  selectPackageId,
+} from './package-runtime.js';
 
 // -- Fetch helpers -----------------------------------------------------------
 
@@ -49,6 +44,14 @@ async function fetchText(url) {
 // -- Main --------------------------------------------------------------------
 
 async function main() {
+  const packageId = selectPackageId(process.argv.slice(2));
+  const {
+    digestPackage,
+    preparation,
+    prompts: packagePrompts,
+    resolveUserFile,
+  } = await loadDigestPackage(packageId);
+  const configPath = resolveUserFile(homedir(), 'config.json');
   const errors = [];
 
   // 1. Read user config
@@ -57,9 +60,9 @@ async function main() {
     frequency: 'daily',
     delivery: { method: 'stdout' }
   };
-  if (existsSync(CONFIG_PATH)) {
+  if (existsSync(configPath)) {
     try {
-      config = JSON.parse(await readFile(CONFIG_PATH, 'utf-8'));
+      config = JSON.parse(await readFile(configPath, 'utf-8'));
     } catch (err) {
       errors.push(`Could not read config: ${err.message}`);
     }
@@ -128,36 +131,12 @@ async function main() {
     content,
     prompts: resolvedPrompts,
   });
-  const feedX = feeds.x;
-  const feedPodcasts = feeds.podcasts;
-  const feedBlogs = feeds.blogs;
-  const output = {
-    status: 'ok',
+  const output = buildPreparationEnvelope({
+    remix,
+    feeds,
+    errors,
     generatedAt: new Date().toISOString(),
-
-    // User preferences
-    config: remix.preferences,
-
-    // Content to remix
-    podcasts: remix.content.podcasts,
-    x: remix.content.x,
-    blogs: remix.content.blogs,
-
-    // Stats for the LLM to reference
-    stats: {
-      podcastEpisodes: feedPodcasts?.podcasts?.length || 0,
-      xBuilders: feedX?.x?.length || 0,
-      totalTweets: (feedX?.x || []).reduce((sum, a) => sum + a.tweets.length, 0),
-      blogPosts: feedBlogs?.blogs?.length || 0,
-      feedGeneratedAt: feedX?.generatedAt || feedPodcasts?.generatedAt || feedBlogs?.generatedAt || null
-    },
-
-    // Prompts — the LLM reads these and follows the instructions
-    prompts: remix.prompts,
-
-    // Non-fatal errors
-    errors: errors.length > 0 ? errors : undefined
-  };
+  });
 
   console.log(JSON.stringify(output, null, 2));
 }
