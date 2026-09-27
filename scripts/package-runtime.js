@@ -1,4 +1,5 @@
 import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 
 const DEFAULT_PACKAGE_ID = 'ai-builders-digest';
 const PACKAGE_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -7,6 +8,21 @@ function assertCanonicalPackageId(id) {
   if (typeof id !== 'string' || !PACKAGE_ID_PATTERN.test(id)) {
     throw new Error(`Invalid package ID: ${String(id)}`);
   }
+}
+
+export function resolveArtifactPaths(id, repositoryRoot) {
+  assertCanonicalPackageId(id);
+  const directory =
+    id === DEFAULT_PACKAGE_ID
+      ? repositoryRoot
+      : join(repositoryRoot, 'feeds', id);
+  return {
+    directory,
+    statePath: join(directory, 'state-feed.json'),
+    xFeedPath: join(directory, 'feed-x.json'),
+    podcastsFeedPath: join(directory, 'feed-podcasts.json'),
+    blogsFeedPath: join(directory, 'feed-blogs.json'),
+  };
 }
 
 export function selectPackageId(args) {

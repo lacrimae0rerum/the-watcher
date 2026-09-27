@@ -13,12 +13,13 @@
 // Env vars needed: X_BEARER_TOKEN, POD2TXT_API_KEY
 // ============================================================================
 
-import { readFile, writeFile } from "fs/promises";
+import { mkdir, readFile, writeFile } from "fs/promises";
 import { existsSync } from "fs";
 import { join } from "path";
 import { collectFeed } from "../packages/digest-core/index.js";
 import {
   loadDigestPackage,
+  resolveArtifactPaths,
   selectPackageId,
 } from "./package-runtime.js";
 
@@ -39,21 +40,20 @@ const X_USER_LOOKUP_BATCH_SIZE = 5;
 const X_RETRY_STATUSES = new Set([500, 502, 503, 504]);
 const X_RETRY_ATTEMPTS = 3;
 
-// State file lives in the repo root so it gets committed by GitHub Actions
 const SCRIPT_DIR = decodeURIComponent(new URL(".", import.meta.url).pathname);
-const STATE_PATH = join(SCRIPT_DIR, "..", "state-feed.json");
+const REPOSITORY_ROOT = join(SCRIPT_DIR, "..");
 
 // -- State Management --------------------------------------------------------
 
 // Tracks which tweet IDs and video IDs we've already included in feeds
 // so we never send the same content twice across runs.
 
-async function loadState() {
-  if (!existsSync(STATE_PATH)) {
+async function loadState(statePath) {
+  if (!existsSync(statePath)) {
     return { seenTweets: {}, seenVideos: {}, seenArticles: {} };
   }
   try {
-    const state = JSON.parse(await readFile(STATE_PATH, "utf-8"));
+    const state = JSON.parse(await readFile(statePath, "utf-8"));
     // Ensure seenArticles exists for older state files
     if (!state.seenArticles) state.seenArticles = {};
     return state;
@@ -62,7 +62,7 @@ async function loadState() {
   }
 }
 
-async function saveState(state) {
+async function saveState(state, statePath) {
   // Prune entries older than 7 days to prevent the file from growing forever
   const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
   for (const [id, ts] of Object.entries(state.seenTweets)) {
@@ -74,7 +74,7 @@ async function saveState(state) {
   for (const [id, ts] of Object.entries(state.seenArticles || {})) {
     if (ts < cutoff) delete state.seenArticles[id];
   }
-  await writeFile(STATE_PATH, JSON.stringify(state, null, 2));
+  await writeFile(statePath, JSON.stringify(state, null, 2));
 }
 
 // -- Load Sources ------------------------------------------------------------
@@ -1008,11 +1008,13 @@ async function fetchBlogContent(blogs, state, errors, userAgent) {
 
 async function main() {
   const args = process.argv.slice(2);
+  const packageId = selectPackageId(args);
+  const artifactPaths = resolveArtifactPaths(packageId, REPOSITORY_ROOT);
   const {
     createCollectors,
     runtime,
     sources: packageSources,
-  } = await loadDigestPackage(selectPackageId(args));
+  } = await loadDigestPackage(packageId);
   const tweetsOnly = args.includes("--tweets-only");
   const podcastsOnly = args.includes("--podcasts-only");
   const blogsOnly = args.includes("--blogs-only");
@@ -1035,8 +1037,9 @@ async function main() {
     process.exit(1);
   }
 
+  await mkdir(artifactPaths.directory, { recursive: true });
   const sources = await loadSources(packageSources.catalog);
-  const state = await loadState();
+  const state = await loadState(artifactPaths.statePath);
   const errors = [];
   const collected = {};
   let checkpoint = { seen: {} };
@@ -1111,7 +1114,7 @@ async function main() {
       errors: xErrors.length > 0 ? xErrors : undefined,
     };
     await writeFile(
-      join(SCRIPT_DIR, "..", "feed-x.json"),
+      artifactPaths.xFeedPath,
       JSON.stringify(xFeed, null, 2),
     );
     console.error(
@@ -1140,7 +1143,7 @@ async function main() {
           : undefined,
     };
     await writeFile(
-      join(SCRIPT_DIR, "..", "feed-podcasts.json"),
+      artifactPaths.podcastsFeedPath,
       JSON.stringify(podcastFeed, null, 2),
     );
     console.error(`  feed-podcasts.json: ${podcasts.length} episodes`);
@@ -1167,14 +1170,14 @@ async function main() {
           : undefined,
     };
     await writeFile(
-      join(SCRIPT_DIR, "..", "feed-blogs.json"),
+      artifactPaths.blogsFeedPath,
       JSON.stringify(blogFeed, null, 2),
     );
     console.error(`  feed-blogs.json: ${blogContent.length} posts`);
   }
 
   // Save dedup state
-  await saveState(state);
+  await saveState(state, artifactPaths.statePath);
 
   if (errors.length > 0) {
     console.error(`  ${errors.length} non-fatal errors`);
