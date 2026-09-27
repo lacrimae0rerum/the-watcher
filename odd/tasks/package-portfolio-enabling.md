@@ -164,6 +164,8 @@ A validated package selector and dynamic loader are prerequisites for package-sc
 - 2026-09-27: Independent verification initially found that legacy AI Builders aliases were emitted for every package. The bounded correction gated those aliases and legacy stats to `ai-builders-digest`; reverification passed with no remaining findings.
 - 2026-09-27: PPE-3 preserves AI Builders' existing top-level `config`, `x`, `podcasts`, `blogs`, and legacy stats while every package receives generic identity, preferences, content, per-channel counts, prompts, and errors.
 - 2026-09-27: PPE-3 rollback boundary — revert the PPE-3 work-unit commit to restore the static AI Builders preparation import and legacy-only output; PPE-1 and PPE-2 remain unchanged.
+- 2026-09-27: PPE-3 work-unit commit — `b59e3cd` (`feat(digest): select package during preparation`). The exact commit contains 359 insertions and 41 deletions across five files and remains below the 400-line review budget by authored additions.
+- 2026-09-27: Committed-range `git diff --check HEAD^..HEAD` passed. Post-commit status contains only the preserved unrelated modified `.gitignore` and untracked `.codegraph/`.
 
 ## Next step
 
