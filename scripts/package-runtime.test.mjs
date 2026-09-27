@@ -5,12 +5,48 @@ import { fileURLToPath } from 'node:url';
 
 import {
   loadDigestPackage,
+  resolveArtifactPaths,
   selectPackageId,
   validateDigestPackage,
 } from './package-runtime.js';
 
 test('package selection defaults to ai-builders-digest', () => {
   assert.equal(selectPackageId([]), 'ai-builders-digest');
+});
+
+test('artifact paths preserve AI Builders root files', () => {
+  assert.deepEqual(resolveArtifactPaths('ai-builders-digest', '/repo'), {
+    directory: '/repo',
+    statePath: '/repo/state-feed.json',
+    xFeedPath: '/repo/feed-x.json',
+    podcastsFeedPath: '/repo/feed-podcasts.json',
+    blogsFeedPath: '/repo/feed-blogs.json',
+  });
+});
+
+test('artifact paths isolate non-default packages under feeds', () => {
+  assert.deepEqual(resolveArtifactPaths('cybersecurity-digest', '/repo'), {
+    directory: '/repo/feeds/cybersecurity-digest',
+    statePath: '/repo/feeds/cybersecurity-digest/state-feed.json',
+    xFeedPath: '/repo/feeds/cybersecurity-digest/feed-x.json',
+    podcastsFeedPath: '/repo/feeds/cybersecurity-digest/feed-podcasts.json',
+    blogsFeedPath: '/repo/feeds/cybersecurity-digest/feed-blogs.json',
+  });
+});
+
+test('artifact paths keep sibling package namespaces disjoint', () => {
+  const first = resolveArtifactPaths('cybersecurity-digest', '/repo');
+  const second = resolveArtifactPaths('engineering-digest', '/repo');
+
+  for (const key of Object.keys(first)) {
+    assert.notEqual(first[key], second[key]);
+  }
+});
+
+test('artifact paths reject invalid IDs before resolving paths', () => {
+  for (const id of ['../ai-builders-digest', 'ai/builders', '.', undefined]) {
+    assert.throws(() => resolveArtifactPaths(id, '/repo'), /Invalid package ID/);
+  }
 });
 
 test('package selection accepts one canonical ID among existing channel flags', () => {

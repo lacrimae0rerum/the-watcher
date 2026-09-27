@@ -2,11 +2,11 @@
 
 ## Objective
 
-Add the smallest reusable runtime seam needed to select and load a thematic digest package while preserving the current AI Builders generator behavior.
+Add the smallest reusable runtime seams needed to select and load a thematic digest package and isolate its generated artifacts while preserving current AI Builders behavior.
 
 ## Problem
 
-`digest-core` and `ai-builders-digest` already separate generic mechanics from thematic policy, but executable scripts still statically import AI Builders. No sibling package can be selected at runtime.
+`digest-core` and thematic packages already separate generic mechanics from policy, and PPE-1 made the generator package-selectable. Generated state and feed paths remain fixed at the repository root, so a future sibling would share AI Builders' deduplication state and overwrite its feeds.
 
 ## Why
 
@@ -18,8 +18,10 @@ A validated package selector and dynamic loader are prerequisites for package-sc
 - Add a validated `--package` selector with an AI Builders compatibility default.
 - Dynamically load and validate the selected package through the existing thematic package interface.
 - Route `scripts/generate-feed.js` through that runtime seam without changing AI Builders collection, feed names, state paths, workflow behavior, source selection, or remote behavior.
+- Derive state and feed paths from the validated package ID: preserve AI Builders' root artifacts and place non-default package artifacts under `feeds/<package-id>/`.
 - Add focused public-seam regression tests.
-- Do not implement sibling package directories, package-scoped artifacts, descriptor-driven iteration, workflow/skill parameterization, or X-Clusters in this work unit.
+- Do not relocate existing AI Builders artifacts or change their published URLs.
+- Do not implement sibling package descriptors, descriptor-driven iteration, workflow/skill parameterization, preparation changes, or X-Clusters in this work unit.
 - Do not select sources, accounts, retention, editorial, political, publication, or delivery policy.
 - Do not push, open a pull request, deploy, publish, or perform remote operations.
 
@@ -52,10 +54,13 @@ A validated package selector and dynamic loader are prerequisites for package-sc
 ## Delivery
 
 - Strategy: `ask-on-risk`.
-- Forecast: approximately 220-320 authored changed lines for one work unit, including tests and this record.
-- 400-line budget risk: Low.
-- Current branch: `feat/agnostic-digest-packages-05-identifier-correction`.
+- Forecast: approximately 500-560 accumulated authored changed lines across PPE-1 and PPE-2, including tests and this record.
+- 400-line budget risk: High across the feature; each work unit remains below the review budget.
+- Chain strategy: `feature-branch-chain`, selected by the user for PPE-2.
+- PPE-1 branch: `feat/agnostic-digest-packages-05-identifier-correction`.
+- PPE-2 branch: `feat/package-portfolio-enabling-02-artifact-paths`.
 - Starting boundary: `361b15352651011e116f1af6444d25dbb949560d`.
+- PPE-2 boundary: `f861809`.
 
 ## Tasks
 
@@ -79,6 +84,26 @@ A validated package selector and dynamic loader are prerequisites for package-sc
     - `git diff --check 361b153..HEAD` after commit, with the pre-existing trailing whitespace in `docs/digest-package-portfolio-design.md:3` reported separately if still present in the historical base range.
   - Rollback boundary: revert the PPE-1 work-unit commit to remove only the selector/loader seam, its tests, generator wiring, and this task evidence; prior core/package extraction and the portfolio design remain unchanged.
 
+- [ ] **PPE-2 — Isolate generated state and feeds by package**
+  - Route: delegated direct writer.
+  - Trigger evidence: implementation changes the shared runtime module, its tests, and the non-trivial generator entrypoint.
+  - Add strict-TDD public-seam coverage for legacy AI Builders paths, non-default package directories, disjoint sibling namespaces, fixed filenames, and invalid-ID rejection.
+  - Resolve all generator artifact paths once after package selection; thread the state path into state reads/writes and use the resolved feed paths for output.
+  - Create the selected output directory idempotently before writing.
+  - Acceptance:
+    1. `ai-builders-digest` continues using root `state-feed.json`, `feed-x.json`, `feed-podcasts.json`, and `feed-blogs.json`.
+    2. Every non-default package uses `feeds/<package-id>/` for the same four filenames.
+    3. Different package IDs cannot share state or feed paths.
+    4. Invalid or traversal IDs cannot produce a filesystem path.
+    5. No workflow, published URL, generated JSON, package descriptor, preparation, delivery, or source behavior changes.
+  - Checks:
+    - RED evidence from the focused runtime test before implementation.
+    - GREEN: focused runtime tests and full `node --test`.
+    - Runtime harness: resolve AI Builders and `cybersecurity-digest` paths and print both state paths.
+    - `node --check scripts/generate-feed.js`.
+    - Candidate and committed-range diff checks.
+  - Rollback boundary: revert the PPE-2 work-unit commit to restore fixed generator paths and remove only the resolver, its tests, generator wiring, and PPE-2 evidence; PPE-1 and existing root artifacts remain unchanged.
+
 ## Progress and evidence
 
 - 2026-09-27: Repository `AGENTS.md` is absent; global injected project instructions remain authoritative.
@@ -98,7 +123,17 @@ A validated package selector and dynamic loader are prerequisites for package-sc
 - 2026-09-27: PPE-1 work-unit commit — `ce833ad1fb80f5d84d3c213ff8ec4ae141bbbd84` (`feat(digest): select generator package at runtime`).
 - 2026-09-27: Committed-range `git diff --check 361b153..ce833ad` passed with no output. The exact work-unit diff is 354 insertions and 12 deletions across four files.
 - 2026-09-27: Post-commit status contains only the preserved unrelated modified `.gitignore` and untracked `.codegraph/.gitignore`.
+- 2026-09-27: User authorized PPE-2 and selected continuation of the local feature-branch chain. Created `feat/package-portfolio-enabling-02-artifact-paths` from `f861809`.
+- 2026-09-27: PPE-2 compatibility decision — preserve AI Builders' root artifacts and published raw URLs; isolate only non-default packages under `feeds/<package-id>/`. Moving AI Builders now would break published URLs and reset its seven-day deduplication state.
+- 2026-09-27: PPE-2 RED — the focused test first failed because `resolveArtifactPaths` was not exported; the next tracer failed because non-default paths still resolved under the repository root.
+- 2026-09-27: PPE-2 GREEN — `node --test scripts/package-runtime.test.mjs` passed 16 tests and full `node --test` passed 27 tests.
+- 2026-09-27: Runtime path harness printed `/repo/state-feed.json` and `/repo/feeds/cybersecurity-digest/state-feed.json`.
+- 2026-09-27: Generator syntax and candidate diff checks passed with no output.
+- 2026-09-27: Native assessment was unavailable because intended untracked files require explicit review inventory; with RDD off, the returned plan required writer self-verification plus an independent verifier.
+- 2026-09-27: Independent verification passed every PPE-2 acceptance criterion with no findings.
+- 2026-09-27: Parent spot check reran full `node --test`: 27 passed, 0 failed.
+- 2026-09-27: Pre-commit PPE-2 authored size is 124 additions plus deletions across the resolver, tests, generator wiring, and this record.
 
 ## Next step
 
-PPE-1 is complete. The next dependency-ready slice is package-scoped state and feed paths, which remains unimplemented and requires separate authorization.
+Create the local PPE-2 work-unit commit, record its identity, and close the task evidence.
