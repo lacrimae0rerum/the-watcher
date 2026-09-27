@@ -9,7 +9,7 @@
 // Deduplication: tracks previously seen tweet IDs, episode GUIDs, and article
 // URLs in state-feed.json so content is never repeated across runs.
 //
-// Usage: node generate-feed.js [--tweets-only | --podcasts-only | --blogs-only]
+// Usage: node generate-feed.js [--package <canonical-id>] [--tweets-only | --podcasts-only | --blogs-only]
 // Env vars needed: X_BEARER_TOKEN, POD2TXT_API_KEY
 // ============================================================================
 
@@ -18,10 +18,9 @@ import { existsSync } from "fs";
 import { join } from "path";
 import { collectFeed } from "../packages/digest-core/index.js";
 import {
-  createCollectors,
-  runtime,
-  sources as packageSources,
-} from "../packages/ai-builders-digest/index.js";
+  loadDigestPackage,
+  selectPackageId,
+} from "./package-runtime.js";
 
 // -- Constants ---------------------------------------------------------------
 
@@ -80,8 +79,8 @@ async function saveState(state) {
 
 // -- Load Sources ------------------------------------------------------------
 
-async function loadSources() {
-  return JSON.parse(await readFile(packageSources.catalog, "utf-8"));
+async function loadSources(catalog) {
+  return JSON.parse(await readFile(catalog, "utf-8"));
 }
 
 // -- Podcast Fetching (RSS + pod2txt) ----------------------------------------
@@ -892,7 +891,7 @@ function extractClaudeBlogArticleContent(html) {
 // For each blog source in the config, discovers new articles, deduplicates
 // against previously seen URLs, fetches full article content, and returns
 // the results for feed-blogs.json.
-async function fetchBlogContent(blogs, state, errors) {
+async function fetchBlogContent(blogs, state, errors, userAgent) {
   const results = [];
   const cutoff = new Date(Date.now() - BLOG_LOOKBACK_HOURS * 60 * 60 * 1000);
 
@@ -903,7 +902,7 @@ async function fetchBlogContent(blogs, state, errors) {
     try {
       // Step 1: Discover articles from the blog index page
       const indexRes = await fetch(blog.indexUrl, {
-        headers: { "User-Agent": runtime.userAgent },
+        headers: { "User-Agent": userAgent },
       });
       if (!indexRes.ok) {
         errors.push(
@@ -951,7 +950,7 @@ async function fetchBlogContent(blogs, state, errors) {
         try {
           // Fetch the full article page
           const articleRes = await fetch(article.url, {
-            headers: { "User-Agent": runtime.userAgent },
+            headers: { "User-Agent": userAgent },
           });
           if (!articleRes.ok) {
             errors.push(
@@ -1009,6 +1008,11 @@ async function fetchBlogContent(blogs, state, errors) {
 
 async function main() {
   const args = process.argv.slice(2);
+  const {
+    createCollectors,
+    runtime,
+    sources: packageSources,
+  } = await loadDigestPackage(selectPackageId(args));
   const tweetsOnly = args.includes("--tweets-only");
   const podcastsOnly = args.includes("--podcasts-only");
   const blogsOnly = args.includes("--blogs-only");
@@ -1031,7 +1035,7 @@ async function main() {
     process.exit(1);
   }
 
-  const sources = await loadSources();
+  const sources = await loadSources(packageSources.catalog);
   const state = await loadState();
   const errors = [];
   const collected = {};
@@ -1051,7 +1055,12 @@ async function main() {
       return collected.podcasts;
     },
     web: async ({ entries }) => {
-      collected.blogs = await fetchBlogContent(entries, state, errors);
+      collected.blogs = await fetchBlogContent(
+        entries,
+        state,
+        errors,
+        runtime.userAgent,
+      );
       return collected.blogs;
     },
   });
