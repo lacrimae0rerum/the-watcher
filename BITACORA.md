@@ -1,5 +1,28 @@
 # Work log
 
+## 2026-10-07 — On-demand saved cybersecurity edition (CER-1)
+
+Objective: Let an agent with this checkout read the latest explicitly saved pulse in chat.
+
+Changes: Added a local latest-only edition store, explicit save CLI, read-only CLI,
+ignored generated editions, offline tests, and an early agent retrieval route. The
+reader prints saved text unchanged; missing or corrupt editions fail without a
+collection or generation fallback. No real edition was saved.
+
+Decisions: The bulletin CLIs require `--package`; save defaults to `es` and the
+current UTC time. A separate checkout must receive the saved file separately.
+This retrieval path does not activate a schedule or change CSP-3 generation and
+publication plans.
+
+Verification: The first focused run failed with `ERR_MODULE_NOT_FOUND` before
+implementation. After implementation, focused tests passed 6/6 and the full Node
+suite passed 50/50. The three new script syntax checks passed. Offline CLI tests
+used temporary checkout fixtures outside the repository.
+
+Pending: A real edition must be supplied and explicitly saved. Source collection,
+generation, automatic save integration, publication, and scheduling remain separate.
+Next step: Review CER-1; integrate saving only when the future generator is verified.
+
 ## 2026-10-07 — Cybersecurity package foundation (CSP-1)
 
 Objective: Add the approved cybersecurity theme locally without activating collection or publication.

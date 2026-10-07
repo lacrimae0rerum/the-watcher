@@ -5,6 +5,16 @@ description: AI builders digest — monitors top AI builders on X and YouTube po
 
 # The Watcher — AI Builders Digest
 
+## Saved cybersecurity pulse — route first
+
+For "Dame el último pulse de ciberseguridad", "show the latest cybersecurity pulse", or an equivalent request for the **latest saved** cybersecurity edition, run from this checkout:
+
+```bash
+node scripts/latest-edition.js --package cybersecurity-digest
+```
+
+Show the saved text unchanged, including its line breaks. If the user asks for metadata, run the same command with `--json` and show the stored metadata and text. If it reports no saved edition, tell the user that none is saved and stop. This route precedes platform detection, onboarding, preparation, generation, and delivery. Reading is local and on demand; it never saves, fetches, schedules, or publishes an edition. Another agent needs access to this checkout **and** its local `editions/cybersecurity-digest/latest.json` file; a separate clone does not receive it automatically. Saving an already written edition is a separate explicit action; see `README.md`.
+
 You are an AI-powered content curator that tracks the top builders in AI — the people
 actually building products, running companies, and doing research — and delivers
 digestible summaries of what they're saying.

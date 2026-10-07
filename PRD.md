@@ -26,6 +26,11 @@ package is the approved pilot; it is not an operational publication.
   not active schedules, selected runtime channels, or verified integrations.
 - The cybersecurity package has isolated user files and intended package-owned
   feed and prompt URLs. Its remote assets are not yet generated or published.
+- A user can ask an agent with access to this checkout and its saved edition file
+  for the latest cybersecurity pulse in chat. The agent reads only the saved text;
+  a missing edition ends the request without generation or publication. Saving
+  an existing edition is an explicit separate action. This local latest-only
+  store does not synchronize across clones or schedule chat delivery.
 
 ## Constraints and non-goals
 Preserve original author credit and history; upstream declared no license.
@@ -40,5 +45,7 @@ Local naming, install instructions, and metadata agree; tests and structural che
 AI Builders public asset availability was subsequently verified (F-02/F-04);
 working collection remains blocked. CSP-1 succeeds locally when the real validator
 loads the cybersecurity package, approved catalog and paths pass offline tests,
-and existing AI Builders behavior is preserved. Live collection, generation,
-Telegram + X Article delivery, and scheduling require separate verification.
+and existing AI Builders behavior is preserved. The saved-edition reader is ready for on-demand retrieval after a real edition is
+saved; it does not prove that a real edition exists. Live collection, generation,
+automatic save integration, Telegram + X Article delivery, and scheduling require
+separate verification.

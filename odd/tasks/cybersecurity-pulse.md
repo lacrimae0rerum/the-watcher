@@ -41,6 +41,7 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
 - [ ] **CSP-3 — Generate and deliver one durable edition**
   - Status: planned.
   - Call NaN with bounded requests; produce Spanish Telegram and X Article versions from evidence; validate outputs and suppress empty/unsupported editions.
+  - Integrate the completed CER-1 local edition store for on-demand agent retrieval. Reading an edition is separate from generation/publication, never invokes either, and requires access to the saved files. See `odd/tasks/cybersecurity-edition-read.md` for verified behavior; automatic saving from the future generator is still pending.
   - Add X Article adapter and durable per-channel delivery state to prevent duplicate publication on retry. Credentials and end-to-end external checks are separate gates.
 - [ ] **CSP-4 — Schedule and activate after functional verification**
   - Status: planned.
