@@ -49,8 +49,8 @@ The checkout still uses the original repository as its Git remote and as the liv
   - Acceptance: current operational instructions no longer point users at the original host; provenance and migration fallback remain explicit; no platform/package identity confusion; records accurately distinguish local implementation, public publication, and operational setup.
   - Checks: full `node --test`, JSON metadata consistency, syntax/diff checks, and structural readback of root skill/workflow/docs. Passive prose uses structural verification, not fabricated RED.
 
-- [ ] **TWM-3 — Publish and verify independent GitHub infrastructure**
-  - Status: in_progress.
+- [x] **TWM-3 — Publish and verify independent GitHub infrastructure**
+  - Status: done.
   - Route: parent for authorized GitHub/Git/Orca state mutations; delegated read-only verifier for publication safety and hosted endpoint checks.
   - Before publication, inspect tracked files and history for credential risks without displaying secret values.
   - Create `lacrimae0rerum/the-watcher` as public standalone repository, change origin, and publish verified HEAD to new `main` without modifying the existing local `main` or rewriting history.
@@ -75,6 +75,15 @@ The checkout still uses the original repository as its Git remote and as the liv
 - 2026-10-07: TWM-2 uses structural verification because passive documentation/metadata have no meaningful RED. Full suite 36/36, script syntax and metadata identity checks passed; independent readback approved every surface. Generated data and thematic identities are unchanged.
 - 2026-10-07: Publication safety scan found zero known token/private-key patterns in current tracked content or 324 reachable commits, and zero high-entropy credential-shaped assignments in tracked files. No dedicated scanner is installed; regex/entropy scanning is heuristic and does not establish absence of all possible secrets. No values were displayed. New records were also inspected; the task's local absolute directory reference was genericized.
 
+- 2026-10-07: TWM-2 work-unit commit: `f4b3d6ba9330f50a4bf8e1f5e3b3b7741fb96736` (`feat(the-watcher): establish independent platform identity`); 174 insertions and 60 deletions across 13 files including this record.
+- 2026-10-07: Native committed-range review of the migration slice could not start because retained intended-untracked selection was bound to the unrelated ambient `.gitignore` candidate (`native-start-retained-selection-candidate-mismatch`). No authority mutation occurred. Native fallback required writer verification and independent verification; both passed. No review switch or authority recovery was changed.
+
+- 2026-10-07: TWM-3 created `https://github.com/lacrimae0rerum/the-watcher` as PUBLIC, `isFork: false`, default branch `main`; origin fetch/push now use that repository. Initial published main equals `f4b3d6ba9330f50a4bf8e1f5e3b3b7741fb96736`. Git history was retained; the original repository and existing local main were not changed.
+- 2026-10-07: Independent publication verification observed HTTP 200 for all three hosted feeds and all five package prompts; all were byte-identical to local files, feeds parsed as JSON. Full suite 36/36, five JavaScript syntax checks, and exact committed-range diff checks passed.
+- 2026-10-07: New repository secrets list is empty: `X_BEARER_TOKEN` and `POD2TXT_API_KEY` are missing. No collection, delivery, or workflow dispatch ran. Publication is complete; operational collection remains blocked until credential setup and a successful approved run.
+- 2026-10-07: Orca workspace display name is `the-watcher`; the live checkout stayed in place. Orca's stored projectId still references the original registration and cannot be rebound through the documented CLI in place. This UI metadata limitation does not change the new Git remote or hosted URLs; no session or admin storage was modified.
+- 2026-10-07: FEATURES, BUGS, BITACORA, and ROADMAP now distinguish completed publication from blocked collection setup. Their scoped diff and structural checks passed.
+
 ## Next step
 
-Publish the independently verified implementation in TWM-3 and check hosted feeds/prompts. Configure collection credentials later; no collection or delivery will run as part of migration.
+Configure the two collection credentials in the new GitHub repository, then observe a successful operator-approved workflow run. Orca stored project identity cleanup is a separate UI/re-registration step; do not disrupt live sessions or move the checkout to achieve it.
