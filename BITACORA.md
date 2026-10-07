@@ -1,5 +1,15 @@
 # Work log
 
+## 2026-10-07 — The Watcher README (TWR-1)
+
+Objective: Document the current platform and its initial AI Builders theme accurately.
+
+Changes: Rewrote `README.md` around the agent-owned summarization boundary, manual commands, delivery prerequisites, collection operator setup, and current limits. Removed `README.zh-CN.md`.
+
+Verification: Writer and independent verifier observed 36/36 passing tests. Scoped `git diff --check` and structural checks passed: the Chinese file is absent and no active inbound Markdown link remains. README readback found 10 valid local links, no prohibited names or change narrative, and no language link.
+
+Pending: Publication remains a separate decision. Local work-unit evidence is recorded in `odd/tasks/the-watcher-readme.md`; no remote publication occurred.
+
 ## 2026-10-07 — Independent platform migration (TWM)
 
 Objective: Move the existing digest platform to independently owned infrastructure.
