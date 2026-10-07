@@ -1,14 +1,13 @@
 # Known blockers and limitations
 
-No new software defect is confirmed by TWM-2. Do not treat pending setup as a regression.
+No new software defect is confirmed by the migration. Pending credentials and a successful run are operational setup, not a regression.
 
 | ID | State | Severity | Reproduction or evidence | Expected behavior | Cause / fix / regression check |
 | --- | --- | --- | --- | --- | --- |
-| B-01 | blocked | high | TWM task records the new repository as unpublished and its two credentials as unknown. | Hosted feed and prompt URLs respond after publication; scheduled collection succeeds after setup. | Publish and verify the standalone repository, configure `X_BEARER_TOKEN` and `POD2TXT_API_KEY`, then verify a run. No regression run yet. |
+| B-01 | blocked | high | Public non-fork repository and all three feeds/five prompts are verified; the new repository secret list is empty and no collection run occurred. | Collection succeeds after operator setup. | Publication is done. Configure `X_BEARER_TOKEN` and `POD2TXT_API_KEY`, then observe an operator-approved successful run; no collection regression check exists yet. |
 
 ## Boundaries
-The repository publication and credential setup belong to TWM-3, not TWM-2.
+Repository publication is complete; credential setup remains pending.
 No credential values are recorded here.
-The impact of unpublished registry distribution is limited to installation instructions;
-Git installation is the documented path after the new repository is published.
+Registry distribution remains unpublished or unknown; Git installation uses the published repository.
 Other defects: unknown.
