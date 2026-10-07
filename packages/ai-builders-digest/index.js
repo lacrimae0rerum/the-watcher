@@ -34,26 +34,26 @@ export const preparation = Object.freeze({
     Object.freeze({
       id: 'x',
       contentKey: 'x',
-      url: 'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/feed-x.json',
+      url: 'https://raw.githubusercontent.com/lacrimae0rerum/the-watcher/main/feed-x.json',
       unavailableMessage: 'Could not fetch tweet feed',
       problemPrefix: 'Tweet feed problem',
     }),
     Object.freeze({
       id: 'podcasts',
       contentKey: 'podcasts',
-      url: 'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/feed-podcasts.json',
+      url: 'https://raw.githubusercontent.com/lacrimae0rerum/the-watcher/main/feed-podcasts.json',
       unavailableMessage: 'Could not fetch podcast feed',
       problemPrefix: 'Podcast feed problem',
     }),
     Object.freeze({
       id: 'blogs',
       contentKey: 'blogs',
-      url: 'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/feed-blogs.json',
+      url: 'https://raw.githubusercontent.com/lacrimae0rerum/the-watcher/main/feed-blogs.json',
       unavailableMessage: 'Could not fetch blog feed',
       problemPrefix: 'Blog feed problem',
     }),
   ]),
-  promptBaseUrl: 'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/packages/ai-builders-digest/prompts/',
+  promptBaseUrl: 'https://raw.githubusercontent.com/lacrimae0rerum/the-watcher/main/packages/ai-builders-digest/prompts/',
 });
 
 export const delivery = Object.freeze({

@@ -69,7 +69,7 @@ test('ai-builders-digest owns preparation topology and delivery branding', async
   );
   assert.equal(
     preparation.promptBaseUrl,
-    'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/packages/ai-builders-digest/prompts/',
+    'https://raw.githubusercontent.com/lacrimae0rerum/the-watcher/main/packages/ai-builders-digest/prompts/',
   );
   assert.deepEqual(delivery.email, {
     sender: 'AI Builders Digest <digest@resend.dev>',
@@ -82,6 +82,21 @@ test('ai-builders-digest owns preparation topology and delivery branding', async
       day: 'numeric',
     },
   });
+});
+
+test('ai-builders-digest hosts every live feed and prompt on the-watcher main', async () => {
+  const { preparation } = await import('./index.js');
+  const base = 'https://raw.githubusercontent.com/lacrimae0rerum/the-watcher/main/';
+
+  assert.deepEqual(
+    [...preparation.feeds.map(({ url }) => url), preparation.promptBaseUrl],
+    [
+      `${base}feed-x.json`,
+      `${base}feed-podcasts.json`,
+      `${base}feed-blogs.json`,
+      `${base}packages/ai-builders-digest/prompts/`,
+    ],
+  );
 });
 
 test('ai-builders-digest resolves canonical user state before the legacy fallback', async () => {

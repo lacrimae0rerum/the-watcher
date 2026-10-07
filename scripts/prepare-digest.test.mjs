@@ -9,15 +9,15 @@ const fetchMock = `data:text/javascript,${encodeURIComponent(`
   globalThis.fetch = async (input) => {
     const url = String(input);
     const feeds = {
-      'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/feed-x.json': {
+      'https://raw.githubusercontent.com/lacrimae0rerum/the-watcher/main/feed-x.json': {
         generatedAt: '2026-09-27T11:00:00.000Z',
         x: [{ tweets: [{}, {}] }],
       },
-      'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/feed-podcasts.json': {
+      'https://raw.githubusercontent.com/lacrimae0rerum/the-watcher/main/feed-podcasts.json': {
         generatedAt: '2026-09-27T10:00:00.000Z',
         podcasts: [{ id: 'podcast-1' }],
       },
-      'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/feed-blogs.json': {
+      'https://raw.githubusercontent.com/lacrimae0rerum/the-watcher/main/feed-blogs.json': {
         generatedAt: '2026-09-27T09:00:00.000Z',
         blogs: [{ id: 'blog-1' }],
       },
@@ -25,7 +25,7 @@ const fetchMock = `data:text/javascript,${encodeURIComponent(`
     if (feeds[url]) {
       return { ok: true, json: async () => feeds[url] };
     }
-    const promptBase = 'https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/packages/ai-builders-digest/prompts/';
+    const promptBase = 'https://raw.githubusercontent.com/lacrimae0rerum/the-watcher/main/packages/ai-builders-digest/prompts/';
     if (url.startsWith(promptBase)) {
       return { ok: true, text: async () => \`remote:\${url.slice(promptBase.length)}\` };
     }
