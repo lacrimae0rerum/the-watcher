@@ -1,0 +1,75 @@
+# Migrate the platform to the-watcher
+
+## Objective
+
+Rename the platform to `the-watcher` and publish the current implementation as the independent public repository `lacrimae0rerum/the-watcher`, with feeds and prompts served from its `main` branch.
+
+## Problem and why
+
+The checkout still uses the original repository as its Git remote and as the live host for feeds, prompts, installation links, and support. The user wants their own GitHub infrastructure and project identity.
+
+## Authorization and constraints
+
+- The user selected `the-watcher`, their authenticated account `lacrimae0rerum`, and public visibility, and confirmed author permission to reuse and publish inherited source.
+- Permission is user-confirmed; no upstream license was independently established. Do not invent a license or remove provenance.
+- Authorized external actions: create the standalone public repository, point origin at it, publish the verified current implementation to its new `main`, and update Orca display metadata.
+- Preserve Git history and original author credit. Do not use the GitHub fork API, rewrite history, force-push, delete branches, or alter the original repository.
+- Preserve the unrelated modified `.gitignore`, untracked `.codegraph/`, and historical ODD/design evidence.
+- Keep `digest-core` and `ai-builders-digest` thematic identities and existing user-config paths, including the read-only `.follow-builders` fallback.
+- Do not move the live Orca checkout directory or resume/modify historical provider sessions.
+- No sibling packages, generic collection redesign, workflow package selection, paid collection runs, credential copying, or secret disclosure.
+- Generated feed snapshots and deduplication state are preserved, not refreshed.
+- Technical artifacts use English, except the existing Chinese README.
+
+## Delivery
+
+- Branch point: `b4c37608bba5c9f8f53b3cf4d3f5403ddcbb6258`.
+- Feature branch: `feat/the-watcher-migration`.
+- Strategy: feature-branch-chain, continuing the previously selected local work-unit delivery policy; publication to the new standalone repository is explicitly authorized.
+- Forecast: approximately 300–380 authored changed lines excluding generated snapshots; publish only verified work units.
+- The new repository needs its own `X_BEARER_TOKEN` and `POD2TXT_API_KEY`. Their values are unknown and will not be copied or invented.
+
+## Tasks
+
+- [x] **TWM-1 — Move live feed and prompt hosting to the new repository**
+  - Status: done.
+  - Route: delegated writer; runtime descriptor, regression tests, and user-facing prompt/sample require coordinated multi-file edits.
+  - Change only live feed/prompt/outro URLs to `lacrimae0rerum/the-watcher/main`.
+  - Strict TDD: first add a failing regression assertion that all live feed and prompt URLs use the selected owner/project; observe RED, then update descriptor and fixture expectations, observe GREEN, and read back.
+  - Acceptance: selected repository owns all live feed/prompt URLs; package identity, legacy user paths, content topology, adapters, and generated snapshots remain unchanged.
+  - Checks: focused package/preparation tests, full `node --test`, script syntax checks, and scoped diff checks. No network collection or delivery.
+
+- [ ] **TWM-2 — Rename platform identity and document independent ownership**
+  - Status: in_progress.
+  - Route: delegated writer; platform identity, install/support instructions, workflow naming, and project records are coordinated non-trivial documentation/configuration edits.
+  - Rename root skill/command and platform-facing installation instructions to `the-watcher`; keep the default thematic product AI Builders Digest.
+  - Update English and Chinese READMEs, script package metadata/lock names, workflow display names, and active issue/install links. Do not advertise a published registry package.
+  - Add concise provenance in `NOTICE.md` without inventing a license.
+  - Create minimal `PRD.md`, `FEATURES.md`, `BUGS.md`, `BITACORA.md`, and `ROADMAP.md` from verified facts; mark unknowns explicitly and retain pending publication/setup states.
+  - Acceptance: current operational instructions no longer point users at the original host; provenance and migration fallback remain explicit; no platform/package identity confusion; records accurately distinguish local implementation, public publication, and operational setup.
+  - Checks: full `node --test`, JSON metadata consistency, syntax/diff checks, and structural readback of root skill/workflow/docs. Passive prose uses structural verification, not fabricated RED.
+
+- [ ] **TWM-3 — Publish and verify independent GitHub infrastructure**
+  - Status: pending.
+  - Route: parent for authorized GitHub/Git/Orca state mutations; delegated read-only verifier for publication safety and hosted endpoint checks.
+  - Before publication, inspect tracked files and history for credential risks without displaying secret values.
+  - Create `lacrimae0rerum/the-watcher` as public standalone repository, change origin, and publish verified HEAD to new `main` without modifying the existing local `main` or rewriting history.
+  - Set/verify default branch `main`; update the current Orca workspace display name safely without moving its checkout.
+  - Acceptance: repository is public and not a fork; origin uses the selected owner/project; main contains current verified code; every live feed URL and representative hosted prompt responds successfully; original repository remains untouched.
+  - Record missing secrets and do not claim scheduled collection operational before setup and a successful run.
+  - Checks: repository metadata, remote refs, tracked/history credential scan, hosted JSON/prompt reads, committed-range diff/suite checks, and preservation of unrelated workspace state.
+
+## Progress and evidence
+
+- 2026-10-07: Current origin is the original `zarazhangrui/follow-builders`; authenticated GitHub owner is `lacrimae0rerum`; destination repository does not exist.
+- 2026-10-07: GitHub reports no original license. User confirmed author authorization before public migration was resumed.
+- 2026-10-07: Existing implementation includes verified PPE-4 at `b4c37608`; local main is still the inherited upstream boundary, so the new remote main must receive the verified feature content.
+- 2026-10-07: Orca current worktree is the main checkout at `/Users/fedirosan/orca/follow-builders`. Its path stays unchanged to avoid disrupting live sessions.
+
+- 2026-10-07: TWM-1 observed RED: the new URL-ownership assertion failed on all four original hosted URLs. GREEN: focused tests 10/10; full tests 36/36. Three script syntax checks and scoped diff checks passed; independent verification passed without findings.
+- 2026-10-07: TWM-1 source/test diff is 26 insertions and 11 deletions across five files. Generated feed/state snapshots, thematic identity, and user-config compatibility remain unchanged. Hosted network reads await publication in TWM-3.
+- 2026-10-07: Native assessment is unassessable because unrelated untracked files need explicit inventory; its required independent-verifier fallback was completed.
+
+## Next step
+
+Rename the platform in TWM-2, then verify publication safety and publish the independent repository in TWM-3. No collection or delivery will run as part of migration.

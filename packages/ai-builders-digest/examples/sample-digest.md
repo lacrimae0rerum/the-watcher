@@ -47,4 +47,4 @@ Key insights:
 - A smaller, well-defined tool set makes agent behavior easier to debug.
 https://youtube.com/watch?v=example123
 
-Generated through ai-builders-digest: https://github.com/zarazhangrui/follow-builders
+Generated through ai-builders-digest: https://github.com/lacrimae0rerum/the-watcher
