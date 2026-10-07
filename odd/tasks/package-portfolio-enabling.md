@@ -194,7 +194,8 @@ A validated package selector and dynamic loader are prerequisites for package-sc
 - 2026-10-07: Native assessment was unassessable because unrelated untracked files require explicit review inventory; the required independent verifier passed every PPE-4 acceptance criterion with no findings.
 - 2026-10-07: PPE-4 preserves all existing message/file/stdin inputs, Telegram/email/stdout adapters, empty-input handling, unknown-method fallback, result envelopes, and error behavior. No remote delivery ran.
 - 2026-10-07: PPE-4 work-unit commit — `00130c540b79061523c8937290622ea04218fbb0` (`feat(digest): select delivery package at runtime`). The commit contains 132 insertions and 17 deletions across the three implementation/test files and this feature record.
+- 2026-10-07: Native ordinary review was unavailable for the committed PPE-4 range because the retained intended-untracked selection was bound to the unrelated ambient `.gitignore` candidate. No review lineage was created. The native assessment therefore required the completed writer checks and independent verification.
 
 ## Next step
 
-PPE-4 is complete pending native review. Descriptor-driven collection remains intentionally deferred until a second concrete thematic package exists. The next separately authorized slice can parameterize the workflow/root skill or implement the first sibling package.
+PPE-4 is complete. Descriptor-driven collection remains intentionally deferred until a second concrete thematic package exists. The next separately authorized slice can parameterize the workflow/root skill or implement the first sibling package.
