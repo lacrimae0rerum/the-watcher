@@ -25,6 +25,14 @@ export function resolveArtifactPaths(id, repositoryRoot) {
   };
 }
 
+export function resolveDeliveryRuntime(packageModule, homeDirectory, exists) {
+  return {
+    configPath: packageModule.resolveUserFile(homeDirectory, 'config.json', exists),
+    envPath: packageModule.resolveUserFile(homeDirectory, '.env', exists),
+    email: packageModule.delivery.email,
+  };
+}
+
 export function buildPreparationEnvelope({ remix, feeds, errors, generatedAt }) {
   const legacyAiBuilders = remix.digest.id === DEFAULT_PACKAGE_ID;
   const feedX = feeds.x;
@@ -137,6 +145,17 @@ export function validateDigestPackage(packageModule, requestedId) {
         packageModule.preparation.promptBaseUrl.trim(),
     ],
     ['resolveUserFile', typeof packageModule.resolveUserFile === 'function'],
+    ...['sender', 'subjectPrefix', 'subjectLocale'].map((field) => [
+      `delivery.email.${field}`,
+      typeof packageModule.delivery?.email?.[field] === 'string' &&
+        packageModule.delivery.email[field].trim(),
+    ]),
+    [
+      'delivery.email.subjectDateOptions',
+      packageModule.delivery?.email?.subjectDateOptions !== null &&
+        typeof packageModule.delivery?.email?.subjectDateOptions === 'object' &&
+        !Array.isArray(packageModule.delivery.email.subjectDateOptions),
+    ],
   ];
   const invalidExport = checks.find(([, valid]) => !valid)?.[0];
   if (invalidExport) {
