@@ -4,6 +4,24 @@ The Watcher is a thematic digest pipeline. It collects published content, prepar
 
 Two thematic packages are supplied: **AI Builders Digest** (`ai-builders-digest`) has the initial running collection, preparation, and delivery paths for X posts, podcasts, and blogs; **Cybersecurity Digest** (`cybersecurity-digest`) is a local foundation with 40 approved X accounts and empty blog and podcast catalogs. The platform uses reusable `digest-core` interfaces and scripts that accept `--package <id>`. The cybersecurity package has no generated or published feeds or active automation. There is no plugin registry or descriptor-driven collection.
 
+## Read or save a local cybersecurity pulse
+
+From the repository root, read the latest **saved** edition on demand:
+
+```bash
+node scripts/latest-edition.js --package cybersecurity-digest
+# Include stored package, language, generation time, and text as JSON:
+node scripts/latest-edition.js --package cybersecurity-digest --json
+```
+
+The plain command prints the exact stored text. Until an edition is explicitly saved, it exits with "No saved edition" and creates nothing. To save text that already exists, use a local UTF-8 file:
+
+```bash
+node scripts/save-edition.js --package cybersecurity-digest --file /path/to/existing-pulse.txt
+```
+
+Saving defaults to language `es` and the actual current UTC time. Use `--language es` and `--generated-at 2026-10-07T12:00:00.000Z` to supply known metadata instead. Both commands require `--package`; this does not change the AI Builders defaults in the existing runtime. The store is local, latest-only, and ignored by Git: it is not an archive or synchronized across clones. An agent in another checkout needs the saved file in that checkout. This does not collect sources, generate text, publish, or schedule a chat message. Cybersecurity source collection and automatic generation/save integration remain pending.
+
 ## Run an edition manually
 
 Use Node.js 20 (the version used by the collection workflow). Install dependencies in `scripts/`; there is no root npm package.

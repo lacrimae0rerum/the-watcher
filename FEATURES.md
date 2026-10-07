@@ -13,6 +13,7 @@ States distinguish verified publication from pending collection setup.
 | F-07 | Cybersecurity source management and collection | Cybersecurity pilot, CSP-2 | planned | high | F-06, provider credentials and collection validation | User or agent edits one catalog; validator and collector handle malformed, duplicate, unsupported, or empty sources without invented output; workflow selects theme and isolates artifacts. |
 | F-08 | Evidence-based Spanish generation and Telegram + X Article publication | Cybersecurity pilot, CSP-3 | planned | high | F-07, model/channel access and approved external checks | NaN `deepseek-v4-flash` drafts both versions from linked evidence; unsupported/empty editions suppressed; durable per-channel state prevents duplicate delivery. |
 | F-09 | Three-calendar-day noon Madrid activation | Cybersecurity pilot, CSP-4 | planned | high | F-08, first date and operator opt-in | Three-day intervals remain correct across DST; delivery is inactive until approved verification and activation. |
+| F-10 | On-demand latest saved cybersecurity pulse | Cybersecurity pilot, CER-1 | done | high | F-06, a separately supplied real edition | An agent with checkout and saved-file access displays the latest text exactly or reports it missing; local save is explicit and atomic, with no retrieval-time collection, generation, publication, or schedule. No real edition has been saved by this work. |
 
 F-03 local verification: 36/36 tests, three script syntax checks, package/lock name check,
 and structural readback passed. Registry publication is unknown.
