@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // ============================================================================
-// AI Builders Digest — Delivery Script
+// Digest Package — Delivery Script
 // ============================================================================
 // Sends a digest to the user via their chosen delivery method.
 // Supports: Telegram bot, Email (via Resend), or stdout (default).
@@ -11,8 +11,7 @@
 //   node deliver.js --message "digest text"
 //   node deliver.js --file /path/to/digest.txt
 //
-// The script reads delivery config from ~/.ai-builders-digest/config.json
-// and API keys from ~/.ai-builders-digest/.env
+// The script reads delivery config and API keys from the selected package's user files.
 //
 // Delivery methods:
 //   - "telegram": sends via Telegram Bot API (needs TELEGRAM_BOT_TOKEN + chat ID)
@@ -26,14 +25,10 @@ import { homedir } from 'os';
 import { config as loadEnv } from 'dotenv';
 import { deliver } from '../packages/digest-core/index.js';
 import {
-  delivery as packageDelivery,
-  resolveUserFile,
-} from '../packages/ai-builders-digest/index.js';
-
-// -- Constants ---------------------------------------------------------------
-
-const CONFIG_PATH = resolveUserFile(homedir(), 'config.json');
-const ENV_PATH = resolveUserFile(homedir(), '.env');
+  loadDigestPackage,
+  resolveDeliveryRuntime,
+  selectPackageId,
+} from './package-runtime.js';
 
 // -- Read input --------------------------------------------------------------
 
@@ -156,12 +151,15 @@ async function sendEmail(text, apiKey, toEmail, branding) {
 // -- Main --------------------------------------------------------------------
 
 async function main() {
+  const selected = await loadDigestPackage(selectPackageId(process.argv.slice(2)));
+  const { configPath, envPath, email } = resolveDeliveryRuntime(selected, homedir());
+
   // Load env and config
-  loadEnv({ path: ENV_PATH });
+  loadEnv({ path: envPath });
 
   let config = {};
-  if (existsSync(CONFIG_PATH)) {
-    config = JSON.parse(await readFile(CONFIG_PATH, 'utf-8'));
+  if (existsSync(configPath)) {
+    config = JSON.parse(await readFile(configPath, 'utf-8'));
   }
 
   const deliveryConfig = config.delivery || { method: 'stdout' };
@@ -194,7 +192,7 @@ async function main() {
           const toEmail = target.email;
           if (!apiKey) throw new Error('RESEND_API_KEY not found in .env');
           if (!toEmail) throw new Error('delivery.email not found in config.json');
-          await sendEmail(edition.text, apiKey, toEmail, packageDelivery.email);
+          await sendEmail(edition.text, apiKey, toEmail, email);
           return {
             status: 'ok',
             method: 'email',

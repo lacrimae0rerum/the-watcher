@@ -124,6 +124,27 @@ A validated package selector and dynamic loader are prerequisites for package-sc
     - Candidate and committed-range diff checks.
   - Rollback boundary: revert the PPE-3 work-unit commit to restore the static AI Builders preparation import and legacy-only output; PPE-1 and PPE-2 remain unchanged.
 
+- [x] **PPE-4 — Select packages during delivery without leaking paths or branding**
+  - Route: delegated direct writer.
+  - Trigger evidence: implementation changes the shared runtime seam, tests, and the non-trivial delivery entrypoint.
+  - Add strict-TDD public-seam coverage for package-owned config and environment paths, delivery branding, required delivery exports, and sibling isolation.
+  - Replace the static AI Builders delivery import with the validated package loader and resolve package-owned paths after package selection.
+  - Preserve every AI Builders delivery mode, message/file/stdin input, result envelope, error, and default behavior.
+  - Acceptance:
+    1. No `--package` continues selecting `ai-builders-digest` with its existing canonical and legacy user-file behavior.
+    2. `--package <canonical-id>` uses the same fail-closed selector and loader as generation and preparation.
+    3. Config, environment, and email branding come only from the selected package.
+    4. A sibling package cannot inherit `.ai-builders-digest` paths or AI Builders sender and subject branding.
+    5. Telegram, email, stdout, empty-input, unknown-method, and error behavior remain unchanged.
+    6. No sibling package, workflow, root skill, collection descriptor, source catalog, or remote delivery is introduced.
+  - Checks:
+    - RED evidence from the focused runtime test before implementation.
+    - GREEN: focused runtime tests and full `node --test`.
+    - Pure no-network runtime harness for AI Builders and an in-memory sibling package.
+    - `node --check scripts/deliver.js`.
+    - Candidate and committed-range diff checks.
+  - Rollback boundary: revert the PPE-4 work-unit commit to restore the static AI Builders delivery import and paths; PPE-1 through PPE-3 remain unchanged.
+
 ## Progress and evidence
 
 - 2026-09-27: Repository `AGENTS.md` is absent; global injected project instructions remain authoritative.
@@ -166,7 +187,13 @@ A validated package selector and dynamic loader are prerequisites for package-sc
 - 2026-09-27: PPE-3 rollback boundary — revert the PPE-3 work-unit commit to restore the static AI Builders preparation import and legacy-only output; PPE-1 and PPE-2 remain unchanged.
 - 2026-09-27: PPE-3 work-unit commit — `b59e3cd` (`feat(digest): select package during preparation`). The exact commit contains 359 insertions and 41 deletions across five files and remains below the 400-line review budget by authored additions.
 - 2026-09-27: Committed-range `git diff --check HEAD^..HEAD` passed. Post-commit status contains only the preserved unrelated modified `.gitignore` and untracked `.codegraph/`.
+- 2026-10-07: PPE-4 RED — the focused runtime test first failed because `resolveDeliveryRuntime` was not exported; the next focused run failed because package validation did not require the delivery descriptor.
+- 2026-10-07: PPE-4 GREEN — `node --test scripts/package-runtime.test.mjs` passed 20 tests and full `node --test` passed 35 tests.
+- 2026-10-07: The no-network runtime harness proved AI Builders canonical and legacy paths and proved a sibling uses only its own config path, environment path, sender, and subject branding.
+- 2026-10-07: Syntax and candidate diff checks passed. The implementation changes 104 insertions and 16 deletions across three source/test files.
+- 2026-10-07: Native assessment was unassessable because unrelated untracked files require explicit review inventory; the required independent verifier passed every PPE-4 acceptance criterion with no findings.
+- 2026-10-07: PPE-4 preserves all existing message/file/stdin inputs, Telegram/email/stdout adapters, empty-input handling, unknown-method fallback, result envelopes, and error behavior. No remote delivery ran.
 
 ## Next step
 
-PPE-3 is complete. Descriptor-driven collection remains intentionally deferred until a second concrete thematic package exists. The next dependency-ready slice is package-aware delivery or the first separately authorized sibling package.
+PPE-4 is complete pending its local work-unit commit and native review. Descriptor-driven collection remains intentionally deferred until a second concrete thematic package exists. The next separately authorized slice can parameterize the workflow/root skill or implement the first sibling package.

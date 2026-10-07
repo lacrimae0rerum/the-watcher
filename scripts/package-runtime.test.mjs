@@ -6,12 +6,58 @@ import { fileURLToPath } from 'node:url';
 import {
   loadDigestPackage,
   resolveArtifactPaths,
+  resolveDeliveryRuntime,
   selectPackageId,
   validateDigestPackage,
 } from './package-runtime.js';
 
 test('package selection defaults to ai-builders-digest', () => {
   assert.equal(selectPackageId([]), 'ai-builders-digest');
+});
+
+test('delivery runtime uses the selected package user files and email branding', async () => {
+  const selected = await loadDigestPackage('ai-builders-digest');
+  const runtime = resolveDeliveryRuntime(selected, '/home/reader', () => false);
+
+  assert.deepEqual(runtime, {
+    configPath: '/home/reader/.ai-builders-digest/config.json',
+    envPath: '/home/reader/.ai-builders-digest/.env',
+    email: selected.delivery.email,
+  });
+  assert.equal(runtime.email.sender, 'AI Builders Digest <digest@resend.dev>');
+  assert.equal(runtime.email.subjectPrefix, 'AI Builders Digest');
+});
+
+test('delivery runtime keeps AI Builders legacy files when they exist', async () => {
+  const selected = await loadDigestPackage('ai-builders-digest');
+  const runtime = resolveDeliveryRuntime(
+    selected,
+    '/home/reader',
+    (path) => path.startsWith('/home/reader/.follow-builders/'),
+  );
+
+  assert.equal(runtime.configPath, '/home/reader/.follow-builders/config.json');
+  assert.equal(runtime.envPath, '/home/reader/.follow-builders/.env');
+});
+
+test('delivery runtime isolates sibling files and branding', () => {
+  const sibling = {
+    resolveUserFile: (home, file) => `${home}/.cybersecurity-digest/${file}`,
+    delivery: {
+      email: {
+        sender: 'Cybersecurity Digest <cyber@resend.dev>',
+        subjectPrefix: 'Cybersecurity Digest',
+        subjectLocale: 'en-US',
+        subjectDateOptions: { year: 'numeric' },
+      },
+    },
+  };
+
+  assert.deepEqual(resolveDeliveryRuntime(sibling, '/home/reader'), {
+    configPath: '/home/reader/.cybersecurity-digest/config.json',
+    envPath: '/home/reader/.cybersecurity-digest/.env',
+    email: sibling.delivery.email,
+  });
 });
 
 test('artifact paths preserve AI Builders root files', () => {
@@ -193,7 +239,7 @@ test('package validation rejects missing or empty generator exports', () => {
   }
 });
 
-test('package validation rejects missing preparation exports', () => {
+test('package validation rejects missing preparation and delivery exports', () => {
   const validModule = {
     digestPackage: {
       id: 'test-digest',
@@ -209,6 +255,14 @@ test('package validation rejects missing preparation exports', () => {
     },
     resolveUserFile() {},
     createCollectors() {},
+    delivery: {
+      email: {
+        sender: 'Test Digest <test@example.com>',
+        subjectPrefix: 'Test Digest',
+        subjectLocale: 'en-US',
+        subjectDateOptions: { year: 'numeric' },
+      },
+    },
   };
   const invalidExports = [
     ['digestPackage.declaration', { digestPackage: { id: 'test-digest' } }],
@@ -219,6 +273,23 @@ test('package validation rejects missing preparation exports', () => {
       { preparation: { feeds: [], promptBaseUrl: '' } },
     ],
     ['resolveUserFile', { resolveUserFile: undefined }],
+    ['delivery.email', { delivery: undefined }],
+    [
+      'delivery.email.sender',
+      { delivery: { email: { ...validModule.delivery.email, sender: '' } } },
+    ],
+    [
+      'delivery.email.subjectPrefix',
+      { delivery: { email: { ...validModule.delivery.email, subjectPrefix: '' } } },
+    ],
+    [
+      'delivery.email.subjectLocale',
+      { delivery: { email: { ...validModule.delivery.email, subjectLocale: '' } } },
+    ],
+    [
+      'delivery.email.subjectDateOptions',
+      { delivery: { email: { ...validModule.delivery.email, subjectDateOptions: null } } },
+    ],
   ];
 
   for (const [exportName, replacement] of invalidExports) {
