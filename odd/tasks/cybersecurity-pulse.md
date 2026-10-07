@@ -58,5 +58,8 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
 - 2026-10-07: Existing preparation defaults remain English when user configuration is absent; cybersecurity users must set language es. Schema cadence/language defaults are preferences, not operational scheduling. README and canonical records explicitly distinguish this foundation from future generation and delivery.
 - 2026-10-07: Native assessment was unassessable due to unrelated untracked inventory; required independent verification completed. No live collection, LLM request, publication, credential access, or push occurred.
 
+- 2026-10-07: CSP-1 work-unit commit `a9206429be050b754948f4820d6144319448db4d` (`feat(cybersecurity): add evidence-first pulse package and source catalog`), 640 insertions and 98 deletions across 22 files. Scope exceeded the initial estimate due to the shared normalization move, full asset tests and current product records; no source/generalization work from later tasks was included.
+- 2026-10-07: Native committed-range review could not start (`native-start-retained-selection-candidate-mismatch`); no authority mutation occurred. Native unavailable-review assessment required writer checks plus independent verification, both completed. No authority reset or review-mode change was attempted.
+
 ## Next step
 CSP-1 is complete locally. Implement CSP-2 next: source validation and package-aware collection/run path. Generation, multi-channel automatic publication, and activation remain planned and require separate verified work units.
