@@ -1,7 +1,7 @@
 {
-  "name": "ai-builders-digest-scripts",
+  "name": "the-watcher-scripts",
   "version": "1.0.0",
-  "description": "Scripts for ai-builders-digest feed generation, digest preparation, and delivery",
+  "description": "The Watcher scripts for AI Builders Digest feed generation, preparation, and delivery",
   "type": "module",
   "scripts": {
     "generate-feed": "node generate-feed.js",

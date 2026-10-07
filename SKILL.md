@@ -1,9 +1,9 @@
 ---
-name: ai-builders-digest
+name: the-watcher
 description: AI builders digest — monitors top AI builders on X and YouTube podcasts, remixes their content into digestible summaries. Follow builders, not influencers.
 ---
 
-# AI Builders Digest
+# The Watcher — AI Builders Digest
 
 You are an AI-powered content curator that tracks the top builders in AI — the people
 actually building products, running companies, and doing research — and delivers
@@ -13,7 +13,8 @@ Philosophy: follow builders with original opinions, not influencers who regurgit
 
 **No API keys or environment variables are required from users.** All content
 (X/Twitter posts, podcast transcripts, and blog posts) is fetched centrally and served via
-a public feed. Users only need API keys if they choose Telegram or email delivery.
+a public feed once the repository is published and collection credentials are configured.
+Users only need API keys if they choose Telegram or email delivery.
 
 The `ai-builders-digest` package owns its source catalog, user configuration schema,
 prompts, editorial policy, and branding. Its scripts orchestrate the generic
@@ -32,7 +33,7 @@ which openclaw 2>/dev/null && echo "PLATFORM=openclaw" || echo "PLATFORM=other"
 
 - **Other** (Claude Code, Cursor, etc.): Non-persistent agent. Terminal closes = agent stops.
   For automatic delivery, users MUST set up Telegram or Email. Without it, digests
-  are on-demand only (user types `/ai-builders-digest` to get one).
+  are on-demand only (user types `/the-watcher` to get one).
   Cron uses system `crontab` for Telegram/Email delivery, or is skipped for on-demand mode.
 
 Save the detected platform in config.json as `"platform": "openclaw"` or `"platform": "other"`.
@@ -85,7 +86,7 @@ when you're not in this terminal. You have two options:
 1. **Telegram** — I'll send it as a Telegram message (free, takes ~5 min to set up)
 2. **Email** — I'll email it to you (requires a free Resend account)
 
-Or you can skip this and just type /ai-builders-digest whenever you want your digest — but it
+Or you can skip this and just type /the-watcher whenever you want your digest — but it
 won't arrive automatically."
 
 **If they choose Telegram:**
@@ -116,7 +117,7 @@ Then they need a Resend API key:
 Add the key to the .env file.
 
 **If they choose on-demand:**
-Set `delivery.method` to `"stdout"`. Tell them: "No problem — just type /ai-builders-digest
+Set `delivery.method` to `"stdout"`. Tell them: "No problem — just type /the-watcher
 whenever you want your digest. No automatic delivery will be set up."
 
 ### Step 4: Language
@@ -229,7 +230,7 @@ openclaw cron add \
   --cron "<cron expression>" \
   --tz "<user IANA timezone>" \
   --session isolated \
-  --message "Run the ai-builders-digest skill: execute prepare-digest.js, remix the content into a digest following the prompts, then deliver via deliver.js" \
+  --message "Run the-watcher for AI Builders Digest: execute prepare-digest.js, remix the content into a digest following the prompts, then deliver via deliver.js" \
   --announce \
   --channel <channel name> \
   --to "<target ID>" \
@@ -275,17 +276,18 @@ SKILL_DIR="<absolute path to the skill directory>"
 ```
 Note: this runs the prepare script and pipes its output directly to delivery,
 bypassing the agent entirely. The digest won't be remixed by an LLM — it will
-deliver the raw JSON. For full remixed digests, the user should use /ai-builders-digest manually
+deliver the raw JSON. For full remixed digests, the user should use /the-watcher manually
 or switch to OpenClaw.
 
 **Non-persistent agent + on-demand only (no Telegram/Email):**
 Skip cron setup entirely. Tell the user: "Since you chose on-demand delivery,
-there's no scheduled job. Just type /ai-builders-digest whenever you want your digest."
+there's no scheduled job. Just type /the-watcher whenever you want your digest."
 
 ### Step 9: Welcome Digest
 
-**DO NOT skip this step.** Immediately after setting up the cron job, generate
-and send the user their first digest so they can see what it looks like.
+After the public feed is available, generate and send the user their first digest
+so they can see what it looks like. Do not promise delivery before the repository
+is published and collection credentials are configured.
 
 Tell the user: "Let me fetch today's content and send you a sample digest right now.
 This takes about a minute."
@@ -303,7 +305,7 @@ Just tell me and I'll adjust."
 Then add the appropriate closing line based on their setup:
 - **OpenClaw or Telegram/Email delivery:** "Your next digest will arrive
   automatically at [their chosen time]."
-- **On-demand only:** "Type /ai-builders-digest anytime you want your next digest."
+- **On-demand only:** "Type /the-watcher anytime you want your next digest."
 
 Wait for their response and apply any feedback (update config.json or prompt files
 as needed). Then confirm the changes.
@@ -312,7 +314,7 @@ as needed). Then confirm the changes.
 
 ## Content Delivery — Digest Run
 
-This workflow runs on cron schedule or when the user invokes `/ai-builders-digest`.
+This workflow runs on cron schedule or when the user invokes `/the-watcher`.
 
 ### Step 1: Load Config
 
@@ -428,7 +430,7 @@ When the user says something that sounds like a settings change, handle it:
 The source list is managed centrally and cannot be modified by users.
 If a user asks to add or remove sources, tell them: "The source list is curated
 centrally and updates automatically. If you'd like to suggest a source, you can
-open an issue at https://github.com/zarazhangrui/follow-builders."
+open an issue at https://github.com/lacrimae0rerum/the-watcher/issues."
 
 ### Schedule Changes
 - "Switch to weekly/daily" → Update `frequency` in config.json
@@ -471,7 +473,7 @@ After any configuration change, confirm what you changed.
 
 ## Manual Trigger
 
-When the user invokes `/ai-builders-digest` or asks for their digest manually:
+When the user invokes `/the-watcher` or asks for their digest manually:
 1. Skip cron check — run the digest workflow immediately
 2. Use the same fetch → remix → deliver flow as the cron run
 3. Tell the user you're fetching fresh content (it takes a minute or two)

@@ -1,6 +1,8 @@
 **English** | [中文](README.zh-CN.md)
 
-# AI Builders Digest
+# The Watcher
+
+The Watcher is an independent digest platform. Its initial theme is AI Builders Digest.
 
 AI builders digest — monitors top AI builders on X and YouTube podcasts, remixes their content into digestible summaries. Follow builders, not influencers.
 
@@ -20,17 +22,18 @@ WhatsApp, etc.) with:
 
 ## Quick Start
 
-1. Install the skill in your agent (OpenClaw or Claude Code)
-2. Say "set up AI builders digest" or invoke `/ai-builders-digest`
-3. The agent walks you through setup conversationally — no config files to edit
+1. Install the skill in your agent (OpenClaw or Claude Code).
+2. Say "set up AI builders digest" or invoke `/the-watcher`.
+3. The agent walks you through setup conversationally — no config files to edit.
 
 The agent will ask you:
 - How often you want your digest (daily or weekly) and what time
 - What language you prefer
 - How you want it delivered (Telegram, email, or in-chat)
 
-No API keys needed — all content is fetched centrally.
-Your first digest arrives immediately after setup.
+Readers need no collection API keys; the repository operator must configure collection
+credentials and publish a working feed first. A digest can arrive after the feed is
+available and delivery is configured.
 
 ## Changing Settings
 
@@ -42,7 +45,7 @@ Your delivery preferences are configurable through conversation. Just tell your 
 - "Show me my current settings"
 
 The source list (builders and podcasts) is curated centrally and updates
-automatically — you always get the latest sources without doing anything.
+through the central feed when collection is operational.
 
 ## Customizing the Summaries
 
@@ -82,20 +85,19 @@ These are plain English instructions, not code. Changes take effect on the next 
 
 ## Installation
 
+Install from Git after the independent repository is published. Registry publication
+is unknown; no ClawHub package is available from this project at this time.
+
 ### OpenClaw
 ```bash
-# From ClawhHub (coming soon)
-clawhub install ai-builders-digest
-
-# Or manually
-git clone https://github.com/zarazhangrui/follow-builders.git ~/skills/ai-builders-digest
-cd ~/skills/ai-builders-digest/scripts && npm install
+git clone https://github.com/lacrimae0rerum/the-watcher.git ~/skills/the-watcher
+cd ~/skills/the-watcher/scripts && npm install
 ```
 
 ### Claude Code
 ```bash
-git clone https://github.com/zarazhangrui/follow-builders.git ~/.claude/skills/ai-builders-digest
-cd ~/.claude/skills/ai-builders-digest/scripts && npm install
+git clone https://github.com/lacrimae0rerum/the-watcher.git ~/.claude/skills/the-watcher
+cd ~/.claude/skills/the-watcher/scripts && npm install
 ```
 
 ## Requirements
@@ -103,12 +105,13 @@ cd ~/.claude/skills/ai-builders-digest/scripts && npm install
 - An AI agent (OpenClaw, Claude Code, or similar)
 - Internet connection (to fetch the central feed)
 
-That's it. No API keys needed. All content (blog articles + YouTube transcripts + X/Twitter posts)
-is fetched centrally and updated daily.
+Readers do not need collection API keys. The repository operator needs
+`X_BEARER_TOKEN` and `POD2TXT_API_KEY` for collection; scheduled updates are
+not operational until those credentials are configured and a run succeeds.
 
 ## How It Works
 
-1. A central feed is updated daily with the latest content from all sources
+1. A scheduled workflow can update the central feed with content from the sources
    (blog articles via web scraping, podcast transcripts via pod2txt, X/Twitter via the official API)
 2. The preparation script makes three feed requests in parallel and up to five remote
    prompt requests, while preferring user overrides and retaining bundled fallbacks
@@ -123,7 +126,7 @@ See [the sample digest](packages/ai-builders-digest/examples/sample-digest.md) f
 
 ## Privacy
 
-- No API keys are sent anywhere — all content is fetched centrally
+- Readers do not send collection API keys to the skill; the operator runs central collection
 - If you use Telegram/email delivery, those keys are stored locally in `~/.ai-builders-digest/.env`
 - The skill only reads public content (public blog posts, public YouTube videos, public X posts)
 - Your configuration, preferences, and reading history stay on your machine

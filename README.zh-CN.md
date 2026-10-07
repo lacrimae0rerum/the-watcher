@@ -1,6 +1,8 @@
 [English](README.md) | **中文**
 
-# AI Builders Digest
+# The Watcher
+
+The Watcher 是独立的摘要平台，初始主题为 AI Builders Digest。
 
 > AI builders digest — monitors top AI builders on X and YouTube podcasts, remixes their content into digestible summaries. Follow builders, not influencers.
 
@@ -21,7 +23,7 @@
 ## 快速开始
 
 1. 在你的 AI agent 中安装此 skill（OpenClaw 或 Claude Code）
-2. 输入 "set up AI builders digest" 或执行 `/ai-builders-digest`
+2. 输入 "set up AI builders digest" 或执行 `/the-watcher`
 3. Agent 会以对话方式引导你完成设置——不需要手动编辑任何配置文件
 
 Agent 会询问你：
@@ -29,8 +31,7 @@ Agent 会询问你：
 - 语言偏好
 - 推送方式（Telegram、邮件或直接在聊天中显示）
 
-不需要任何 API key——所有内容由中心化服务统一抓取。
-设置完成后，你的第一期摘要会立即推送。
+读者无需提供采集所用的 API key。仓库运营者必须先配置采集凭证，并发布可用的 feed；随后才能按配置获取摘要。
 
 ## 修改设置
 
@@ -41,7 +42,7 @@ Agent 会询问你：
 - "把摘要写得更简短一些"
 - "显示我当前的设置"
 
-信息源列表（建造者和播客）由中心化统一管理和更新——你无需做任何操作即可获得最新的信息源。
+信息源列表（建造者和播客）由中心化管理；采集正常运行后，feed 才会更新。
 
 ## 自定义摘要风格
 
@@ -79,20 +80,18 @@ Skill 使用纯文本 prompt 文件来控制内容的摘要方式。你可以通
 
 ## 安装
 
+独立仓库发布后，请通过 Git 安装。是否会发布到注册表尚未确定；目前本项目没有可用的 ClawHub 包。
+
 ### OpenClaw
 ```bash
-# 从 ClawhHub 安装（即将上线）
-clawhub install ai-builders-digest
-
-# 或手动安装
-git clone https://github.com/zarazhangrui/follow-builders.git ~/skills/ai-builders-digest
-cd ~/skills/ai-builders-digest/scripts && npm install
+git clone https://github.com/lacrimae0rerum/the-watcher.git ~/skills/the-watcher
+cd ~/skills/the-watcher/scripts && npm install
 ```
 
 ### Claude Code
 ```bash
-git clone https://github.com/zarazhangrui/follow-builders.git ~/.claude/skills/ai-builders-digest
-cd ~/.claude/skills/ai-builders-digest/scripts && npm install
+git clone https://github.com/lacrimae0rerum/the-watcher.git ~/.claude/skills/the-watcher
+cd ~/.claude/skills/the-watcher/scripts && npm install
 ```
 
 ## 系统要求
@@ -100,11 +99,11 @@ cd ~/.claude/skills/ai-builders-digest/scripts && npm install
 - 一个 AI agent（OpenClaw、Claude Code 或类似工具）
 - 网络连接（用于获取中心化 feed）
 
-仅此而已。不需要任何 API key。所有内容（博客文章 + YouTube 字幕 + X/Twitter 帖子）由中心化服务每日抓取更新。
+读者无需提供采集凭证。仓库运营者需要配置 `X_BEARER_TOKEN` 和 `POD2TXT_API_KEY`；定时更新须在凭证配置完成且成功运行后才能视为可用。
 
 ## 工作原理
 
-1. 中心化 feed 每日更新，抓取所有信息源的最新内容（博客文章通过网页抓取，播客字幕通过 pod2txt，X/Twitter 通过官方 API）
+1. 定时工作流可更新中心化 feed，采集信息源的内容（博客文章通过网页抓取，播客字幕通过 pod2txt，X/Twitter 通过官方 API）
 2. 准备脚本并行发起三个 feed 请求，并最多发起五个远程 prompt 请求，同时优先采用用户自定义内容并保留内置回退副本
 3. 你的 agent 根据你的偏好将原始内容重新混编为易消化的摘要
 4. 摘要推送到你的通讯工具（或直接在聊天中显示）
@@ -115,7 +114,7 @@ cd ~/.claude/skills/ai-builders-digest/scripts && npm install
 
 ## 隐私
 
-- 不发送任何 API key——所有内容由中心化服务获取
+- 读者无需向 skill 提供采集用的 API key；采集由仓库运营者集中执行
 - 如果你使用 Telegram/邮件推送，相关 key 仅存储在本地 `~/.ai-builders-digest/.env`
 - Skill 只读取公开内容（公开的博客文章、YouTube 视频和 X 帖子）
 - 你的配置、偏好和阅读记录都保留在你自己的设备上
