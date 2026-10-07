@@ -2,7 +2,7 @@
 
 The Watcher is a thematic digest pipeline. It collects published content, prepares it for a host language-model agent to summarize, and delivers the resulting edition. JavaScript handles collection, preparation, and delivery; it does **not** run a language model or summarize content automatically.
 
-The current thematic package, **AI Builders Digest** (`ai-builders-digest`), covers X posts, podcast episodes, and blog articles. The platform uses reusable `digest-core` collection, preparation, and delivery interfaces. Its scripts accept `--package <id>`, but only `ai-builders-digest` is supplied here. There is no installed portfolio of themes, plugin registry, or descriptor-driven collection.
+Two thematic packages are supplied: **AI Builders Digest** (`ai-builders-digest`) has the initial running collection, preparation, and delivery paths for X posts, podcasts, and blogs; **Cybersecurity Digest** (`cybersecurity-digest`) is a local foundation with 40 approved X accounts and empty blog and podcast catalogs. The platform uses reusable `digest-core` interfaces and scripts that accept `--package <id>`. The cybersecurity package has no generated or published feeds or active automation. There is no plugin registry or descriptor-driven collection.
 
 ## Run an edition manually
 
@@ -29,7 +29,7 @@ For a compatible agent that loads local skill directories, install the repositor
 
 ## Reader configuration and delivery
 
-For this theme, place optional preferences in `~/.ai-builders-digest/config.json`:
+For AI Builders, place optional preferences in `~/.ai-builders-digest/config.json`:
 
 ```json
 {
@@ -39,7 +39,7 @@ For this theme, place optional preferences in `~/.ai-builders-digest/config.json
 }
 ```
 
-`frequency` describes a preference; the manual commands do not schedule editions. Without a config file, preparation uses English, daily, and stdout defaults. User prompt overrides at `~/.ai-builders-digest/prompts/<filename>.md` take priority over hosted prompts, which take priority over bundled files in [the package](packages/ai-builders-digest/prompts/). See the [configuration schema](packages/ai-builders-digest/config/config-schema.json) for supported fields.
+`frequency` describes a preference; the manual commands do not schedule editions. Without a config file, preparation uses English, daily, and stdout defaults. For cybersecurity Spanish preferences, set `"language": "es"` in `~/.cybersecurity-digest/config.json`; [schema defaults](packages/cybersecurity-digest/config/config-schema.json) are not runtime defaults. User prompt overrides at `~/.ai-builders-digest/prompts/<filename>.md` take priority over hosted prompts, which take priority over bundled files in [the AI Builders package](packages/ai-builders-digest/prompts/). See its [configuration schema](packages/ai-builders-digest/config/config-schema.json) for supported fields.
 
 Delivery supports only stdout, Telegram, and email via Resend. To select Telegram, set `"delivery": { "method": "telegram", "chatId": "<chat ID>" }` in the config, and put `TELEGRAM_BOT_TOKEN=<bot token>` in `~/.ai-builders-digest/.env`. Create a Telegram bot and message it first so you can obtain a chat ID. To select email, use `"delivery": { "method": "email", "email": "you@example.com" }` and set `RESEND_API_KEY=<key>` in the same `.env` file. A Resend account/API key and recipient address are required. Keep secrets out of the JSON and out of version control. Neither delivery adapter is needed for stdout. No other messaging channels are implemented by `deliver.js`.
 
@@ -47,10 +47,10 @@ Delivery supports only stdout, Telegram, and email via Resend. To select Telegra
 
 The [GitHub Actions workflow](.github/workflows/generate-feed.yml) collects AI Builders content into `feed-x.json`, `feed-podcasts.json`, `feed-blogs.json`, and `state-feed.json`. Its schedule is **06:17 UTC daily**; manual workflow dispatch offers `all` (default), `tweets-only`, `podcasts-only`, and `blogs-only`. The default all-feeds run needs repository secrets `X_BEARER_TOKEN` (X API) and `POD2TXT_API_KEY` (podcast transcripts). Blog-only collection does not need those two keys. Collection uses the package's [source catalog](packages/ai-builders-digest/config/default-sources.json), not a generic source descriptor dispatch system.
 
-Hosted snapshots are accessible, but the current repository has no collection credentials configured and no successful refresh has been observed. Snapshot availability is not a freshness guarantee; do not expect daily updated feeds or automatic digest delivery until an operator configures credentials, verifies collection, and separately arranges an agent-driven edition schedule. No workflow run or paid API is required to read the existing snapshots.
+AI Builders snapshots are accessible, but the current repository has no collection credentials configured and no successful refresh has been observed. Snapshot availability is not a freshness guarantee; do not expect daily updated feeds or automatic digest delivery until an operator configures credentials, verifies collection, and separately arranges an agent-driven edition schedule. No workflow run or paid API is required to read the existing snapshots.
 
 ## Code and checks
 
-- [`scripts/generate-feed.js`](scripts/generate-feed.js) collects and writes feeds; [`scripts/prepare-digest.js`](scripts/prepare-digest.js) reads snapshots, preferences, and prompts into JSON; [`scripts/deliver.js`](scripts/deliver.js) accepts edition text and selects the delivery adapter. Each accepts `--package ai-builders-digest`.
-- [`packages/digest-core/`](packages/digest-core/) defines reusable stage interfaces. [`packages/ai-builders-digest/`](packages/ai-builders-digest/) supplies the present theme's sources, prompts, configuration, and delivery branding.
+- [`scripts/generate-feed.js`](scripts/generate-feed.js) collects and writes feeds; [`scripts/prepare-digest.js`](scripts/prepare-digest.js) reads snapshots, preferences, and prompts into JSON; [`scripts/deliver.js`](scripts/deliver.js) accepts edition text and selects the delivery adapter. Each accepts `--package <id>`; the manual example uses AI Builders.
+- [`packages/digest-core/`](packages/digest-core/) defines reusable stage interfaces. [`packages/ai-builders-digest/`](packages/ai-builders-digest/) supplies the initial running theme. [`packages/cybersecurity-digest/`](packages/cybersecurity-digest/) supplies the cybersecurity foundation, including its [source catalog](packages/cybersecurity-digest/config/default-sources.json), prompts, and configuration. NaN drafting, Telegram plus X Article publication, and the three-day Europe/Madrid cadence remain planned, not operational.
 - From the repository root, run `node --test` for local tests. Tests do not establish remote feed freshness, collection credentials, or successful external delivery.

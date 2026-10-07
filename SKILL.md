@@ -20,6 +20,12 @@ The `ai-builders-digest` package owns its source catalog, user configuration sch
 prompts, editorial policy, and branding. Its scripts orchestrate the generic
 collection, preparation, and delivery interfaces exported by `digest-core`.
 
+For a request to manage **cybersecurity-digest sources**, use the scoped instructions
+in Configuration Handling > Source Changes. This theme is a local package only:
+its feeds and prompts are not yet published, and its three-day schedule and
+Telegram + X Article delivery are not active. Do not use the AI Builders run
+pipeline as a cybersecurity publication workflow.
+
 ## Detecting Platform
 
 Before doing anything, detect which platform you're running on by running:
@@ -427,10 +433,26 @@ Just output the digest directly.
 When the user says something that sounds like a settings change, handle it:
 
 ### Source Changes
-The source list is managed centrally and cannot be modified by users.
-If a user asks to add or remove sources, tell them: "The source list is curated
-centrally and updates automatically. If you'd like to suggest a source, you can
-open an issue at https://github.com/lacrimae0rerum/the-watcher/issues."
+For AI Builders, the source list remains centrally managed and cannot be modified
+by users. For AI Builders requests, suggest an issue at
+https://github.com/lacrimae0rerum/the-watcher/issues.
+
+For **cybersecurity-digest**, both a direct repository edit and an agent-requested
+edit change the same canonical catalog:
+`packages/cybersecurity-digest/config/default-sources.json`. Read it first; change
+only the exact sources the user approves and preserve the other entries. Use the
+existing generator's shapes: `x_accounts` contains `{ "name": "handle", "handle":
+"handle" }`, where `name` repeats the approved handle as a label, not a verified
+display name; `podcasts` uses `{ "name": "approved name", "rssUrl":
+"approved RSS URL", "url": "approved episode/channel URL" }`. Confirm the
+specific account handle or podcast URLs with the user before adding them. Remove
+by exact handle or approved feed URL. Check JSON parsing and duplicate handles
+(case-insensitive) after editing; report the resulting list and count. Do not
+modify the AI Builders catalog. The `blogs` array stays empty: the current web
+collector only supports its configured scrape targets, not arbitrary RSS/blog
+feeds. Defer blog additions until collector adaptation and validation. A catalog
+edit does not prove live collection; do not fetch, publish, or activate a schedule
+as part of source management.
 
 ### Schedule Changes
 - "Switch to weekly/daily" → Update `frequency` in config.json

@@ -1,0 +1,8 @@
+{
+  "name": "cybersecurity-digest",
+  "version": "0.1.0",
+  "description": "Spanish defensive cybersecurity digest with linked evidence and uncertainty labels.",
+  "type": "module",
+  "exports": "./index.js",
+  "files": ["index.js", "collection.js", "config/", "examples/", "prompts/"]
+}

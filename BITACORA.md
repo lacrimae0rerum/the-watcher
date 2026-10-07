@@ -1,5 +1,43 @@
 # Work log
 
+## 2026-10-07 — Cybersecurity package foundation (CSP-1)
+
+Objective: Add the approved cybersecurity theme locally without activating collection or publication.
+
+Changes: Added the validated thematic package, 40 exact approved X handles, empty
+podcasts/blogs, Spanish defensive editorial prompts and fictional sample. Moved
+unchanged provider normalization to `digest-core` and kept the AI Builders public
+collector export. Added scoped cybersecurity catalog editing instructions and
+updated product records for the approved pilot.
+
+Decisions: The X catalog `name` repeats the approved handle as a technical label,
+not a verified display name. Intended package-owned URLs are not published feeds.
+The requested three-day noon Madrid cadence and Telegram + X Article delivery
+remain product requirements, not runtime capabilities.
+
+Verification: Observed the initial focused RED (`Unknown package: cybersecurity-digest`),
+then 7/7 focused and 43/43 full Node tests passing with mocked offline preparation.
+Both thematic collector paths preserve normalization. Three package JSON files parsed,
+three syntax checks and `git diff --check` passed. No external calls were made.
+
+Independent review confirmed the initial 40 handles. The correction leaves the catalog
+unchanged and tests its generic structure, valid unique X handles, and string names
+without pinning current membership or empty future podcast/blog arrays. A one-time
+read-only comparison against the approved tracker confirmed all 40 handles in order.
+The new digest-core manifest test first failed (7/8 focused); adding `collection.js`
+to its shipped files made 8/8 focused and 44/44 full Node tests pass. The shared
+collector export is unchanged. README remains scoped to the initial AI Builders theme;
+this package correction does not change that documentation scope.
+
+Blockers: Live source collection, NaN generation, dual-channel publication, and
+true three-calendar-day scheduling are not implemented. No first date, destination,
+or credentials are configured. Existing preparation defaults to English without
+explicit user config; schema defaults are documentation, not runtime defaults.
+
+Pending: CSP-2 validates collection and source edits; CSP-3 implements verified
+generation and delivery; CSP-4 schedules only after explicit activation. Next
+step: Hand off the locally verified CSP-1 diff for independent review.
+
 ## 2026-10-07 — The Watcher README (TWR-1)
 
 Objective: Document the current platform and its initial AI Builders theme accurately.
