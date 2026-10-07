@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Stored cybersecurity-digest preferences at ~/.cybersecurity-digest/config.json. Schema defaults are not applied by the current preparation runtime; scheduling and dual delivery are not implemented.",
+  "type": "object",
+  "properties": {
+    "platform": {
+      "type": "string",
+      "enum": ["openclaw", "other"],
+      "description": "Detected agent platform."
+    },
+    "language": {
+      "type": "string",
+      "enum": ["es"],
+      "default": "es",
+      "description": "Editorial language preference. Set explicitly: the existing prepare CLI falls back to en if config is absent."
+    },
+    "intervalDays": {
+      "type": "integer",
+      "const": 3,
+      "default": 3,
+      "description": "Requested three-calendar-day cadence; stored preference only, not yet scheduled or consumed by the runtime."
+    },
+    "timezone": {
+      "type": "string",
+      "const": "Europe/Madrid",
+      "default": "Europe/Madrid",
+      "description": "Requested timezone; stored preference only, not yet scheduled or consumed by the runtime."
+    },
+    "deliveryTime": {
+      "type": "string",
+      "const": "12:00",
+      "default": "12:00",
+      "description": "Requested local delivery time; stored preference only, not yet scheduled or consumed by the runtime."
+    },
+    "frequency": {
+      "type": "string",
+      "enum": ["daily", "weekly"],
+      "description": "Existing runtime reads this field. Neither value implements a three-day cadence; do not use it to activate this pilot."
+    },
+    "delivery": {
+      "type": "object",
+      "description": "Existing runtime supports one method per run. Telegram plus X Article publication is planned, not configured here.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["stdout", "telegram", "email"],
+          "description": "Existing single-channel delivery method; email is supported by the shared runtime but not selected for this pilot."
+        },
+        "chatId": { "type": "string", "description": "Telegram destination if method is telegram." },
+        "email": { "type": "string", "description": "Email destination if method is email; not selected for this pilot." }
+      }
+    },
+    "onboardingComplete": { "type": "boolean", "default": false }
+  }
+}
