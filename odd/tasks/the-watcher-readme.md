@@ -29,6 +29,7 @@ Replace inherited README copy with an original English description of the implem
 - 2026-10-07: README replaced with original English current-product documentation; Chinese version removed and its active inbound link eliminated. No original-project references or migration narrative remain in README. NOTICE and Git history remain intact.
 - 2026-10-07: Writer and independent verifier observed 36/36 passing tests. Ten local README links exist; command/config/architecture readback and scoped diff checks passed. Source and generated data are unchanged.
 - 2026-10-07: Native assessment was unavailable because unrelated untracked inventory needs explicit selection; its independent-verifier fallback passed. Native review capture is skipped for this passive documentation-only unit.
+- 2026-10-07: Work-unit commit `cdc86557f6abe5ba9c2ec104354d4b6a7f8f0163` (`docs(the-watcher): describe the implemented digest platform`); 78 insertions and 230 deletions across four documentation files. No push occurred.
 
 ## Next step
 The local documentation unit is complete. Publish it only after explicit user authorization; operational credential setup remains pending separately.
