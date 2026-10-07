@@ -83,6 +83,7 @@ The checkout still uses the original repository as its Git remote and as the liv
 - 2026-10-07: New repository secrets list is empty: `X_BEARER_TOKEN` and `POD2TXT_API_KEY` are missing. No collection, delivery, or workflow dispatch ran. Publication is complete; operational collection remains blocked until credential setup and a successful approved run.
 - 2026-10-07: Orca workspace display name is `the-watcher`; the live checkout stayed in place. Orca's stored projectId still references the original registration and cannot be rebound through the documented CLI in place. This UI metadata limitation does not change the new Git remote or hosted URLs; no session or admin storage was modified.
 - 2026-10-07: FEATURES, BUGS, BITACORA, and ROADMAP now distinguish completed publication from blocked collection setup. Their scoped diff and structural checks passed.
+- 2026-10-07: TWM-3 work-unit commit: `78c7df1914e3fcea1f9177a116aad43a6cd87827` (`docs(the-watcher): record independent publication verification`). Publication verification covers the initial source snapshot; subsequent commits only update passive evidence records.
 
 ## Next step
 
