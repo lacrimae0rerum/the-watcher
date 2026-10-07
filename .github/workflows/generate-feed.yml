@@ -1,4 +1,4 @@
-name: Generate AI Builders Digest Feeds
+name: The Watcher: Generate AI Builders Digest Feeds
 
 on:
   schedule:

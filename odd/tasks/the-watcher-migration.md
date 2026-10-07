@@ -39,8 +39,8 @@ The checkout still uses the original repository as its Git remote and as the liv
   - Acceptance: selected repository owns all live feed/prompt URLs; package identity, legacy user paths, content topology, adapters, and generated snapshots remain unchanged.
   - Checks: focused package/preparation tests, full `node --test`, script syntax checks, and scoped diff checks. No network collection or delivery.
 
-- [ ] **TWM-2 — Rename platform identity and document independent ownership**
-  - Status: in_progress.
+- [x] **TWM-2 — Rename platform identity and document independent ownership**
+  - Status: done.
   - Route: delegated writer; platform identity, install/support instructions, workflow naming, and project records are coordinated non-trivial documentation/configuration edits.
   - Rename root skill/command and platform-facing installation instructions to `the-watcher`; keep the default thematic product AI Builders Digest.
   - Update English and Chinese READMEs, script package metadata/lock names, workflow display names, and active issue/install links. Do not advertise a published registry package.
@@ -50,7 +50,7 @@ The checkout still uses the original repository as its Git remote and as the liv
   - Checks: full `node --test`, JSON metadata consistency, syntax/diff checks, and structural readback of root skill/workflow/docs. Passive prose uses structural verification, not fabricated RED.
 
 - [ ] **TWM-3 — Publish and verify independent GitHub infrastructure**
-  - Status: pending.
+  - Status: in_progress.
   - Route: parent for authorized GitHub/Git/Orca state mutations; delegated read-only verifier for publication safety and hosted endpoint checks.
   - Before publication, inspect tracked files and history for credential risks without displaying secret values.
   - Create `lacrimae0rerum/the-watcher` as public standalone repository, change origin, and publish verified HEAD to new `main` without modifying the existing local `main` or rewriting history.
@@ -64,12 +64,17 @@ The checkout still uses the original repository as its Git remote and as the liv
 - 2026-10-07: Current origin is the original `zarazhangrui/follow-builders`; authenticated GitHub owner is `lacrimae0rerum`; destination repository does not exist.
 - 2026-10-07: GitHub reports no original license. User confirmed author authorization before public migration was resumed.
 - 2026-10-07: Existing implementation includes verified PPE-4 at `b4c37608`; local main is still the inherited upstream boundary, so the new remote main must receive the verified feature content.
-- 2026-10-07: Orca current worktree is the main checkout at `/Users/fedirosan/orca/follow-builders`. Its path stays unchanged to avoid disrupting live sessions.
+- 2026-10-07: Orca current worktree is the existing main checkout. Its local directory path stays unchanged to avoid disrupting live sessions.
 
 - 2026-10-07: TWM-1 observed RED: the new URL-ownership assertion failed on all four original hosted URLs. GREEN: focused tests 10/10; full tests 36/36. Three script syntax checks and scoped diff checks passed; independent verification passed without findings.
 - 2026-10-07: TWM-1 source/test diff is 26 insertions and 11 deletions across five files. Generated feed/state snapshots, thematic identity, and user-config compatibility remain unchanged. Hosted network reads await publication in TWM-3.
 - 2026-10-07: Native assessment is unassessable because unrelated untracked files need explicit inventory; its required independent-verifier fallback was completed.
+- 2026-10-07: TWM-1 work-unit commit: `c5795733a1cc867307ecefc5cc1901d21b3022cb` (`feat(the-watcher): host digest assets in independent repository`).
+
+- 2026-10-07: TWM-2 completed platform/root command naming, installation and issue links, workflow display names, matching script package metadata, provenance notice, and the five minimal project records. Registry publication is explicitly unavailable/unknown rather than advertised.
+- 2026-10-07: TWM-2 uses structural verification because passive documentation/metadata have no meaningful RED. Full suite 36/36, script syntax and metadata identity checks passed; independent readback approved every surface. Generated data and thematic identities are unchanged.
+- 2026-10-07: Publication safety scan found zero known token/private-key patterns in current tracked content or 324 reachable commits, and zero high-entropy credential-shaped assignments in tracked files. No dedicated scanner is installed; regex/entropy scanning is heuristic and does not establish absence of all possible secrets. No values were displayed. New records were also inspected; the task's local absolute directory reference was genericized.
 
 ## Next step
 
-Rename the platform in TWM-2, then verify publication safety and publish the independent repository in TWM-3. No collection or delivery will run as part of migration.
+Publish the independently verified implementation in TWM-3 and check hosted feeds/prompts. Configure collection credentials later; no collection or delivery will run as part of migration.
