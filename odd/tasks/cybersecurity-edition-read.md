@@ -35,5 +35,8 @@ Branch `feat/cybersecurity-edition-read`, base `ee495edc3845a754829c37697e1d85af
 - 2026-10-07: Actual read command returned exit 1 with `No saved edition for cybersecurity-digest` and created no directory or edition. No real bulletin was invented. No network, credentials, model calls, collection, or publication occurred.
 - 2026-10-07: Store assumes a trusted local checkout (no hostile preplanted directory symlinks); no cross-machine synchronization or edition history. Filesystem rename-failure injection and external integrations were not tested. Existing user `.gitignore` and `.codegraph/` remain untouched.
 
+- 2026-10-07: Work-unit commit `274345b155b79c87e991c3be96b1aa9bdd2c4a23` (`feat(cybersecurity): retrieve saved editions on demand`), 371 insertions and 2 deletions across 12 files. No push occurred.
+- 2026-10-07: Native committed-range review could not start due to retained intended-untracked candidate mismatch; no authority mutation occurred. Native unavailable-review fallback required writer and independent checks, both completed. No review mode or recovery authority was changed.
+
 ## Next step
 Read an existing saved edition on demand. Future CSP-3 generation must call the save contract after completing a valid edition; this unit does not create a real bulletin or activate publication.
