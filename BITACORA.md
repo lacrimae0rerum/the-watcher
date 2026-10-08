@@ -1,5 +1,15 @@
 # Work log
 
+## 2026-10-08 — Offline local preparation packet (LAG-1)
+
+Objective: Prepare an existing model-ready envelope from selected package-local evidence without network, model, or file writes.
+
+Changes: Added a read-only local CLI using the shared package selector, loader, artifact paths, core preparation, and envelope. AI Builders reads root snapshots; Cybersecurity reads its isolated feed directory. Local config defaults and prompt override precedence are preserved without hosted prompts. Missing or invalid feeds report errors beside usable content; zero usable content fails with JSON stderr and empty stdout. Documented this boundary and updated F-08/requirements/roadmap wording without claiming generation or delivery.
+
+Verification: The first focused RED failed because the CLI module was absent. A second RED (6/7 passing) exposed an unreadable-config error that escaped the envelope; the focused GREEN passed 7/7 after the fix. Focused integration tests passed 41/41; script and test syntax checks passed. CLI tests forbid fetch and common file-write calls and check unchanged local feed timestamps and root listing. No full suite, remote calls, model, saving, or publication was run.
+
+Limits: Cybersecurity has no local feeds, so its real CLI returns an error. Existing snapshots do not prove freshness or source accuracy. The terminal agent must inspect evidence and produce any text outside this command; saving remains an explicit separate action. Next step: Parent review and full verification; real collection, drafting, and delivery need separate approval and evidence.
+
 ## 2026-10-08 — Offline terminal evidence preview (CSP-2B)
 
 Objective: Report local evidence for either package without creating an edition or contacting a provider.

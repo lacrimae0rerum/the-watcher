@@ -48,6 +48,11 @@ package is the approved pilot; it is not an operational publication.
   metadata only. Missing or malformed local evidence is reported, not generated.
   This read-only offline preview adds no API, model, collection, delivery, or
   publication path. A feed snapshot does not establish freshness.
+- A terminal agent can request an offline preparation packet for either package from
+  package-isolated local feed arrays, local config, and user or bundled local prompts.
+  Missing and malformed channels remain visible when other usable evidence exists;
+  zero usable content fails without a packet. This read-only step does not draft,
+  save, deliver, or publish an edition, and does not prove source freshness.
 - A user can ask an agent with access to this checkout and its saved edition file
   for the latest cybersecurity pulse in chat. The agent reads only the saved text;
   a missing edition ends the request without generation or publication. Saving
