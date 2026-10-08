@@ -52,6 +52,28 @@ test('ai-builders-digest exports its thematic manifest', async () => {
   });
 });
 
+for (const file of ['digest-intro.md', 'summarize-tweets.md', 'summarize-blogs.md', 'summarize-podcast.md']) {
+  test(`AI Builders ${file} applies the common editorial baseline`, async () => {
+    const text = await readFile(new URL(`./prompts/${file}`, import.meta.url), 'utf8');
+    assert.match(text, /advertising or promotional-only content/i);
+    assert.match(text, /trivial content/i);
+    assert.match(text, /engagement bait/i);
+    assert.match(text, /substantive, source-verifiable technical or research announcements/i);
+    assert.match(text, /vendor/i);
+    if (file === 'summarize-podcast.md') assert.match(text, /ad break/i);
+  });
+}
+
+test('ai-builders-digest ships an empty static keyword catalog', async () => {
+  const catalog = await readFile(new URL('./config/keywords.yaml', import.meta.url), 'utf8');
+  assert.deepEqual(catalog.split('\n').filter((line) => line && !line.startsWith('#')), [
+    'CVEs: []', 'Technologies: []', 'Topics: []', 'Vendors: []', 'CERTs: []',
+    'Cyberincidents: []', 'ThreatActors: []', 'Malware: []', 'AttackTechniques: []',
+    'VulnerabilityTypes: []', 'DefensiveActions: []', 'Tools: []', 'Sectors: []',
+    'Regions: []', 'Regulations: []',
+  ]);
+});
+
 test('ai-builders-digest owns preparation topology and delivery branding', async () => {
   const { delivery, digestPackage, preparation } = await import('./index.js');
 

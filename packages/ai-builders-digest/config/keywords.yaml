@@ -1,0 +1,21 @@
+# Static catalog only; runtime does not read it yet. Future matches may prioritize/tag; unmatched items remain eligible.
+# To add a keyword, replace `Topics: []` at the group position with these two lines (remove `# `):
+# Topics:
+#   - "example topic"
+# Never leave `Topics: []` above an indented entry.
+# Prefix an entry with # to disable it; prefix the key and every entry with # to disable a whole group.
+CVEs: []
+Technologies: []
+Topics: []
+Vendors: []
+CERTs: []
+Cyberincidents: []
+ThreatActors: []
+Malware: []
+AttackTechniques: []
+VulnerabilityTypes: []
+DefensiveActions: []
+Tools: []
+Sectors: []
+Regions: []
+Regulations: []

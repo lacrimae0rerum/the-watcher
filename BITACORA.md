@@ -1,5 +1,74 @@
 # Work log
 
+## 2026-10-08 — Cybersecurity assembly readability (CP-1 follow-up)
+
+Objective: Make the existing cybersecurity assembly prompt easier to scan without
+changing its urgency/action grouping or source-evidence boundary.
+
+Changes: Reorganized the intro into short sections with a Spanish item skeleton,
+raw X/blog/podcast source rules, and explicit direct-link and handle presentation.
+Added one scoped contract test; retained the existing CP-1 and editorial rules.
+
+Verification: The new test failed before the prompt edit (15/16 focused passed).
+After the edit, focused tests passed 16/16 and the full Node suite passed 63/63.
+These tests check prompt text, not model output.
+
+Pending: User or hosted prompts may override this local file. Model behavior and
+publication remain unverified. Next step: Hand this bounded correction to the
+parent for review; no runtime or distribution change was made.
+
+## 2026-10-08 — Cybersecurity prompt precision (CP-1)
+
+Objective: Make the local Spanish bulletin guidance more precise without changing runtime or publication.
+
+Changes: Updated the five bundled cybersecurity prompts and fictional sample for ordered action sections, raw feed fields, source dates, attribution, bounded per-issue lengths, deduplication, and missing-content status. Added three focused presence/sample checks and updated F-13 and the scoped product contract.
+
+Verification: The focused test first failed 3/15 before prompt edits and passed 15/15 afterward. Full `node --test` passed 62/62; `git diff --check` passed. Tests check text contracts, not model behavior; the fictional sample was inspected manually.
+
+Pending: User and hosted prompts can override local copies. Model generation, real feed validation, and publication remain separate. Next step: Hand CP-1 changes and observed verification to the parent for review.
+
+## 2026-10-08 — Common editorial exclusions (EE-1)
+
+Objective: Apply the approved editorial baseline to the two implemented themes.
+
+Changes: Added the same English exclusion and substantive-announcement guidance to
+all eight bundled editorial prompts. Podcast prompts exempt otherwise substantive
+episodes with ad breaks. Kept existing language, output, security, and evidence
+rules. Added eight individually named prompt-presence tests and updated product
+records for the baseline required of future themes.
+
+Decisions: Exclusions do not depend on keyword catalogs. Local bundled prompt
+instructions cannot override user or hosted prompts or guarantee model compliance.
+No runtime filter, generation, publication, or future package was added.
+
+Verification: The focused test run failed 8/23 before the prompt edits and passed
+23/23 afterward. The full `node --test` suite passed 59/59 and `git diff --check`
+passed. Tests verify prompt text, not model selection behavior.
+
+Pending: Independent review and any later prompt distribution remain separate.
+Next step: Hand local prompt and test evidence to the parent for review.
+
+## 2026-10-08 — Static thematic keyword catalogs (KW-1)
+
+Objective: Supply editable keyword groups without activating runtime matching.
+
+Changes: Added `config/keywords.yaml` to AI Builders and Cybersecurity with 15 empty
+lists and commented editing instructions. Updated structural tests, the current
+13-file thematic asset contract, README, PRD, and F-11. Preserved the design's
+historical 12-file checked evidence and recorded a dated amendment.
+
+Decisions: Comments are inactive examples, not approved keywords. Future matching
+may prioritize or tag, never exclude unmatched items. No parser, weights,
+discovery export, runtime matching, or collection behavior was added.
+
+Verification: Focused tests first failed 2/15 (missing AI Builders asset and
+cybersecurity count 12 instead of 13); after adding assets, they passed 15/15.
+The full `node --test` suite passed 51/51; `git diff --check` passed. Tests
+check structure, not full YAML parsing.
+
+Pending: Runtime parsing and matching require a separate authorized work unit.
+Next step: Hand the static change to the parent for review and task closure.
+
 ## 2026-10-07 — On-demand saved cybersecurity edition (CER-1)
 
 Objective: Let an agent with this checkout read the latest explicitly saved pulse in chat.

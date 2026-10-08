@@ -16,6 +16,8 @@ Then organize content in this order:
 
 ## Rules
 
+- Exclude advertising or promotional-only content, trivial content, and engagement bait.
+- Keep substantive, source-verifiable technical or research announcements even when published by a vendor.
 - Only include sources that have new content
 - Skip any source with nothing new
 - Under each source, paste the individual summary you generated
