@@ -46,7 +46,7 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
     - Added an offline command that selects either package and reports validated catalog counts, local feed availability/time/count/errors, and saved-edition metadata only.
     - The command labels output as local evidence; it never generates bulletin prose, saves an edition, or contacts the network.
     - Public seam: `buildEvidencePreview(...)` plus `scripts/preview-digest.js --package <id> [--json]`.
-    - Commit: `63d3c916553bc716497a72038ca71bca984e33ac` (`feat(preview): add offline digest evidence command`).
+    - Commit: `63d3c9128cccc37c73a72f94d3be37940089883b` (`feat(preview): add offline digest evidence command`).
   - Preserve package-specific artifact isolation. Workflow activation and live collection remain deferred until APIs are authorized.
 - [ ] **CSP-3 — Generate and deliver one durable edition**
   - Status: planned.
