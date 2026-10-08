@@ -18,6 +18,17 @@ node scripts/preview-digest.js --package cybersecurity-digest --json
 
 This offline command validates the selected local source catalog and reports source counts, package-isolated feed availability/time/count/errors, and saved-edition availability/metadata. Missing evidence remains missing; feed errors or malformed JSON are not content to summarize. The preview never prints edition text, collects sources, prepares prompts, generates prose, saves an edition, delivers, publishes, or schedules. Snapshot availability does not prove freshness or live collection. There is no API-based preview. Do not route a request for the latest saved pulse here: use the saved-edition reader below.
 
+## Local preparation packet — terminal only
+
+When an agent explicitly needs a preparation packet from this checkout's local feeds, run:
+
+```bash
+node scripts/prepare-local-digest.js --package ai-builders-digest
+node scripts/prepare-local-digest.js --package cybersecurity-digest
+```
+
+The package argument defaults to AI Builders when omitted. AI Builders reads root feed snapshots; Cybersecurity reads only `feeds/cybersecurity-digest/`. The command uses local package config with English/daily/stdout defaults and resolves local user prompt overrides before bundled package prompts. It does not fetch hosted feeds or prompts. It prints a model-ready JSON envelope, not an edition. Read `errors` and inspect the available evidence before any agent drafting; missing or invalid channels are not content. If all channel arrays are empty, missing, or invalid, the command returns a JSON error on stderr and no stdout packet. The real Cybersecurity run currently fails this way because no local feeds exist. This script never invokes a model, writes files, saves an edition, delivers, publishes, or schedules. An agent may produce text outside this script; saving already written text requires a separate explicit `node scripts/save-edition.js --package cybersecurity-digest --file <existing-text-file>` action. Do not treat this as activation of the remote `prepare-digest.js` workflow or as proof of live collection or generation quality.
+
 ## Saved cybersecurity pulse — route first
 
 For "Dame el último pulse de ciberseguridad", "show the latest cybersecurity pulse", or an equivalent request for the **latest saved** cybersecurity edition, run from this checkout:

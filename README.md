@@ -17,6 +17,19 @@ node scripts/preview-digest.js --package cybersecurity-digest --json
 
 The preview is read-only and offline. AI Builders uses the legacy root feed files; Cybersecurity uses `feeds/cybersecurity-digest/`. Missing feeds or an edition are reported as missing; malformed feeds are reported per channel. Source counts come from the validated local catalog. Feed timestamps, counts, and errors describe saved snapshots, not freshness or successful live collection. Saved-edition metadata never includes edition text. The command does not collect, prepare, generate, save, deliver, publish, or schedule anything. Invalid catalog/package/arguments fail; there is no API-based preview.
 
+## Prepare a local digest packet (no model or network)
+
+From the repository root, select a package:
+
+```bash
+node scripts/prepare-local-digest.js --package ai-builders-digest
+node scripts/prepare-local-digest.js --package cybersecurity-digest
+```
+
+Omitting `--package` defaults to AI Builders. The command reads only this checkout's package-isolated feed files (AI Builders at the root; Cybersecurity under `feeds/cybersecurity-digest/`), the selected package's local user config, and local prompts. User prompt overrides take priority over bundled package prompts; it never downloads hosted prompts. It emits the existing preparation JSON envelope to stdout. Available feed arrays survive other missing or malformed feeds, which appear in `errors`; malformed config also appears there with defaults applied. If all feeds are missing, invalid, or empty, it exits non-zero with a JSON error on stderr and no packet on stdout. Cybersecurity currently has no local feeds, so its real command fails safely. Feed availability does not prove freshness or evidence quality. A terminal agent must inspect the errors and sources before composing text; this command does not invoke a model, generate an edition, write a file, collect, deliver, publish, or schedule. Saving already written text remains a separate explicit `scripts/save-edition.js` action.
+
+The existing `scripts/prepare-digest.js` is a different reader that fetches remote feeds and prompts; its behavior is unchanged.
+
 ## Read or save a local cybersecurity pulse
 
 From the repository root, read the latest **saved** edition on demand:
@@ -37,7 +50,7 @@ Saving defaults to language `es` and the actual current UTC time. Use `--languag
 
 ## Editorial baseline
 
-Both themes' bundled digest and source-summary prompts exclude advertising or promotional-only content, trivial content, and engagement bait. They retain substantive, source-verifiable technical or research announcements, including vendor announcements; a podcast ad break alone does not disqualify an otherwise substantive episode. Each theme keeps its own language, output, security, and evidence rules. Future themes must apply the same baseline. These are agent instructions, not a runtime filter or a guarantee that a model follows them. Preparation may use a user override first, a hosted prompt second, and a bundled prompt last; the local changes do not update those other copies or activate cybersecurity publication.
+Both themes' bundled digest and source-summary prompts exclude advertising or promotional-only content, trivial content, and engagement bait. They retain substantive, source-verifiable technical or research announcements, including vendor announcements; a podcast ad break alone does not disqualify an otherwise substantive episode. Each theme keeps its own language, output, security, and evidence rules. Future themes must apply the same baseline. These are agent instructions, not a runtime filter or a guarantee that a model follows them. Remote preparation may use a user override first, a hosted prompt second, and a bundled prompt last. Offline preparation uses only a local user override or bundled prompt; neither path activates cybersecurity publication.
 
 ## Edit keyword catalogs
 
@@ -85,7 +98,7 @@ For AI Builders, place optional preferences in `~/.ai-builders-digest/config.jso
 }
 ```
 
-`frequency` describes a preference; the manual commands do not schedule editions. Without a config file, preparation uses English, daily, and stdout defaults. For cybersecurity Spanish preferences, set `"language": "es"` in `~/.cybersecurity-digest/config.json`; [schema defaults](packages/cybersecurity-digest/config/config-schema.json) are not runtime defaults. User prompt overrides at `~/.ai-builders-digest/prompts/<filename>.md` take priority over hosted prompts, which take priority over bundled files in [the AI Builders package](packages/ai-builders-digest/prompts/). See its [configuration schema](packages/ai-builders-digest/config/config-schema.json) for supported fields.
+`frequency` describes a preference; the manual commands do not schedule editions. Without a config file, preparation uses English, daily, and stdout defaults. For cybersecurity Spanish preferences, set `"language": "es"` in `~/.cybersecurity-digest/config.json`; [schema defaults](packages/cybersecurity-digest/config/config-schema.json) are not runtime defaults. For remote preparation, user prompt overrides at `~/.ai-builders-digest/prompts/<filename>.md` take priority over hosted prompts, then bundled files in [the AI Builders package](packages/ai-builders-digest/prompts/). Offline preparation does not consult hosted prompts. See its [configuration schema](packages/ai-builders-digest/config/config-schema.json) for supported fields.
 
 Delivery supports only stdout, Telegram, and email via Resend. To select Telegram, set `"delivery": { "method": "telegram", "chatId": "<chat ID>" }` in the config, and put `TELEGRAM_BOT_TOKEN=<bot token>` in `~/.ai-builders-digest/.env`. Create a Telegram bot and message it first so you can obtain a chat ID. To select email, use `"delivery": { "method": "email", "email": "you@example.com" }` and set `RESEND_API_KEY=<key>` in the same `.env` file. A Resend account/API key and recipient address are required. Keep secrets out of the JSON and out of version control. Neither delivery adapter is needed for stdout. No other messaging channels are implemented by `deliver.js`.
 
@@ -97,6 +110,6 @@ AI Builders snapshots are accessible, but the current repository has no collecti
 
 ## Code and checks
 
-- [`scripts/generate-feed.js`](scripts/generate-feed.js) collects and writes feeds; [`scripts/prepare-digest.js`](scripts/prepare-digest.js) reads snapshots, preferences, and prompts into JSON; [`scripts/deliver.js`](scripts/deliver.js) accepts edition text and selects the delivery adapter. Each accepts `--package <id>`; the manual example uses AI Builders.
+- [`scripts/generate-feed.js`](scripts/generate-feed.js) collects and writes feeds; [`scripts/prepare-digest.js`](scripts/prepare-digest.js) fetches remote snapshots and prompts into JSON; [`scripts/prepare-local-digest.js`](scripts/prepare-local-digest.js) prepares a read-only offline packet; [`scripts/deliver.js`](scripts/deliver.js) accepts edition text and selects the delivery adapter. Each accepts `--package <id>`; the manual example uses AI Builders.
 - [`packages/digest-core/`](packages/digest-core/) defines reusable stage interfaces. [`packages/ai-builders-digest/`](packages/ai-builders-digest/) supplies the initial running theme. [`packages/cybersecurity-digest/`](packages/cybersecurity-digest/) supplies the cybersecurity foundation, including its [source catalog](packages/cybersecurity-digest/config/default-sources.json), prompts, and configuration. NaN drafting, Telegram plus X Article publication, and the three-day Europe/Madrid cadence remain planned, not operational.
 - From the repository root, run `node --test` for local tests. Tests do not establish remote feed freshness, collection credentials, or successful external delivery.

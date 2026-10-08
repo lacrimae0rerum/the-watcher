@@ -20,8 +20,10 @@
 
 CSP-1 only declares intended URLs. The package's feeds and prompts are not yet
 published or generated. CSP-2's terminal preview reads local evidence; it is not
-an API, generation path, collection activation, or publication gate. No active
-cybersecurity schedule or dual delivery exists.
+an API, generation path, collection activation, or publication gate. LAG-1 adds
+read-only offline preparation for a terminal agent, but missing cybersecurity
+feeds prevent a real packet today. Drafting, saving, dual delivery, and activation
+remain separate; no active cybersecurity schedule or dual delivery exists.
 
 ## Publication gate
 TWM-3 publication and hosted asset checks passed. Operational collection remains
