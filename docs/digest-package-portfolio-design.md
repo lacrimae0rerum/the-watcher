@@ -15,7 +15,7 @@ Define six sibling digest packages that preserve the current `ai-builders-digest
 - Selecting or endorsing named sources, accounts, publishers, vendors, or institutions.
 - Approving collection cost, cadence, retention, privacy policy, or publication.
 - Treating a digest, social cluster, popularity signal, or model output as verified truth.
-- Introducing a general plugin framework or adding package-internal files.
+- Introducing a general plugin framework or package-internal files beyond the approved static `config/keywords.yaml` asset.
 - Replacing analyst review with automated confidence labels.
 
 ### Evidence limits
@@ -36,7 +36,7 @@ Repository claims below were checked against the current local checkout. Vault n
 
 | Decision | Proposed design | Reason |
 | --- | --- | --- |
-| Portfolio shape | Six sibling packages with the exact 12-file internal structure of `packages/ai-builders-digest` | Preserves a known module interface and keeps thematic policy local. |
+| Portfolio shape | Six sibling packages with the current 13-file internal structure of `packages/ai-builders-digest` | Preserves a known module interface and keeps thematic policy local. |
 | Package seam | Keep the existing exports in `index.js`; vary package descriptors, normalization, configuration, prompts, tests, and example output | The current thematic interface is compact enough to deepen without inventing a new framework. |
 | Runtime strategy | Add one validated `--package` selector, dynamically import the selected package, and drive existing orchestration from its descriptors | This is the smallest supported change that makes multiple packages runnable. |
 | Storage isolation | Scope feeds, checkpoints, and user paths by canonical package ID | Prevents cross-package deduplication, overwrite, and branding leakage. |
@@ -67,9 +67,9 @@ This is a useful seam: `digest-core` owns generic contracts; the package owns th
 
 The package seam exists, but generation, preparation, delivery, workflow, root skill, feed paths, state paths, channel keys, stats, and branding select AI Builders directly. Creating sibling directories alone would therefore create inert designs, not runnable packages.
 
-## 4. Exact 12-file parity contract
+## 4. Current 13-file parity contract
 
-Every sibling package must contain **exactly these 12 package-internal files**. Repository-level enabling files remain outside package directories.
+Every thematic package, including the future sibling template, must contain **exactly these 13 package-internal files**. Repository-level enabling files remain outside package directories. `config/keywords.yaml` is a static asset only; no runtime matcher reads it yet.
 
 | Relative file | Required responsibility |
 | --- | --- |
@@ -79,6 +79,7 @@ Every sibling package must contain **exactly these 12 package-internal files**. 
 | `index.test.mjs` | Verify manifest exports, local ownership of package assets, collector normalization, policies, paths, preparation topology, branding, and negative contract cases. |
 | `config/config-schema.json` | Validate user preferences and package-specific scope controls; reject unknown or unsafe values where material. |
 | `config/default-sources.json` | Hold the approved source catalog and collection parameters. Named entries remain unpopulated until the user approves them. |
+| `config/keywords.yaml` | Keep 15 editable, initially empty keyword groups. Future matching may prioritize or tag, never exclude unmatched items. |
 | `prompts/digest-intro.md` | Define final edition structure, routing, evidence labels, omission rules, and mandatory source links. |
 | `prompts/summarize-blogs.md` | Summarize long-form written or documentary material while preserving claim/source distinctions. |
 | `prompts/summarize-podcast.md` | Summarize audio/video transcripts, distinguishing speaker claims from verified facts. |
@@ -170,6 +171,7 @@ The filenames preserve parity. A package may declare that a channel is unused, b
 | `index.test.mjs` | Test exports, path ownership, metadata normalization, strategic routing, and rejection of unsupported judgments. |
 | `config/config-schema.json` | Validate language, cadence, delivery, regions, actors, horizons, and approved topic scope. |
 | `config/default-sources.json` | Store only user-approved strategic source classes and later approved named entries. |
+| `config/keywords.yaml` | Keep 15 initially empty, editable keyword groups; no active matching yet. |
 | `prompts/digest-intro.md` | Require key judgments first, then evidence, alternatives, indicators, implications, and uncertainty. |
 | `prompts/summarize-blogs.md` | Extract claims, methods, assumptions, horizon, and policy implications from written analysis. |
 | `prompts/summarize-podcast.md` | Separate speaker assertions from evidence and identify strategic relevance without authority-by-status. |
@@ -213,6 +215,7 @@ The filenames preserve parity. A package may declare that a channel is unused, b
 | `index.test.mjs` | Test manifest ownership, identifier normalization, action fields, safe omissions, and package path isolation. |
 | `config/config-schema.json` | Validate asset/product scope, risk tolerance, language, cadence, delivery, and action-window preferences. |
 | `config/default-sources.json` | Hold approved advisory and research source definitions without inventing vendors or publishers. |
+| `config/keywords.yaml` | Keep 15 initially empty, editable keyword groups; no active matching yet. |
 | `prompts/digest-intro.md` | Order by defensive urgency and separate confirmed exploitation from possibility. |
 | `prompts/summarize-blogs.md` | Extract affected scope, prerequisites, evidence, patches, mitigations, and verification steps. |
 | `prompts/summarize-podcast.md` | Convert discussion into bounded defensive lessons while identifying unsupported speaker claims. |
@@ -256,6 +259,7 @@ The filenames preserve parity. A package may declare that a channel is unused, b
 | `index.test.mjs` | Test PIR linkage, provenance, alias handling, confidence fields, package paths, and rejection of unsupported attribution. |
 | `config/config-schema.json` | Validate PIRs, priority actors/campaigns, asset context, intelligence levels, cadence, language, and delivery. |
 | `config/default-sources.json` | Store approved CTI source definitions and machine-readable feed parameters after user selection. |
+| `config/keywords.yaml` | Keep 15 initially empty, editable keyword groups; no active matching yet. |
 | `prompts/digest-intro.md` | Lead with PIR answers and separate observations, judgments, implications, and gaps. |
 | `prompts/summarize-blogs.md` | Extract campaign evidence, TTPs, victimology, attribution basis, alternatives, and actionable implications. |
 | `prompts/summarize-podcast.md` | Capture analyst claims and experience while preventing credential-based confidence inflation. |
@@ -299,6 +303,7 @@ The filenames preserve parity. A package may declare that a channel is unused, b
 | `index.test.mjs` | Test chronology ordering, location precision, dispute handling, source links, sensitive-detail exclusion, and path isolation. |
 | `config/config-schema.json` | Validate conflict scope, geography, delay windows, sensitivity controls, language, cadence, and delivery. |
 | `config/default-sources.json` | Hold only approved conflict-information sources and collection constraints. |
+| `config/keywords.yaml` | Keep 15 initially empty, editable keyword groups; no active matching yet. |
 | `prompts/digest-intro.md` | Separate verified changes, claims, disputes, humanitarian effects, and strategic references. |
 | `prompts/summarize-blogs.md` | Extract event assertions, methods, dates, locations, actor claims, and correction status from long-form reports. |
 | `prompts/summarize-podcast.md` | Summarize testimony or analysis with role, proximity, limitations, and claim status explicit. |
@@ -342,6 +347,7 @@ The filenames preserve parity. A package may declare that a channel is unused, b
 | `index.test.mjs` | Test Spain-impact routing, institutional competence, procedural status, neutrality, source ownership, and path isolation. |
 | `config/config-schema.json` | Validate national/territorial scope, institutions, policy domains, language, cadence, delivery, and duplicate policy. |
 | `config/default-sources.json` | Store approved institutional and reporting sources only after user review. |
+| `config/keywords.yaml` | Keep 15 initially empty, editable keyword groups; no active matching yet. |
 | `prompts/digest-intro.md` | Lead with decisions and status; separate enacted, proposed, challenged, suspended, and speculative outcomes. |
 | `prompts/summarize-blogs.md` | Extract institutional actor, legal basis, procedure, decision, impact, opposition, and unresolved questions. |
 | `prompts/summarize-podcast.md` | Separate participant opinion from institutional fact and disclose partisan or professional role when available. |
@@ -385,6 +391,7 @@ The filenames preserve parity. A package may declare that a channel is unused, b
 | `index.test.mjs` | Test stable-ID membership, relation keys, one-hop limits, pagination, update semantics, tombstones, privacy exclusions, and path isolation. |
 | `config/config-schema.json` | Validate enabled cluster IDs, polling window, page budget, retention, tombstone behavior, language, cadence, and delivery. |
 | `config/default-sources.json` | Store approved cluster definitions and members keyed by stable user ID; handles are mutable labels. |
+| `config/keywords.yaml` | Keep 15 initially empty, editable keyword groups; no active matching yet. |
 | `prompts/digest-intro.md` | Require observation language, relationship grouping, transition notes, and explicit non-truth/non-profile caveats. |
 | `prompts/summarize-blogs.md` | Summarize linked long-form context only when a declared source descriptor supplies it; otherwise remain present but unused. |
 | `prompts/summarize-podcast.md` | Summarize declared transcript context only when configured; otherwise remain present but unused. |
@@ -526,7 +533,7 @@ This work is repository-level and must be reviewed separately from the six packa
 6. **Package-owned paths and branding.** Use selected-package `resolveUserFile`, delivery descriptors, prompt base, declaration, and subject branding throughout preparation, onboarding, and delivery.
 7. **Workflow parameterization.** Add a validated package input or explicit package matrix, stage only that package's feed/state outputs, and preserve independent failure/reporting boundaries.
 8. **Package-aware root skill.** Select the package before onboarding or execution; read package descriptors and prompts rather than naming AI Builders or fixed channels.
-9. **Contract tests.** Cover selector validation, unknown/path-traversal rejection, dynamic imports, exact 12-file parity, descriptor iteration, package-scoped paths, generic preparation output, branding isolation, AI Builders regression, and X relation/update semantics.
+9. **Contract tests.** Cover selector validation, unknown/path-traversal rejection, dynamic imports, current 13-file parity, descriptor iteration, package-scoped paths, generic preparation output, branding isolation, AI Builders regression, and X relation/update semantics.
 
 ### Explicit rejection: speculative plugin framework
 
@@ -582,6 +589,10 @@ This order minimizes simultaneous novelty. It does not authorize any step.
 - [x] Vault material is paraphrased with vault-relative paths and line ranges; no large passage is copied.
 - [x] No named source list is invented.
 - [x] The NotebookLM gap is prominent and no notebook finding is claimed.
+
+### 2026-10-08 amendment: static keyword assets
+
+The checked 12-file evidence above records the original design review; it is not a claim about the current tree. The owner approved one additional package-internal asset for both existing themes and future thematic packages: `config/keywords.yaml`. The current target is 13 files per thematic package. Both catalogs start with 15 empty groups; comments are examples, not approved active keywords. They are not read by runtime code. Any later matcher may prioritize or tag, but must not exclude unmatched items. Parsing, weights, discovery exports, and runtime behavior require separate approval.
 
 ### Remaining limitations
 

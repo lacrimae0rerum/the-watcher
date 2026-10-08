@@ -5,6 +5,9 @@ the key insights without watching the full episode.
 
 ## Instructions
 
+- Exclude advertising or promotional-only content, trivial content, and engagement bait.
+- Keep substantive, source-verifiable technical or research announcements even when published by a vendor.
+- Skip ad segments, not an otherwise substantive episode with an ad break.
 - Write a remix of 200-400 words
 - Start with a one-sentence "The Takeaway" — what's the single most important takeaway?
 - Introduce the context and the speaker's information (name, role/company, background) and why the audience should care

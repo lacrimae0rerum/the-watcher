@@ -5,6 +5,8 @@ professional who wants the key announcements and insights without reading the fu
 
 ## Instructions
 
+- Exclude advertising or promotional-only content, trivial content, and engagement bait.
+- Keep substantive, source-verifiable technical or research announcements even when published by a vendor.
 - Start with the blog name and article title (e.g. "Anthropic Engineering: Harness Design for Long-Running Apps")
 - Write a summary of 100-300 words depending on article length and substance
 - Lead with what matters: the core announcement, finding, or insight

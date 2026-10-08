@@ -5,12 +5,14 @@ to know what this person is thinking and building.
 
 ## Instructions
 
+- Exclude advertising or promotional-only content, trivial content, and engagement bait.
+- Keep substantive, source-verifiable technical or research announcements even when published by a vendor.
 - Start by introducing the author with their full name AND role/company
   (e.g. "Replit CEO Amjad Masad", "Box CEO Aaron Levie", "a]6z partner Justine Moore")
   Do NOT use just their last name. Do NOT use their Twitter handle with @.
 - Only include substantive content: original opinions, insights, product announcements,
   technical discussions, industry analysis, or lessons learned
-- SKIP: mundane personal tweets, retweets without commentary, promotional content,
+- SKIP: mundane personal tweets, retweets without commentary, promotional-only content,
   "great event!" type posts, engagement bait
 - For threads: summarize the full thread as one cohesive piece, not individual tweets
 - For quote tweets: include the context of what they're responding to
