@@ -14,7 +14,7 @@ Create a deterministic offline terminal handoff for both digest packages. The co
 - Preserve unrelated local `.gitignore` and `.codegraph/` state.
 
 ## Task
-- [ ] **LAG-1 — Build and verify the offline terminal handoff**
+- [x] **LAG-1 — Build and verify the offline terminal handoff**
   - Add a local-only preparation command for either package.
   - Resolve prompts with local user override first and bundled prompt fallback second. Never fetch remote prompts.
   - Read package-isolated local feeds, retain partial evidence with explicit errors, and fail when all evidence is missing, invalid, or empty.
@@ -24,10 +24,13 @@ Create a deterministic offline terminal handoff for both digest packages. The co
   - Document the agent handoff, safe failure boundary, and explicit save/read commands.
   - Run focused and full tests, syntax and whitespace checks, both terminal package scenarios, native review when enabled, and independent committed-range verification.
   - Close with a Conventional Commit and record its identity below.
+  - Commit: `62ab75b3aef61d183a46b153e1f7c60d068d0a02` (`feat(digest): add offline agent handoff`).
 
 ## Evidence
 - 2026-10-08: Delegated test-first implementation observed RED when the CLI was absent and again when unreadable config escaped the envelope. Focused GREEN passed 7/7; the related preparation/runtime set passed 41/41.
 - 2026-10-08: Independent verification passed 7/7 focused and 87/87 full tests, both syntax checks, `git diff --check`, and both real package terminal scenarios. AI Builders produced a local packet with 14 X accounts, one podcast, one blog, five prompts, and one propagated podcast error. Cybersecurity failed safely with empty stdout because all local feeds are absent. Repository status was unchanged by both commands.
+- 2026-10-08: Native review `review-14f76e5daeb9e61b` approved the frozen candidate and its exact acknowledgement burned authority. Advisory findings remain separate follow-up work.
+- 2026-10-08: A bounded terminal-agent trial consumed the AI Builders packet without writes, produced four source-linked preview items, omitted the unsupported podcast, and repeated the safe Cybersecurity failure. Repository status hashes matched before and after.
 
 ## Next step
-Complete native review, run one bounded agent consumption trial for available AI Builders evidence, then commit and record the work-unit identity.
+Collect real Cybersecurity feed evidence under separate authorization. External model APIs, delivery, scheduling, and publication remain deferred.
