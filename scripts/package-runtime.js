@@ -26,6 +26,43 @@ export function resolveArtifactPaths(id, repositoryRoot) {
   };
 }
 
+// Accept already-loaded local evidence; no I/O or edition text escapes this seam.
+export function buildEvidencePreview({ packageId, catalog, feeds, edition }) {
+  const channels = { x: 'x', podcasts: 'podcasts', blogs: 'blogs' };
+  return {
+    kind: 'local-evidence-preview',
+    packageId,
+    sources: {
+      x: catalog.x_accounts.length,
+      podcasts: catalog.podcasts.length,
+      blogs: catalog.blogs.length,
+    },
+    feeds: Object.fromEntries(Object.entries(channels).map(([channel, field]) => {
+      const raw = feeds[channel];
+      if (raw == null) return [channel, { status: 'missing' }];
+      if (raw instanceof Error) {
+        return [channel, { status: 'invalid', error: `Cannot read local ${channel} feed: ${raw.code ?? raw.message}` }];
+      }
+      try {
+        const feed = JSON.parse(raw);
+        if (!feed || !Array.isArray(feed[field])) {
+          throw new Error(`expected ${field} array`);
+        }
+        return [channel, {
+          status: 'available', generatedAt: feed.generatedAt ?? null,
+          count: feed[field].length, errors: Array.isArray(feed.errors) ? feed.errors : [],
+        }];
+      } catch (error) {
+        return [channel, { status: 'invalid', error: `Invalid local ${channel} feed: ${error instanceof SyntaxError ? 'malformed JSON' : error.message}` }];
+      }
+    })),
+    latestEdition: edition instanceof Error
+      ? { status: 'invalid', error: edition.message }
+      : edition ? { status: 'available', language: edition.language, generatedAt: edition.generatedAt }
+        : { status: 'missing' },
+  };
+}
+
 export function resolveDeliveryRuntime(packageModule, homeDirectory, exists) {
   return {
     configPath: packageModule.resolveUserFile(homeDirectory, 'config.json', exists),

@@ -5,6 +5,19 @@ description: AI builders digest — monitors top AI builders on X and YouTube po
 
 # The Watcher — AI Builders Digest
 
+## Local evidence preview — terminal only
+
+To inspect local evidence without asking for an edition, run from this checkout:
+
+```bash
+node scripts/preview-digest.js --package ai-builders-digest
+node scripts/preview-digest.js --package cybersecurity-digest
+node scripts/preview-digest.js --package ai-builders-digest --json
+node scripts/preview-digest.js --package cybersecurity-digest --json
+```
+
+This offline command validates the selected local source catalog and reports source counts, package-isolated feed availability/time/count/errors, and saved-edition availability/metadata. Missing evidence remains missing; feed errors or malformed JSON are not content to summarize. The preview never prints edition text, collects sources, prepares prompts, generates prose, saves an edition, delivers, publishes, or schedules. Snapshot availability does not prove freshness or live collection. There is no API-based preview. Do not route a request for the latest saved pulse here: use the saved-edition reader below.
+
 ## Saved cybersecurity pulse — route first
 
 For "Dame el último pulse de ciberseguridad", "show the latest cybersecurity pulse", or an equivalent request for the **latest saved** cybersecurity edition, run from this checkout:

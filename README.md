@@ -4,6 +4,19 @@ The Watcher is a thematic digest pipeline. It collects published content, prepar
 
 Two thematic packages are supplied: **AI Builders Digest** (`ai-builders-digest`) has the initial running collection, preparation, and delivery paths for X posts, podcasts, and blogs; **Cybersecurity Digest** (`cybersecurity-digest`) is a local foundation with 40 approved X accounts and empty blog and podcast catalogs. The platform uses reusable `digest-core` interfaces and scripts that accept `--package <id>`. The cybersecurity package has no generated or published feeds or active automation. There is no plugin registry or descriptor-driven collection.
 
+## Preview local evidence (no generation)
+
+From the repository root, inspect the validated source catalog, local feed snapshots, and saved-edition metadata for either package:
+
+```bash
+node scripts/preview-digest.js --package ai-builders-digest
+node scripts/preview-digest.js --package cybersecurity-digest
+node scripts/preview-digest.js --package ai-builders-digest --json
+node scripts/preview-digest.js --package cybersecurity-digest --json
+```
+
+The preview is read-only and offline. AI Builders uses the legacy root feed files; Cybersecurity uses `feeds/cybersecurity-digest/`. Missing feeds or an edition are reported as missing; malformed feeds are reported per channel. Source counts come from the validated local catalog. Feed timestamps, counts, and errors describe saved snapshots, not freshness or successful live collection. Saved-edition metadata never includes edition text. The command does not collect, prepare, generate, save, deliver, publish, or schedule anything. Invalid catalog/package/arguments fail; there is no API-based preview.
+
 ## Read or save a local cybersecurity pulse
 
 From the repository root, read the latest **saved** edition on demand:

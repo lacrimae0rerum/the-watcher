@@ -34,15 +34,17 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
   - Declared hosted asset URLs identify intended package-owned locations, not claimed published assets. Missing remote feeds must remain explicit preparation errors; no empty edition publication is implemented by this unit.
   - Reconcile PRD/FEATURES/ROADMAP/BITACORA to user-approved pilot scope and distinguish package readiness from live automation.
   - Checks: focused tests showing actual RED/GREEN, full `node --test`, syntax/diff checks, independent no-network verification, preserved AI Builders regression behavior. Review assessment and native review per current switch; truthful fallback if unavailable.
-- [ ] **CSP-2 — Complete local source validation and terminal evidence preview**
-  - Status: in progress.
+- [x] **CSP-2 — Complete local source validation and terminal evidence preview**
+  - Status: done locally; live collection and workflow activation remain pending.
   - [x] **CSP-2A — Validate source catalogs through one public runtime seam.**
-    - Add `loadSourceCatalog` to validate JSON shape, required arrays, package-supported entry fields, malformed handles/URLs, and duplicates before collection.
-    - Wire `generate-feed.js` through the validator without contacting external services in tests.
+    - Added `loadSourceCatalog` validation for JSON shape, required arrays, supported fields, malformed handles/URLs, duplicates, and supported blog targets before collection.
+    - Wired `generate-feed.js` through the validator without external service calls in tests.
     - Public seam: `loadSourceCatalog(catalogUrl)` in `scripts/package-runtime.js`.
-  - [ ] **CSP-2B — Preview local package evidence safely from terminal.**
-    - Add an offline command that selects either package and reports local catalog/feed/saved-edition availability and errors.
-    - The command must label output as evidence, never generate bulletin prose, save an edition, or contact the network.
+    - Commit: `12b7e183a83d6178a8b60860271f68bdfcce44a7` (`feat(sources): validate package source catalogs`).
+    - Evidence: strict RED/GREEN completed; focused 30/30 and full 73/73 tests passed. Native review `review-8cda6f815e19f518` approved and exact acknowledgement burned authority. Committed-range assessment was unavailable due unrelated untracked state; independent fallback repeated 73/73 and clean syntax/whitespace checks.
+  - [x] **CSP-2B — Preview local package evidence safely from terminal.**
+    - Added an offline command that selects either package and reports validated catalog counts, local feed availability/time/count/errors, and saved-edition metadata only.
+    - The command labels output as local evidence; it never generates bulletin prose, saves an edition, or contacts the network.
     - Public seam: `buildEvidencePreview(...)` plus `scripts/preview-digest.js --package <id> [--json]`.
   - Preserve package-specific artifact isolation. Workflow activation and live collection remain deferred until APIs are authorized.
 - [ ] **CSP-3 — Generate and deliver one durable edition**
@@ -56,6 +58,7 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
   - Require bounded usage/account access and successful approved end-to-end verification. First date, destination IDs and credential setup remain pending.
 
 ## Evidence
+- 2026-10-08: CSP-2B strict public-seam RED failed on missing export; later malformed/unreadable feed and invalid saved-edition tests failed before their fixes. GREEN: 7/7 focused preview, 30/30 runtime, and 80/80 full Node tests passed; both syntax checks, both terminal JSON previews, and `git diff --check` passed. AI Builders showed 26/6/2 validated sources and available X/podcast/blog snapshots (14/1/1) with one podcast error; Cybersecurity showed 40/0/0 and all three feeds missing. Neither package had a saved edition in this checkout. No collection, prose generation, save, publication, or API access occurred. Live collection and workflow selection remain outside CSP-2's local completion.
 - 2026-10-08: CSP-2A public seam `loadSourceCatalog(catalogUrl)` reads and validates local catalogs before `generate-feed.js` collects. RED first failed on the missing export; later focused RED failures covered malformed JSON/shape, entries, handles, URLs, duplicate identities, and unsupported blogs. GREEN: 30/30 focused and 73/73 full Node tests, both script syntax checks, and `git diff --check` passed. Tests use only repository fixtures and package catalogs; they do not prove live collection or remote existence. No CSP-2B preview, generation, delivery, scheduling, or publication was added. Parent review and commit remain pending.
 - 2026-10-07: Current code has validated dynamic package loading, isolated feed paths, generic preparation, and package-aware delivery. Workflow/root instructions still assume AI Builders; full automated generation/publication is not implemented.
 - 2026-10-07: Proposed second-theme non-goals in existing records are superseded by the user's explicit cybersecurity pilot decisions; update those records from actual approved scope.
@@ -71,4 +74,4 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
 - 2026-10-07: Native committed-range review could not start (`native-start-retained-selection-candidate-mismatch`); no authority mutation occurred. Native unavailable-review assessment required writer checks plus independent verification, both completed. No authority reset or review-mode change was attempted.
 
 ## Next step
-Review CSP-2A and commit it as one work unit after parent approval. Implement CSP-2B next and test both packages from terminal. CSP-3 API generation, external delivery, and CSP-4 activation remain deferred by user decision.
+Parent reviews and owns the CSP-2B work-unit commit. Live collection/workflow selection still needs separate operator authorization. CSP-3 API generation, external delivery, and CSP-4 activation remain deferred by user decision.
