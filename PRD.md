@@ -43,6 +43,11 @@ package is the approved pilot; it is not an operational publication.
   empty; commented examples do not approve active keywords. The catalogs are
   static for now. Future matching may prioritize or tag, but must not exclude
   unmatched items. Runtime parsing and matching require separate implementation.
+- An operator can preview either package's local evidence in the terminal, with
+  validated source counts, package-isolated feed status, and saved-edition
+  metadata only. Missing or malformed local evidence is reported, not generated.
+  This read-only offline preview adds no API, model, collection, delivery, or
+  publication path. A feed snapshot does not establish freshness.
 - A user can ask an agent with access to this checkout and its saved edition file
   for the latest cybersecurity pulse in chat. The agent reads only the saved text;
   a missing edition ends the request without generation or publication. Saving

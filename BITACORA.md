@@ -1,5 +1,15 @@
 # Work log
 
+## 2026-10-08 — Offline terminal evidence preview (CSP-2B)
+
+Objective: Report local evidence for either package without creating an edition or contacting a provider.
+
+Changes: Added a pure preview seam and read-only terminal command. It validates the local catalog, reads package-isolated feed files and latest saved-edition state, reports missing/invalid evidence, and omits saved text. Documented the terminal-only boundary and updated F-07/F-08 and the CSP-2 local milestone. No API, generation, delivery, or publication was added.
+
+Verification: Public-seam RED failed on missing export; later feed-read and invalid-edition tests failed before their fixes. GREEN: 7/7 preview, 30/30 runtime, 80/80 full tests; both syntax checks and `git diff --check` passed. Terminal JSON showed AI Builders source counts 26/6/2 and available feeds with counts 14/1/1, including one podcast error; Cybersecurity counted 40/0/0 with all feeds missing. Both latest editions were missing.
+
+Limits: Snapshot timestamps are not freshness guarantees. CLI tests inspect checked-in local state; no live collection or filesystem write was performed by the preview. CSP-3 generation/delivery and CSP-4 activation remain open. Next step: Parent review and commit; separately authorize collection/workflow checks before claiming F-07 complete.
+
 ## 2026-10-08 — Source catalog validation (CSP-2A)
 
 Objective: Fail closed on local source catalogs before the feed generator collects either package.
