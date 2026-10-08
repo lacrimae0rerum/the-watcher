@@ -1,0 +1,1 @@
+{"x_accounts":[],"podcasts":[],"blogs":[{"name":"First","type":"scrape","indexUrl":"https://claude.com/blog","articleBaseUrl":"https://claude.com/blog/","fetchMethod":"http"},{"name":"Second","type":"scrape","indexUrl":"https://claude.com/blog","articleBaseUrl":"https://claude.com/blog/","fetchMethod":"http"}]}

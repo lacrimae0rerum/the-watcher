@@ -5,11 +5,114 @@ import { fileURLToPath } from 'node:url';
 
 import {
   loadDigestPackage,
+  loadSourceCatalog,
   resolveArtifactPaths,
   resolveDeliveryRuntime,
   selectPackageId,
   validateDigestPackage,
 } from './package-runtime.js';
+
+test('source catalog loader returns a valid local catalog unchanged', async () => {
+  const catalog = await loadSourceCatalog(new URL('./fixtures/source-catalogs/valid.json', import.meta.url));
+  assert.equal(catalog.x_accounts[0].handle, 'builder_1');
+  assert.equal(catalog.podcasts[0].rssUrl, 'https://example.com/feed.xml');
+  assert.equal(catalog.blogs[0].indexUrl, 'https://claude.com/blog');
+});
+
+test('source catalog loader reports malformed JSON as an invalid catalog', async () => {
+  await assert.rejects(
+    loadSourceCatalog(new URL('./fixtures/source-catalogs/invalid-json.json', import.meta.url)),
+    /Invalid source catalog: malformed JSON/,
+  );
+});
+
+test('source catalog loader requires an object with all three arrays', async () => {
+  for (const [file, message] of [
+    ['null.json', 'expected a top-level object'],
+    ['missing-arrays.json', 'blogs must be an array'],
+    ['non-array.json', 'podcasts must be an array'],
+  ]) {
+    await assert.rejects(
+      loadSourceCatalog(new URL(`./fixtures/source-catalogs/${file}`, import.meta.url)),
+      new RegExp(`Invalid source catalog: ${message}`),
+    );
+  }
+});
+
+test('source catalog loader requires current entry fields and types', async () => {
+  for (const [file, field] of [
+    ['bad-entry.json', 'x_accounts[0].name'],
+    ['bad-podcast.json', 'podcasts[0].rssUrl'],
+    ['bad-blog.json', 'blogs[0].fetchMethod'],
+  ]) {
+    await assert.rejects(
+      loadSourceCatalog(new URL(`./fixtures/source-catalogs/${file}`, import.meta.url)),
+      (error) => error.message.includes(`Invalid source catalog: ${field} must be a non-empty string`),
+    );
+  }
+});
+
+test('source catalog loader rejects invalid and case-insensitive duplicate X handles', async () => {
+  for (const [file, reason] of [
+    ['bad-handle.json', 'x_accounts[0].handle must be an X handle'],
+    ['duplicate-handle.json', 'x_accounts[1].handle duplicates x_accounts[0].handle'],
+  ]) {
+    await assert.rejects(
+      loadSourceCatalog(new URL(`./fixtures/source-catalogs/${file}`, import.meta.url)),
+      (error) => error.message.startsWith(`Invalid source catalog: ${reason}`),
+    );
+  }
+});
+
+test('source catalog loader rejects malformed absolute URLs', async () => {
+  await assert.rejects(
+    loadSourceCatalog(new URL('./fixtures/source-catalogs/bad-url.json', import.meta.url)),
+    /Invalid source catalog: podcasts\[0\]\.rssUrl must be an absolute HTTP\(S\) URL/,
+  );
+});
+
+test('source catalog loader rejects duplicate podcast RSS and blog index identities', async () => {
+  for (const [file, reason] of [
+    ['duplicate-podcast.json', 'podcasts[1].rssUrl duplicates podcasts[0].rssUrl'],
+    ['duplicate-blog.json', 'blogs[1].indexUrl duplicates blogs[0].indexUrl'],
+  ]) {
+    await assert.rejects(
+      loadSourceCatalog(new URL(`./fixtures/source-catalogs/${file}`, import.meta.url)),
+      (error) => error.message === `Invalid source catalog: ${reason}`,
+    );
+  }
+});
+
+test('source catalog loader rejects blog configurations outside the current scrape targets', async () => {
+  for (const file of ['unsupported-blog.json', 'unsupported-method.json', 'unsupported-base.json']) {
+    await assert.rejects(
+      loadSourceCatalog(new URL(`./fixtures/source-catalogs/${file}`, import.meta.url)),
+      /Invalid source catalog: blogs\[0\] must use a supported scrape target/,
+    );
+  }
+});
+
+test('source catalog loader accepts a fully empty catalog', async () => {
+  assert.deepEqual(
+    await loadSourceCatalog(new URL('./fixtures/source-catalogs/empty.json', import.meta.url)),
+    { x_accounts: [], podcasts: [], blogs: [] },
+  );
+});
+
+test('source catalog loader accepts both current package catalogs unchanged', async () => {
+  for (const id of ['ai-builders-digest', 'cybersecurity-digest']) {
+    const { sources } = await loadDigestPackage(id);
+    const catalog = await loadSourceCatalog(sources.catalog);
+    assert.ok(catalog.x_accounts.length > 0, `${id} has X accounts`);
+    if (id === 'ai-builders-digest') {
+      assert.equal(catalog.podcasts.length, 6);
+      assert.equal(catalog.blogs.length, 2);
+    } else {
+      assert.equal(catalog.podcasts.length, 0);
+      assert.equal(catalog.blogs.length, 0);
+    }
+  }
+});
 
 test('package selection defaults to ai-builders-digest', () => {
   assert.equal(selectPackageId([]), 'ai-builders-digest');
