@@ -19,6 +19,7 @@ import { join } from "path";
 import { collectFeed } from "../packages/digest-core/index.js";
 import {
   loadDigestPackage,
+  loadSourceCatalog,
   resolveArtifactPaths,
   selectPackageId,
 } from "./package-runtime.js";
@@ -75,12 +76,6 @@ async function saveState(state, statePath) {
     if (ts < cutoff) delete state.seenArticles[id];
   }
   await writeFile(statePath, JSON.stringify(state, null, 2));
-}
-
-// -- Load Sources ------------------------------------------------------------
-
-async function loadSources(catalog) {
-  return JSON.parse(await readFile(catalog, "utf-8"));
 }
 
 // -- Podcast Fetching (RSS + pod2txt) ----------------------------------------
@@ -1038,7 +1033,7 @@ async function main() {
   }
 
   await mkdir(artifactPaths.directory, { recursive: true });
-  const sources = await loadSources(packageSources.catalog);
+  const sources = await loadSourceCatalog(packageSources.catalog);
   const state = await loadState(artifactPaths.statePath);
   const errors = [];
   const collected = {};

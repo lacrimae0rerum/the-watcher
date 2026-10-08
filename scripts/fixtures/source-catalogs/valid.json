@@ -1,0 +1,1 @@
+{"x_accounts":[{"name":"Builder","handle":"builder_1"}],"podcasts":[{"name":"Podcast","rssUrl":"https://example.com/feed.xml","url":"https://www.youtube.com/@Podcast"}],"blogs":[{"name":"Claude Blog","type":"scrape","indexUrl":"https://claude.com/blog","articleBaseUrl":"https://claude.com/blog/","fetchMethod":"http"}]}

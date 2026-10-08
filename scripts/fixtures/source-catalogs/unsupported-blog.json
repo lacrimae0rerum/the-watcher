@@ -1,0 +1,1 @@
+{"x_accounts":[],"podcasts":[],"blogs":[{"name":"Other Blog","type":"scrape","indexUrl":"https://example.com/blog","articleBaseUrl":"https://example.com/blog/","fetchMethod":"http"}]}

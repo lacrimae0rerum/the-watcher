@@ -19,10 +19,10 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
 - Exactly 12 sibling-package assets per existing package contract. Shared provider normalization may move to digest-core only if behavior and AI Builders API remain compatible and tested.
 
 ## Delivery
-- Branch: `feat/cybersecurity-digest-foundation` from `2d5318d361ad81fd36483560d323b709e2b00ee2`.
-- Route: sequential delegated writer; package/code/tests/prompts/configuration and current product records need coordinated multi-file changes.
-- Local feature-branch chain retains prior user delivery choice; no remote delivery yet.
-- Forecast: 500–650 authored lines for first cohesive package unit, including catalog, tests, prompts, and records. Exact asset contract and 40-source catalog justify the scope; retain clear tests rather than compressing to a cosmetic line target.
+- Current branch: `feat/cybersecurity-edition-read`; latest delivered boundary before this work is `bb4d49536e45cbce8a80c4e8b65b028965cc39fb`.
+- Route: sequential delegated writer per bounded multi-file work unit; parent owns commits and delivery.
+- Current authorization: implement every safe local/offline capability possible for both packages. Test through the terminal agent first. Do not add APIs, credentials, X, Telegram, scheduling, publication, or workflow activation.
+- Forecast: CSP-2A 180–280 authored lines; CSP-2B 180–300 authored lines, including tests and current records. Strategy: `ask-on-risk`; each work unit should remain independently reviewable.
 
 ## Tasks
 - [x] **CSP-1 — Build the cybersecurity package and approved source catalog**
@@ -34,10 +34,17 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
   - Declared hosted asset URLs identify intended package-owned locations, not claimed published assets. Missing remote feeds must remain explicit preparation errors; no empty edition publication is implemented by this unit.
   - Reconcile PRD/FEATURES/ROADMAP/BITACORA to user-approved pilot scope and distinguish package readiness from live automation.
   - Checks: focused tests showing actual RED/GREEN, full `node --test`, syntax/diff checks, independent no-network verification, preserved AI Builders regression behavior. Review assessment and native review per current switch; truthful fallback if unavailable.
-- [ ] **CSP-2 — Complete collection and source management validation**
-  - Status: planned.
-  - Prove source additions/removals through file and agent paths using one validator; handle empty catalogs, unsupported blogs, malformed IDs/URLs, duplicate sources, and collection failures without fabricated output.
-  - Make workflow/root run path select this package and stage only its artifacts. No source collection until credentials/cost are agreed.
+- [ ] **CSP-2 — Complete local source validation and terminal evidence preview**
+  - Status: in progress.
+  - [x] **CSP-2A — Validate source catalogs through one public runtime seam.**
+    - Add `loadSourceCatalog` to validate JSON shape, required arrays, package-supported entry fields, malformed handles/URLs, and duplicates before collection.
+    - Wire `generate-feed.js` through the validator without contacting external services in tests.
+    - Public seam: `loadSourceCatalog(catalogUrl)` in `scripts/package-runtime.js`.
+  - [ ] **CSP-2B — Preview local package evidence safely from terminal.**
+    - Add an offline command that selects either package and reports local catalog/feed/saved-edition availability and errors.
+    - The command must label output as evidence, never generate bulletin prose, save an edition, or contact the network.
+    - Public seam: `buildEvidencePreview(...)` plus `scripts/preview-digest.js --package <id> [--json]`.
+  - Preserve package-specific artifact isolation. Workflow activation and live collection remain deferred until APIs are authorized.
 - [ ] **CSP-3 — Generate and deliver one durable edition**
   - Status: planned.
   - Call NaN with bounded requests; produce Spanish Telegram and X Article versions from evidence; validate outputs and suppress empty/unsupported editions.
@@ -49,6 +56,7 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
   - Require bounded usage/account access and successful approved end-to-end verification. First date, destination IDs and credential setup remain pending.
 
 ## Evidence
+- 2026-10-08: CSP-2A public seam `loadSourceCatalog(catalogUrl)` reads and validates local catalogs before `generate-feed.js` collects. RED first failed on the missing export; later focused RED failures covered malformed JSON/shape, entries, handles, URLs, duplicate identities, and unsupported blogs. GREEN: 30/30 focused and 73/73 full Node tests, both script syntax checks, and `git diff --check` passed. Tests use only repository fixtures and package catalogs; they do not prove live collection or remote existence. No CSP-2B preview, generation, delivery, scheduling, or publication was added. Parent review and commit remain pending.
 - 2026-10-07: Current code has validated dynamic package loading, isolated feed paths, generic preparation, and package-aware delivery. Workflow/root instructions still assume AI Builders; full automated generation/publication is not implemented.
 - 2026-10-07: Proposed second-theme non-goals in existing records are superseded by the user's explicit cybersecurity pilot decisions; update those records from actual approved scope.
 
@@ -63,4 +71,4 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
 - 2026-10-07: Native committed-range review could not start (`native-start-retained-selection-candidate-mismatch`); no authority mutation occurred. Native unavailable-review assessment required writer checks plus independent verification, both completed. No authority reset or review-mode change was attempted.
 
 ## Next step
-CSP-1 is complete locally. Implement CSP-2 next: source validation and package-aware collection/run path. Generation, multi-channel automatic publication, and activation remain planned and require separate verified work units.
+Review CSP-2A and commit it as one work unit after parent approval. Implement CSP-2B next and test both packages from terminal. CSP-3 API generation, external delivery, and CSP-4 activation remain deferred by user decision.

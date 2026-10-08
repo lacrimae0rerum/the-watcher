@@ -456,13 +456,17 @@ existing generator's shapes: `x_accounts` contains `{ "name": "handle", "handle"
 display name; `podcasts` uses `{ "name": "approved name", "rssUrl":
 "approved RSS URL", "url": "approved episode/channel URL" }`. Confirm the
 specific account handle or podcast URLs with the user before adding them. Remove
-by exact handle or approved feed URL. Check JSON parsing and duplicate handles
-(case-insensitive) after editing; report the resulting list and count. Do not
-modify the AI Builders catalog. The `blogs` array stays empty: the current web
-collector only supports its configured scrape targets, not arbitrary RSS/blog
-feeds. Defer blog additions until collector adaptation and validation. A catalog
-edit does not prove live collection; do not fetch, publish, or activate a schedule
-as part of source management.
+by exact handle or approved feed URL. After editing, call the public
+`loadSourceCatalog(catalogUrl)` export from `scripts/package-runtime.js` with the
+package's `sources.catalog` URL. It reads local JSON and fails closed on missing
+arrays or required entry fields, invalid X handles or absolute HTTP(S) URLs,
+duplicate handles (case-insensitive), duplicate podcast RSS URLs or blog index
+URLs, and unsupported blog configurations. The collector only supports the
+configured Anthropic Engineering and Claude Blog scrape targets; do not add
+arbitrary RSS/blog feeds. Report validation errors or the resulting list and
+count. Do not modify the AI Builders catalog. A valid catalog does not prove
+live collection or remote source existence; do not fetch, publish, or activate a
+schedule as part of source management.
 
 ### Schedule Changes
 - "Switch to weekly/daily" → Update `frequency` in config.json

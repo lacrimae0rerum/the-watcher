@@ -1,5 +1,15 @@
 # Work log
 
+## 2026-10-08 — Source catalog validation (CSP-2A)
+
+Objective: Fail closed on local source catalogs before the feed generator collects either package.
+
+Changes: Added the public `loadSourceCatalog(catalogUrl)` seam, offline JSON fixtures and tests, and generator wiring. Updated source-management instructions. The loader preserves both current catalogs, accepts empty arrays, and rejects malformed JSON, entries, handles, URLs, identities, and blog targets the collector cannot scrape.
+
+Verification: Focused RED first failed on a missing export; later RED runs failed on malformed JSON, shape, entry fields, handles, URLs, duplicate identities, and unsupported blogs before their respective implementation. Focused GREEN passed 30/30; full `node --test` passed 73/73; both script syntax checks and `git diff --check` passed.
+
+Limits: Tests use local catalogs and deterministic repository fixtures. They do not contact remote sources, prove live collection, or verify generator behavior with credentials. CSP-2B preview, generation, delivery, scheduling, and publication remain separate. Next step: Parent review of CSP-2A, then CSP-2B.
+
 ## 2026-10-08 — Cybersecurity assembly readability (CP-1 follow-up)
 
 Objective: Make the existing cybersecurity assembly prompt easier to scan without

@@ -1,4 +1,5 @@
 import { existsSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const DEFAULT_PACKAGE_ID = 'ai-builders-digest';
@@ -164,6 +165,97 @@ export function validateDigestPackage(packageModule, requestedId) {
     );
   }
   return packageModule;
+}
+
+function requireCatalogString(entry, field, location) {
+  if (typeof entry[field] !== 'string' || !entry[field].trim()) {
+    throw new Error(`Invalid source catalog: ${location}.${field} must be a non-empty string`);
+  }
+}
+
+function catalogHttpUrl(value, location) {
+  let url;
+  try {
+    url = new URL(value);
+  } catch {
+    // A relative URL or invalid hostname cannot identify a collection source.
+  }
+  if (!url || !['http:', 'https:'].includes(url.protocol) || !url.hostname ||
+      url.username || url.password || /\s/.test(value)) {
+    throw new Error(`Invalid source catalog: ${location} must be an absolute HTTP(S) URL`);
+  }
+  return url.href;
+}
+
+export async function loadSourceCatalog(catalogUrl) {
+  const text = await readFile(catalogUrl, 'utf8');
+  let catalog;
+  try {
+    catalog = JSON.parse(text);
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      throw new Error('Invalid source catalog: malformed JSON', { cause: error });
+    }
+    throw error;
+  }
+  if (catalog === null || typeof catalog !== 'object' || Array.isArray(catalog)) {
+    throw new Error('Invalid source catalog: expected a top-level object');
+  }
+  for (const field of ['x_accounts', 'podcasts', 'blogs']) {
+    if (!Array.isArray(catalog[field])) {
+      throw new Error(`Invalid source catalog: ${field} must be an array`);
+    }
+  }
+  const handles = new Map();
+  const identities = { podcasts: new Map(), blogs: new Map() };
+  for (const [channel, fields] of [
+    ['x_accounts', ['name', 'handle']],
+    ['podcasts', ['name', 'rssUrl', 'url']],
+    ['blogs', ['name', 'type', 'indexUrl', 'articleBaseUrl', 'fetchMethod']],
+  ]) {
+    catalog[channel].forEach((entry, index) => {
+      const location = `${channel}[${index}]`;
+      if (entry === null || typeof entry !== 'object' || Array.isArray(entry)) {
+        throw new Error(`Invalid source catalog: ${location} must be an object`);
+      }
+      for (const field of fields) requireCatalogString(entry, field, location);
+      if (channel === 'podcasts' || channel === 'blogs') {
+        const identityField = channel === 'podcasts' ? 'rssUrl' : 'indexUrl';
+        for (const field of channel === 'podcasts'
+          ? ['rssUrl', 'url']
+          : ['indexUrl', 'articleBaseUrl']) {
+          const url = catalogHttpUrl(entry[field], `${location}.${field}`);
+          if (field === identityField) {
+            if (identities[channel].has(url)) {
+              throw new Error(`Invalid source catalog: ${location}.${field} duplicates ${channel}[${identities[channel].get(url)}].${field}`);
+            }
+            identities[channel].set(url, index);
+          }
+        }
+      }
+      if (channel === 'blogs') {
+        const supported = {
+          'https://www.anthropic.com/engineering': 'https://www.anthropic.com/engineering/',
+          'https://claude.com/blog': 'https://claude.com/blog/',
+        };
+        if (entry.type !== 'scrape' || entry.fetchMethod !== 'http' ||
+            supported[entry.indexUrl] !== entry.articleBaseUrl) {
+          throw new Error(`Invalid source catalog: ${location} must use a supported scrape target (Anthropic Engineering or Claude Blog, type scrape, fetchMethod http, matching articleBaseUrl)`);
+        }
+      }
+      if (channel === 'x_accounts') {
+        if (!/^[A-Za-z0-9_]{1,15}$/.test(entry.handle)) {
+          throw new Error(`Invalid source catalog: ${location}.handle must be an X handle (1–15 letters, digits, or underscores)`);
+        }
+        const key = entry.handle.toLowerCase();
+        if (handles.has(key)) {
+          throw new Error(`Invalid source catalog: ${location}.handle duplicates x_accounts[${handles.get(key)}].handle`);
+        }
+        handles.set(key, index);
+      }
+    });
+  }
+  return catalog;
 }
 
 export async function loadDigestPackage(id) {
