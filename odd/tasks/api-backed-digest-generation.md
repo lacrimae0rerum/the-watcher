@@ -13,7 +13,8 @@ The repository can prepare deterministic model-ready packets, but the collection
 - Do not modify the active checkout during the isolated collection test.
 - Do not dispatch GitHub Actions, push, publish, deliver, schedule, or activate workflows.
 - Preserve local `.gitignore` and `.codegraph/` state.
-- Model provider selection remains a user decision after collection evidence exists.
+- The selected model provider is NaN with `deepseek-v4-flash`, preserving the current PRD requirement.
+- Verify the current NaN API contract from primary documentation before implementation.
 - Commits remain pending explicit user authorization.
 
 ## Delivery
@@ -31,13 +32,20 @@ The repository can prepare deterministic model-ready packets, but the collection
   - Validate output structure, source errors, item counts, package isolation, and active-checkout immutability.
   - Remove the disposable copy after evidence is recorded or retain it only with explicit user approval.
   - Route: delegated exploration mapped the workflow because repository evidence exceeded the inline read budget; command verification routes to `gentle-ai-verify`.
-  - Commit: pending authorized work-unit commit.
+  - Commit: `5b3264c` (`docs(odd): record isolated collection evidence`).
 
-- [ ] **ADG-2 — Select the model provider and generation contract**
+- [x] **ADG-2 — Select the model provider and generation contract**
   - Stop at the collection checkpoint and present verified evidence.
   - Ask the user to select the provider and credential boundary.
   - Define the minimum request, response, timeout, error, and explicit-save behavior.
   - Route: parent-owned product decision after read-only exploration.
+  - Provider: NaN, model `deepseek-v4-flash`, endpoint `POST https://api.nan.builders/v1/chat/completions`.
+  - Credential: `NAN_API_KEY` from the current process environment only.
+  - Request: one non-streaming call with the complete local preparation packet, `max_tokens: 8192`, and a 10-minute timeout.
+  - Response: require non-empty `choices[0].message.content`; print only final digest text to stdout.
+  - Errors: surface provider status and sanitized OpenAI-shaped error fields; do not retry automatically, because a repeated generation can duplicate metered work.
+  - Persistence: none during generation; saving remains a separate explicit `save-edition.js` command.
+  - Commit: pending explicit authorization.
 
 - [ ] **ADG-3 — Implement and verify model-backed generation**
   - Add the smallest provider-specific client and CLI that reuse the existing preparation envelope and edition store.
@@ -46,6 +54,14 @@ The repository can prepare deterministic model-ready packets, but the collection
   - Document secure configuration and terminal usage.
   - Run focused and full checks, then assess the work-unit candidate under repository review policy.
   - Route: one bounded `gentle-ai-worker` because implementation will touch multiple non-trivial files; verification follows the native risk plan.
+
+## ADG-2 provider evidence
+- NaN documents an OpenAI-compatible API at `https://api.nan.builders/v1`, authenticated with `Authorization: Bearer <key>`; personal keys are created under platform user settings. Source: https://www.nan.builders/docs
+- NaN documents `POST /v1/chat/completions`, request fields `model` and `messages`, and response text at `choices[0].message.content`. Source: https://www.nan.builders/es/docs/getting-started
+- NaN lists `deepseek-v4-flash` as an exact callable model ID with a 1M context window and 3B-token monthly member quota. The key-filtered authority is `GET /v1/models`. Source: https://www.nan.builders/docs/choose-a-model
+- NaN documents OpenAI-shaped errors, no retry for `401`/`402`/`403`/`404`, and delayed retries for `429`/`5xx`. Source: https://www.nan.builders/es/docs/getting-started
+- Minimum local contract: use Node's built-in `fetch` without a new SDK; make one non-streaming request; emit validated model text to stdout; keep persistence explicit through the existing `save-edition.js`; keep delivery separate.
+- Credential decision: accept `NAN_API_KEY` only from the current process environment for the first integration; do not read or write a `.env` file.
 
 ## Acceptance criteria
 - Real collection succeeds or fails with provider-specific evidence while the active checkout remains byte-for-byte unchanged except for this authorized task record and existing local tooling state.
@@ -66,6 +82,7 @@ The repository can prepare deterministic model-ready packets, but the collection
 - 2026-10-08: Independent static verification of the optional-Pod2txt path passed syntax, gating, stale-feed, credential, and no-publication checks. ShellCheck remains unavailable. The parent syntax spot check passed.
 - 2026-10-08: The user authorized deletion of the successful disposable run `run.m6HCqi`; independent verification confirmed its removal and no active-checkout feed changes.
 - 2026-10-08: Cleanup inspection found `run.W54pJG`, a superseded wizard copy that stopped before external collection. It had no logs, summary, fresh feeds, `.env`, credential artifacts, or process references. The user authorized deletion, and independent verification confirmed that no `run.*` directories remain and active feeds are clean.
+- 2026-10-08: ADG-1 closed in `5b3264c` (`docs(odd): record isolated collection evidence`). Native committed-range assessment was unassessable because unrelated untracked state requires explicit declaration; the required independent verifier passed the exact range, scope, credential-absence, cleanup, and whitespace checks. The parent commit spot check passed.
 
 ## Next step
-Create the authorized ADG-1 work-unit commit, record its identity, then select the model provider and generation contract.
+Create the authorized ADG-2 work-unit commit, then delegate test-first implementation of ADG-3.
