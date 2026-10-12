@@ -56,7 +56,7 @@ The repository can prepare deterministic model-ready packets, but the collection
   - Route: one bounded `gentle-ai-worker` because implementation will touch multiple non-trivial files; verification follows the native risk plan.
   - Live-test scope: one AI Builders NaN generation using existing local snapshots; no Cybersecurity recollection and no second model call.
   - Retention: the user chose to keep the credential-free live summary and both external wizard scripts for possible future runs.
-  - Commit: pending explicit authorization.
+  - Commit: `10befc8` (`feat(digest): add NaN edition generation`).
 
 ## ADG-2 provider evidence
 - NaN documents an OpenAI-compatible API at `https://api.nan.builders/v1`, authenticated with `Authorization: Bearer <key>`; personal keys are created under platform user settings. Source: https://www.nan.builders/docs
@@ -93,6 +93,7 @@ The repository can prepare deterministic model-ready packets, but the collection
 - 2026-10-12: Created `run-follow-builders-nan-test.sh` for the authorized single AI Builders live call. Independent static verification confirmed hidden process-only credentials, exactly one model call, no retry or digest persistence, metadata-only evidence, atomic success gating, active-checkout drift detection, and cleanup of transient validation code. ShellCheck is unavailable; `bash -n` and the parent syntax spot check passed.
 - 2026-10-12: Exactly one live NaN `deepseek-v4-flash` call for AI Builders succeeded. Credential-free evidence reports 8,929 bytes, 47 lines, 18 source URLs, canonical ISO time, a valid hidden SHA-256 format, and an unchanged active checkout. The digest text, key, and hash value were not saved or exposed.
 - 2026-10-12: Final independent verification passed 8/8 focused and 95/95 full tests, syntax, safe missing-key behavior, no-write checks, scoped whitespace checks, live metadata validation, and documentation-boundary review. It confirmed that Cybersecurity live generation, digest quality, saving, delivery, publication, retry, push, and scheduling remain unverified or not performed.
+- 2026-10-12: ADG-3 closed in `10befc8` (`feat(digest): add NaN edition generation`). Native committed-range assessment remained unassessable under unrelated untracked state with RDD off; the required independent verifier passed the exact eight-file range, 8/8 focused and 95/95 full tests, syntax, safe missing-key behavior, scope, security, and whitespace checks. The parent commit spot check passed.
 
 ## Next step
-Create the authorized ADG-3 work-unit commit, record its identity, and report the verified feature outcome.
+Await the user's delivery decision. Push, merge, saved-edition persistence, delivery, publication, and scheduling remain separate actions.
