@@ -15,7 +15,7 @@
 | --- | --- | --- | --- | --- |
 | CSP-1: isolated package and 40-source catalog (F-06) | done | high | F-04, `digest-core` | Offline validator, focused/full tests, syntax and path checks; no remote assets claimed. |
 | CSP-2: local source validation and terminal preview (F-07 partial) | done | high | CSP-1 | CSP-2A validates catalogs; CSP-2B previews package-isolated local evidence. Live collection, provider checks, and theme-isolated workflow remain separate, operator-gated work. |
-| CSP-3: Spanish edition and two-channel delivery (F-08) | in_progress | high | CSP-2, model and channel access | Manual NaN request path passes mocked tests; one live AI Builders call succeeded without saving. Cybersecurity generation, digest quality, and durable Telegram and X Article delivery remain unverified. |
+| CSP-3: Spanish edition and two-channel delivery (F-08) | in_progress | high | CSP-2, model and channel access | Manual NaN request path passes mocked tests; one live AI Builders call succeeded without saving. The X Article adapter and local success receipt passed focused fake-transport tests. Cybersecurity generation, digest quality, live X publication, and durable Telegram delivery remain unverified. |
 | CSP-4: three-calendar-day schedule (F-09) | planned | high | CSP-3, first date and opt-in | Noon Europe/Madrid across daylight-saving transitions; no early publication. |
 
 CSP-1 only declares intended URLs. The package's feeds and prompts are not yet
@@ -24,7 +24,7 @@ an API, generation path, collection activation, or publication gate. LAG-1 adds
 read-only offline preparation for a terminal agent, but missing cybersecurity
 feeds prevent a real packet today. Manual NaN drafting passed one live AI Builders
 call; that result does not verify Cybersecurity generation. Explicit saving, dual
-delivery, and activation remain separate; no active cybersecurity schedule or dual
+delivery, and activation remain separate; no live X delivery, active cybersecurity schedule, or dual
 delivery exists.
 
 ## Publication gate

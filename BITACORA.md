@@ -1,5 +1,15 @@
 # Work log
 
+## 2026-10-12 — Local X Article and delivery receipt (CSP-3A)
+
+Objective: Add explicit single-channel X Article delivery and durable observed-success suppression without generating or saving an edition.
+
+Changes: Added a DraftJS text adapter with injected transport and runtime user-auth token; it drafts then publishes against the confirmed X endpoints. Added a package-scoped ignored receipt keyed by canonical package ID and exact text; corruption fails closed, and successful publication with failed receipt reports uncertainty for manual reconciliation. Cybersecurity config accepts `x-article` and an explicit title. Telegram/email and stdout remain unchanged.
+
+Verification: Focused vertical RED on missing public adapter and missing delivery-state module; later RED exposed missing uncertain-outcome reporting after a failed publish response. GREEN: 9/9 focused tests with fake transport and in-memory filesystem. Syntax and whitespace checks are recorded in the writer handoff; full suite and independent review remain for the parent.
+
+Limits: No credentials, network request, real edition save, external publication, or schedule was used. Local receipts cannot guarantee exactly-once external delivery or prevent concurrent attempts. Next step: Parent full-suite verification and review, then separate human authorization before CSP-3B.
+
 ## 2026-10-12 — Manual NaN edition generation (ADG-3)
 
 Objective: Add an explicit model-generation command without coupling it to saving or publication.

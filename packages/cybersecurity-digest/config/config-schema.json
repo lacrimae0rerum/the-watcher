@@ -39,15 +39,16 @@
     },
     "delivery": {
       "type": "object",
-      "description": "Existing runtime supports one method per run. Telegram plus X Article publication is planned, not configured here.",
+      "description": "One delivery method per explicit run. X Article has a local adapter; Telegram plus X Article dual delivery and scheduling are not implemented.",
       "properties": {
         "method": {
           "type": "string",
-          "enum": ["stdout", "telegram", "email"],
-          "description": "Existing single-channel delivery method; email is supported by the shared runtime but not selected for this pilot."
+          "enum": ["stdout", "telegram", "email", "x-article"],
+          "description": "Single-channel delivery method. X Article requires an explicit title and runtime user-auth token; it has no verified live publication."
         },
         "chatId": { "type": "string", "description": "Telegram destination if method is telegram." },
-        "email": { "type": "string", "description": "Email destination if method is email; not selected for this pilot." }
+        "email": { "type": "string", "description": "Email destination if method is email; not selected for this pilot." },
+        "title": { "type": "string", "minLength": 1, "description": "Reviewed nonempty title required when method is x-article; text is supplied separately." }
       }
     },
     "onboardingComplete": { "type": "boolean", "default": false }

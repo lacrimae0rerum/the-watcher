@@ -4,7 +4,7 @@
 // Digest Package — Delivery Script
 // ============================================================================
 // Sends a digest to the user via their chosen delivery method.
-// Supports: Telegram bot, Email (via Resend), or stdout (default).
+// Supports: Telegram bot, Email (via Resend), X Article, or stdout (default).
 //
 // Usage:
 //   echo "digest text" | node deliver.js
@@ -16,14 +16,16 @@
 // Delivery methods:
 //   - "telegram": sends via Telegram Bot API (needs TELEGRAM_BOT_TOKEN + chat ID)
 //   - "email": sends via Resend API (needs RESEND_API_KEY + email address)
+//   - "x-article": draft then publish with a runtime user-auth token and local receipt
 //   - "stdout" (default): just prints to terminal
 // ============================================================================
 
 import { readFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import { homedir } from 'os';
-import { config as loadEnv } from 'dotenv';
+import { fileURLToPath } from 'node:url';
 import { deliver } from '../packages/digest-core/index.js';
+import { createDeliveryState, editionIdentity } from './delivery-state.js';
 import {
   loadDigestPackage,
   resolveDeliveryRuntime,
@@ -148,6 +150,52 @@ async function sendEmail(text, apiKey, toEmail, branding) {
   }
 }
 
+// -- X Article Delivery ------------------------------------------------------
+
+export async function deliverXArticle({ edition, target, token, packageId, repositoryRoot, fetchImpl = fetch, state = createDeliveryState({ repositoryRoot }) }) {
+  if (typeof token !== 'string' || !token.trim()) throw new Error('X_ARTICLE_ACCESS_TOKEN is required');
+  if (typeof target?.title !== 'string' || !target.title.trim()) throw new Error('delivery.title is required for X Article');
+  if (typeof edition?.text !== 'string' || !edition.text.trim()) throw new Error('X Article text is required');
+  const identity = editionIdentity(packageId, edition.text);
+  if (await state.wasDelivered(packageId, 'x-article', identity)) {
+    return { status: 'skipped', method: 'x-article', reason: 'already-delivered' };
+  }
+  const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
+  const blocks = edition.text.split(/\r?\n/).map((text, index) => ({
+    key: index.toString(36).padStart(5, '0'), text, type: 'unstyled', depth: 0,
+    inlineStyleRanges: [], entityRanges: [], data: {},
+  }));
+  async function request(url, body, expectedStatus, idField, phase) {
+    const uncertain = phase === 'publish' ? '; manual reconciliation required (outcome uncertain)' : '';
+    let response;
+    try {
+      response = await fetchImpl(url, { method: 'POST', headers, body: JSON.stringify(body) });
+    } catch {
+      throw new Error(`X Article ${phase} transport failed${uncertain}`);
+    }
+    if (response.status !== expectedStatus) {
+      const code = Number.isInteger(response.status) && response.status >= 100 && response.status <= 599
+        ? response.status : 'unknown';
+      throw new Error(`X Article ${phase} failed (HTTP ${code})${uncertain}`);
+    }
+    let payload;
+    try { payload = await response.json(); } catch { throw new Error(`X Article ${phase} returned invalid JSON${uncertain}`); }
+    const id = payload?.data?.[idField];
+    if (typeof id !== 'string' || !/^\d+$/.test(id)) throw new Error(`X Article ${phase} returned an invalid ID${uncertain}`);
+    return id;
+  }
+  const articleId = await request('https://api.x.com/2/articles/draft', {
+    title: target.title, content_state: { blocks, entities: [] },
+  }, 201, 'id', 'draft');
+  const postId = await request(`https://api.x.com/2/articles/${articleId}/publish`, {}, 200, 'post_id', 'publish');
+  try {
+    await state.recordSuccess(packageId, 'x-article', identity);
+  } catch {
+    throw new Error('X Article published but local state could not be saved; manual reconciliation required (outcome uncertain)');
+  }
+  return { status: 'ok', method: 'x-article', articleId, postId };
+}
+
 // -- Main --------------------------------------------------------------------
 
 async function main() {
@@ -155,6 +203,7 @@ async function main() {
   const { configPath, envPath, email } = resolveDeliveryRuntime(selected, homedir());
 
   // Load env and config
+  const { config: loadEnv } = await import('dotenv');
   loadEnv({ path: envPath });
 
   let config = {};
@@ -200,6 +249,12 @@ async function main() {
           };
         },
       },
+      'x-article': {
+        deliver: (edition, target) => deliverXArticle({
+          edition, target, token: process.env.X_ARTICLE_ACCESS_TOKEN,
+          packageId: selected.digestPackage.id, repositoryRoot: process.cwd(),
+        }),
+      },
       stdout: {
         deliver: async (edition) => {
           console.log(edition.text);
@@ -228,4 +283,4 @@ async function main() {
   }
 }
 
-main();
+if (process.argv[1] === fileURLToPath(import.meta.url)) main();

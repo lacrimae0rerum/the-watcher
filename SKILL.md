@@ -70,8 +70,8 @@ collection, preparation, and delivery interfaces exported by `digest-core`.
 For a request to manage **cybersecurity-digest sources**, use the scoped instructions
 in Configuration Handling > Source Changes. This theme is a local package only:
 its feeds and prompts are not yet published, and its three-day schedule and
-Telegram + X Article delivery are not active. Do not use the AI Builders run
-pipeline as a cybersecurity publication workflow.
+Telegram + X Article dual delivery is not active. A manual, single-channel X Article adapter exists but has no live verification. Do not use the AI Builders run
+pipeline as a cybersecurity publication workflow. Do not call `scripts/deliver.js` with `x-article` without separate approval of the text, title, credentials, and external publication. The local, ignored delivery receipt suppresses repeat text only after observed success; an uncertain publish outcome requires manual reconciliation before any retry.
 
 ## Detecting Platform
 

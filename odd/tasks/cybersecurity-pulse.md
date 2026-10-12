@@ -19,10 +19,10 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
 - Exactly 12 sibling-package assets per existing package contract. Shared provider normalization may move to digest-core only if behavior and AI Builders API remain compatible and tested.
 
 ## Delivery
-- Current branch: `feat/cybersecurity-edition-read`; latest delivered boundary before this work is `bb4d49536e45cbce8a80c4e8b65b028965cc39fb`.
+- Current branch: `feat/cybersecurity-durable-delivery`; base `4232a007f60481d1ac770d5f3f7ceb65a323f99e`.
 - Route: sequential delegated writer per bounded multi-file work unit; parent owns commits and delivery.
-- Current authorization: implement every safe local/offline capability possible for both packages. Test through the terminal agent first. Do not add APIs, credentials, X, Telegram, scheduling, publication, or workflow activation.
-- Forecast: CSP-2A 180–280 authored lines; CSP-2B 180–300 authored lines, including tests and current records. Strategy: `ask-on-risk`; each work unit should remain independently reviewable.
+- Current authorization: complete CSP-3 through confirmed public seams. Keep generation, explicit saving, and delivery separate. Implement and test X Article plus durable per-channel state locally without credentials or external publication; live collection, generation, saving, and delivery remain later human gates.
+- Forecast: CSP-3A approximately 220–360 authored lines including tests and current records. Strategy: `ask-on-risk`; each work unit remains independently reviewable.
 
 ## Tasks
 - [x] **CSP-1 — Build the cybersecurity package and approved source catalog**
@@ -49,16 +49,27 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
     - Commit: `63d3c9128cccc37c73a72f94d3be37940089883b` (`feat(preview): add offline digest evidence command`).
   - Preserve package-specific artifact isolation. Workflow activation and live collection remain deferred until APIs are authorized.
 - [ ] **CSP-3 — Generate and deliver one durable edition**
-  - Status: planned.
+  - Status: in progress.
+  - Keep generation, explicit saving, and delivery as separate operator actions. Do not add automatic persistence to `generateEdition`.
   - Call NaN with bounded requests; produce Spanish Telegram and X Article versions from evidence; validate outputs and suppress empty/unsupported editions.
-  - Integrate the completed CER-1 local edition store for on-demand agent retrieval. Reading an edition is separate from generation/publication, never invokes either, and requires access to the saved files. See `odd/tasks/cybersecurity-edition-read.md` for verified behavior; automatic saving from the future generator is still pending.
-  - Add X Article adapter and durable per-channel delivery state to prevent duplicate publication on retry. Credentials and end-to-end external checks are separate gates.
+  - Reuse the completed CER-1 local edition store for on-demand agent retrieval. Reading an edition is separate from generation/publication, never invokes either, and requires access to the saved files. See `odd/tasks/cybersecurity-edition-read.md` for verified behavior.
+  - [x] **CSP-3A — Implement X Article delivery with durable channel state (local only).**
+    - Public seams: `deliver({ edition, target, adapters })`, the X Article adapter, and a package-isolated delivery-state store.
+    - Create a DraftJS text Article draft through `POST /2/articles/draft`, then publish it through `POST /2/articles/{article_id}/publish`.
+    - Require user-auth access supplied at runtime; tests use injected transport and no credentials or network.
+    - Record observed successful channel delivery atomically and suppress later attempts for the same edition identity. A failed draft or publish attempt must not mark success; an uncertain publish outcome must stop for manual reconciliation because exactly-once external delivery cannot be guaranteed locally.
+    - Verify through strict vertical TDD, focused/full tests, syntax, whitespace, no-network behavior, and independent review.
+  - [ ] **CSP-3B — Run the human-gated Cybersecurity edition path.**
+    - Collect real package-isolated Cybersecurity evidence, make one NaN call, inspect the Spanish result, explicitly save the approved edition, and deliver only to separately authorized configured channels.
+    - Credentials, account access, destinations, model cost, content approval, and each external delivery remain explicit human gates.
 - [ ] **CSP-4 — Schedule and activate after functional verification**
   - Status: planned.
   - Use true three-calendar-day cadence at noon Europe/Madrid across DST, with explicit first edition date and no publication before opt-in activation.
   - Require bounded usage/account access and successful approved end-to-end verification. First date, destination IDs and credential setup remain pending.
 
 ## Evidence
+- 2026-10-12: CSP-3A local implementation passed 9/9 focused offline tests, 104/104 full tests, three syntax checks, scoped whitespace checks, exact-scope review, and independent high-risk verification. A parent spot check found that DraftJS `content_state.entities` was incorrectly emitted as an object; a focused RED reproduced the mismatch, the minimal correction changed it to `[]`, and independent reverification passed. X draft/publish transport remains mocked; the package receipt uses in-memory filesystem tests. No live publication, saved edition, credential, schedule, or dual dispatch was used.
+- 2026-10-12: The user authorized CSP-3 continuation and confirmed TDD at the existing generation, explicit save/read, and delivery seams. Generation and saving remain separate. Official X documentation confirms user-auth Article creation through `POST https://api.x.com/2/articles/draft` and publication through `POST https://api.x.com/2/articles/{article_id}/publish`, with `tweet.read`, `tweet.write`, and `users.read` scopes. No credential or external call was authorized for CSP-3A.
 - 2026-10-08: CSP-2B strict public-seam RED failed on missing export; later malformed/unreadable feed and invalid saved-edition tests failed before their fixes. GREEN: 7/7 focused preview, 30/30 runtime, and 80/80 full Node tests passed; both syntax checks, both terminal JSON previews, and `git diff --check` passed. Independent read-only verification repeated 7/7 and 80/80, both syntax checks, whitespace checks, and both canonical previews without changing repository state. AI Builders showed 26/6/2 validated sources and available X/podcast/blog snapshots (14/1/1) with one podcast error; Cybersecurity showed 40/0/0 and all three feeds missing. Neither package had a saved edition in this checkout. Native review `review-66e8f0fc6377d74d` approved the frozen candidate and its exact acknowledgement burned authority; advisory findings remain separate follow-up work. No collection, prose generation, save, publication, or API access occurred. Live collection and workflow selection remain outside CSP-2's local completion.
 - 2026-10-08: CSP-2A public seam `loadSourceCatalog(catalogUrl)` reads and validates local catalogs before `generate-feed.js` collects. RED first failed on the missing export; later focused RED failures covered malformed JSON/shape, entries, handles, URLs, duplicate identities, and unsupported blogs. GREEN: 30/30 focused and 73/73 full Node tests, both script syntax checks, and `git diff --check` passed. Tests use only repository fixtures and package catalogs; they do not prove live collection or remote existence. No CSP-2B preview, generation, delivery, scheduling, or publication was added. Parent review and commit remain pending.
 - 2026-10-07: Current code has validated dynamic package loading, isolated feed paths, generic preparation, and package-aware delivery. Workflow/root instructions still assume AI Builders; full automated generation/publication is not implemented.
@@ -75,4 +86,4 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
 - 2026-10-07: Native committed-range review could not start (`native-start-retained-selection-candidate-mismatch`); no authority mutation occurred. Native unavailable-review assessment required writer checks plus independent verification, both completed. No authority reset or review-mode change was attempted.
 
 ## Next step
-Live collection/workflow selection still needs separate operator authorization. CSP-3 API generation, external delivery, and CSP-4 activation remain deferred by user decision.
+Create the CSP-3A work-unit commit if authorized, record its identity, and stop at the CSP-3B human gate for credentials, paid generation, saving, and external delivery.
