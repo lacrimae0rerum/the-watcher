@@ -29,6 +29,19 @@ node scripts/prepare-local-digest.js --package cybersecurity-digest
 
 The package argument defaults to AI Builders when omitted. AI Builders reads root feed snapshots; Cybersecurity reads only `feeds/cybersecurity-digest/`. The command uses local package config with English/daily/stdout defaults and resolves local user prompt overrides before bundled package prompts. It does not fetch hosted feeds or prompts. It prints a model-ready JSON envelope, not an edition. Read `errors` and inspect the available evidence before any agent drafting; missing or invalid channels are not content. If all channel arrays are empty, missing, or invalid, the command returns a JSON error on stderr and no stdout packet. The real Cybersecurity run currently fails this way because no local feeds exist. This script never invokes a model, writes files, saves an edition, delivers, publishes, or schedules. An agent may produce text outside this script; saving already written text requires a separate explicit `node scripts/save-edition.js --package cybersecurity-digest --file <existing-text-file>` action. Do not treat this as activation of the remote `prepare-digest.js` workflow or as proof of live collection or generation quality.
 
+## Optional NaN generation — explicit terminal action only
+
+Do not call a paid model unless the user explicitly authorizes that call. First inspect the local packet, its `errors`, and its source links. For an authorized terminal run, read the key with a hidden prompt and keep it only in the current process environment:
+
+```bash
+read -r -s -p 'NaN API key: ' NAN_API_KEY; printf '\n'
+export NAN_API_KEY
+node scripts/generate-edition.js --package ai-builders-digest
+unset NAN_API_KEY
+```
+
+Omitting the package flag selects AI Builders; `--package cybersecurity-digest` uses only that package's local feeds. Cybersecurity has no checked-in local feeds, so supply usable evidence before attempting generation. The command uses the local preparation packet and sends one non-streaming request to NaN `deepseek-v4-flash`, with a ten-minute timeout and no retry. It prints only the resulting digest text; it never reads `.env`, writes an edition, delivers, publishes, or schedules. Inspect model claims and links. To save reviewed text, separately create a UTF-8 text file and explicitly call `node scripts/save-edition.js --package <canonical-id> --file <existing-text-file>`. A successful local test does not prove that a live NaN call succeeds.
+
 ## Saved cybersecurity pulse — route first
 
 For "Dame el último pulse de ciberseguridad", "show the latest cybersecurity pulse", or an equivalent request for the **latest saved** cybersecurity edition, run from this checkout:
@@ -45,10 +58,10 @@ digestible summaries of what they're saying.
 
 Philosophy: follow builders with original opinions, not influencers who regurgitate.
 
-**No API keys or environment variables are required from users.** All content
+**No API keys or environment variables are required for the existing agent-driven reader flow.** Optional direct NaN generation above requires a process-only `NAN_API_KEY` and explicit authorization for a metered call. All content
 (X/Twitter posts, podcast transcripts, and blog posts) is fetched centrally and served via
 a public feed once the repository is published and collection credentials are configured.
-Users only need API keys if they choose Telegram or email delivery.
+Reader delivery keys are only needed when users choose Telegram or email; optional direct NaN generation needs its separate process-only key.
 
 The `ai-builders-digest` package owns its source catalog, user configuration schema,
 prompts, editorial policy, and branding. Its scripts orchestrate the generic

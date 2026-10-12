@@ -45,15 +45,18 @@ The repository can prepare deterministic model-ready packets, but the collection
   - Response: require non-empty `choices[0].message.content`; print only final digest text to stdout.
   - Errors: surface provider status and sanitized OpenAI-shaped error fields; do not retry automatically, because a repeated generation can duplicate metered work.
   - Persistence: none during generation; saving remains a separate explicit `save-edition.js` command.
-  - Commit: pending explicit authorization.
+  - Commit: `08c23bd` (`docs(odd): define NaN generation contract`).
 
-- [ ] **ADG-3 — Implement and verify model-backed generation**
+- [x] **ADG-3 — Implement and verify model-backed generation**
   - Add the smallest provider-specific client and CLI that reuse the existing preparation envelope and edition store.
   - Use test-first development with deterministic mocked transport; never call a paid model from tests.
   - Keep generation separate from delivery and publication.
   - Document secure configuration and terminal usage.
   - Run focused and full checks, then assess the work-unit candidate under repository review policy.
   - Route: one bounded `gentle-ai-worker` because implementation will touch multiple non-trivial files; verification follows the native risk plan.
+  - Live-test scope: one AI Builders NaN generation using existing local snapshots; no Cybersecurity recollection and no second model call.
+  - Retention: the user chose to keep the credential-free live summary and both external wizard scripts for possible future runs.
+  - Commit: pending explicit authorization.
 
 ## ADG-2 provider evidence
 - NaN documents an OpenAI-compatible API at `https://api.nan.builders/v1`, authenticated with `Authorization: Bearer <key>`; personal keys are created under platform user settings. Source: https://www.nan.builders/docs
@@ -82,7 +85,14 @@ The repository can prepare deterministic model-ready packets, but the collection
 - 2026-10-08: Independent static verification of the optional-Pod2txt path passed syntax, gating, stale-feed, credential, and no-publication checks. ShellCheck remains unavailable. The parent syntax spot check passed.
 - 2026-10-08: The user authorized deletion of the successful disposable run `run.m6HCqi`; independent verification confirmed its removal and no active-checkout feed changes.
 - 2026-10-08: Cleanup inspection found `run.W54pJG`, a superseded wizard copy that stopped before external collection. It had no logs, summary, fresh feeds, `.env`, credential artifacts, or process references. The user authorized deletion, and independent verification confirmed that no `run.*` directories remain and active feeds are clean.
-- 2026-10-08: ADG-1 closed in `5b3264c` (`docs(odd): record isolated collection evidence`). Native committed-range assessment was unassessable because unrelated untracked state requires explicit declaration; the required independent verifier passed the exact range, scope, credential-absence, cleanup, and whitespace checks. The parent commit spot check passed.
+- 2026-10-09: ADG-1 closed in `5b3264c` (`docs(odd): record isolated collection evidence`). Native committed-range assessment was unassessable because unrelated untracked state requires explicit declaration; the required independent verifier passed the exact range, scope, credential-absence, cleanup, and whitespace checks. The parent commit spot check passed.
+- 2026-10-09: ADG-2 closed in `08c23bd` (`docs(odd): define NaN generation contract`). Native assessment was again unassessable under unrelated untracked state and reported RDD off; the required independent verifier passed the exact one-file range, credential-absence, contract, source, and whitespace checks. The parent commit spot check passed.
+- 2026-10-12: ADG-3 test-first implementation added `scripts/generate-edition.js`, 8 deterministic tests, secure terminal documentation, and truthful management-record updates. Initial RED passed 1/7 and failed 6/7 while the module was absent; focused GREEN now passes 8/8 and the full suite passes 95/95.
+- 2026-10-12: Syntax, missing-key fail-closed behavior, no-write behavior, exact NaN request shape, both package paths, invalid responses, timeout/network errors, provider-error sanitization, whitespace, and scope checks passed. A verifier-found strict-key-fragment leak was corrected through a second RED/GREEN cycle and independently reverified.
+- 2026-10-12: Native assessment of the uncommitted candidate was unassessable under unrelated untracked state with RDD off; the required independent verifier passed. The parent focused spot check passed 8/8. No live NaN call, save, delivery, publication, or commit occurred.
+- 2026-10-12: Created `run-follow-builders-nan-test.sh` for the authorized single AI Builders live call. Independent static verification confirmed hidden process-only credentials, exactly one model call, no retry or digest persistence, metadata-only evidence, atomic success gating, active-checkout drift detection, and cleanup of transient validation code. ShellCheck is unavailable; `bash -n` and the parent syntax spot check passed.
+- 2026-10-12: Exactly one live NaN `deepseek-v4-flash` call for AI Builders succeeded. Credential-free evidence reports 8,929 bytes, 47 lines, 18 source URLs, canonical ISO time, a valid hidden SHA-256 format, and an unchanged active checkout. The digest text, key, and hash value were not saved or exposed.
+- 2026-10-12: Final independent verification passed 8/8 focused and 95/95 full tests, syntax, safe missing-key behavior, no-write checks, scoped whitespace checks, live metadata validation, and documentation-boundary review. It confirmed that Cybersecurity live generation, digest quality, saving, delivery, publication, retry, push, and scheduling remain unverified or not performed.
 
 ## Next step
-Create the authorized ADG-2 work-unit commit, then delegate test-first implementation of ADG-3.
+Create the authorized ADG-3 work-unit commit, record its identity, and report the verified feature outcome.

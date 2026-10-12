@@ -1,6 +1,6 @@
 # The Watcher
 
-The Watcher is a thematic digest pipeline. It collects published content, prepares it for a host language-model agent to summarize, and delivers the resulting edition. JavaScript handles collection, preparation, and delivery; it does **not** run a language model or summarize content automatically.
+The Watcher is a thematic digest pipeline. It collects published content, prepares it for a host language-model agent to summarize, and delivers the resulting edition. JavaScript handles collection, preparation, and delivery. An optional, manual NaN command now requests a model-generated digest from local evidence; no model call runs automatically.
 
 Two thematic packages are supplied: **AI Builders Digest** (`ai-builders-digest`) has the initial running collection, preparation, and delivery paths for X posts, podcasts, and blogs; **Cybersecurity Digest** (`cybersecurity-digest`) is a local foundation with 40 approved X accounts and empty blog and podcast catalogs. The platform uses reusable `digest-core` interfaces and scripts that accept `--package <id>`. The cybersecurity package has no generated or published feeds or active automation. There is no plugin registry or descriptor-driven collection.
 
@@ -30,6 +30,21 @@ Omitting `--package` defaults to AI Builders. The command reads only this checko
 
 The existing `scripts/prepare-digest.js` is a different reader that fetches remote feeds and prompts; its behavior is unchanged.
 
+## Generate a digest with NaN (manual, metered)
+
+Only run this command after inspecting the local packet and approving a paid model call. Provide `NAN_API_KEY` in the current process environment without placing it in command arguments, a file, or chat. For example, use a hidden terminal prompt:
+
+```bash
+read -r -s -p 'NaN API key: ' NAN_API_KEY; printf '\n'
+export NAN_API_KEY
+node scripts/generate-edition.js --package ai-builders-digest
+unset NAN_API_KEY
+```
+
+Omitting `--package` selects AI Builders; `--package cybersecurity-digest` selects the separate local Cybersecurity feeds. Cybersecurity generation needs usable local feed evidence first; it currently has no checked-in local feeds. The command reads local config and prompts through `prepare-local-digest.js`, sends the complete preparation packet to NaN `deepseek-v4-flash` once, and prints only non-empty digest text to stdout. The request has a ten-minute timeout and no retry. A model response is not proof that links or claims are correct: inspect the text and source links before saving. Errors go to stderr without exposing the key or packet. This path does not read `.env`, write an edition, deliver, publish, or schedule anything.
+
+To persist an approved digest, separately place the reviewed text in a local UTF-8 file and explicitly run `node scripts/save-edition.js --package <canonical-id> --file <existing-text-file>`. The save command is not part of generation.
+
 ## Read or save a local cybersecurity pulse
 
 From the repository root, read the latest **saved** edition on demand:
@@ -46,7 +61,7 @@ The plain command prints the exact stored text. Until an edition is explicitly s
 node scripts/save-edition.js --package cybersecurity-digest --file /path/to/existing-pulse.txt
 ```
 
-Saving defaults to language `es` and the actual current UTC time. Use `--language es` and `--generated-at 2026-10-07T12:00:00.000Z` to supply known metadata instead. Both commands require `--package`; this does not change the AI Builders defaults in the existing runtime. The store is local, latest-only, and ignored by Git: it is not an archive or synchronized across clones. An agent in another checkout needs the saved file in that checkout. This does not collect sources, generate text, publish, or schedule a chat message. Cybersecurity source collection and automatic generation/save integration remain pending.
+Saving defaults to language `es` and the actual current UTC time. Use `--language es` and `--generated-at 2026-10-07T12:00:00.000Z` to supply known metadata instead. Both commands require `--package`; this does not change the AI Builders defaults in the existing runtime. The store is local, latest-only, and ignored by Git: it is not an archive or synchronized across clones. An agent in another checkout needs the saved file in that checkout. This does not collect sources, generate text, publish, or schedule a chat message. Automatic generation and save integration remain pending. Local NaN generation is available only after usable local evidence exists and an operator explicitly authorizes a model call.
 
 ## Editorial baseline
 
@@ -110,6 +125,6 @@ AI Builders snapshots are accessible, but the current repository has no collecti
 
 ## Code and checks
 
-- [`scripts/generate-feed.js`](scripts/generate-feed.js) collects and writes feeds; [`scripts/prepare-digest.js`](scripts/prepare-digest.js) fetches remote snapshots and prompts into JSON; [`scripts/prepare-local-digest.js`](scripts/prepare-local-digest.js) prepares a read-only offline packet; [`scripts/deliver.js`](scripts/deliver.js) accepts edition text and selects the delivery adapter. Each accepts `--package <id>`; the manual example uses AI Builders.
-- [`packages/digest-core/`](packages/digest-core/) defines reusable stage interfaces. [`packages/ai-builders-digest/`](packages/ai-builders-digest/) supplies the initial running theme. [`packages/cybersecurity-digest/`](packages/cybersecurity-digest/) supplies the cybersecurity foundation, including its [source catalog](packages/cybersecurity-digest/config/default-sources.json), prompts, and configuration. NaN drafting, Telegram plus X Article publication, and the three-day Europe/Madrid cadence remain planned, not operational.
+- [`scripts/generate-feed.js`](scripts/generate-feed.js) collects and writes feeds; [`scripts/prepare-digest.js`](scripts/prepare-digest.js) fetches remote snapshots and prompts into JSON; [`scripts/prepare-local-digest.js`](scripts/prepare-local-digest.js) prepares a read-only offline packet; [`scripts/generate-edition.js`](scripts/generate-edition.js) makes an explicit NaN model request without saving; [`scripts/deliver.js`](scripts/deliver.js) accepts edition text and selects the delivery adapter. Each accepts `--package <id>`; the manual example uses AI Builders.
+- [`packages/digest-core/`](packages/digest-core/) defines reusable stage interfaces. [`packages/ai-builders-digest/`](packages/ai-builders-digest/) supplies the initial running theme. [`packages/cybersecurity-digest/`](packages/cybersecurity-digest/) supplies the cybersecurity foundation, including its [source catalog](packages/cybersecurity-digest/config/default-sources.json), prompts, and configuration. The local NaN request path passed one live AI Builders call; this does not verify Cybersecurity generation or digest quality. Telegram plus X Article publication and the three-day Europe/Madrid cadence remain planned, not operational.
 - From the repository root, run `node --test` for local tests. Tests do not establish remote feed freshness, collection credentials, or successful external delivery.

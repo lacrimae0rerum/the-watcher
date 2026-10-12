@@ -1,5 +1,15 @@
 # Work log
 
+## 2026-10-12 — Manual NaN edition generation (ADG-3)
+
+Objective: Add an explicit model-generation command without coupling it to saving or publication.
+
+Changes: Added a provider-specific NaN `deepseek-v4-flash` CLI that reuses the local preparation packet, accepts a process-only key, sends one non-streaming request with a ten-minute timeout, validates non-empty output, and prints only digest text. Bounded provider type/code fields exclude secret or packet substrings; transport and invalid-response errors omit raw details. Documented the separate explicit save step and adjusted F-08/CSP-3 to reflect local implementation only.
+
+Verification: Initial test-first RED failed 6/7 because the generation module was absent. Later focused failures exposed an unknown-package CLI message, a provider field that echoed the injected test key, and strict key-fragment leakage; each was fixed through RED/GREEN cycles. Final focused GREEN passed 8/8; full `node --test` passed 95/95; syntax and scoped whitespace checks passed. The unset-key CLI exited 1 with `NAN_API_KEY is required` and no stdout. Request tests use fake transport. Separately, exactly one live NaN `deepseek-v4-flash` call for `ai-builders-digest` succeeded. Its credential-free summary reports 8,929 bytes, 47 lines, 18 source URLs, and a canonical timestamp; the active checkout remained unchanged. Digest text, the key, and the hash value were not saved or exposed.
+
+Limits: The model may omit links or invent claims. The live response does not establish digest quality or Cybersecurity generation. No edition save, delivery, publication, retry, X recollection, push, or schedule occurred. Next step: Parent review of the uncommitted ADG-3 work; inspect source links and claims before separately authorizing persistence or delivery.
+
 ## 2026-10-08 — Offline local preparation packet (LAG-1)
 
 Objective: Prepare an existing model-ready envelope from selected package-local evidence without network, model, or file writes.
