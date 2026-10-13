@@ -73,6 +73,21 @@ node scripts/export-web-editions.js
 
 The export reads `editions/<package>/latest.json` for every `packages/*-digest` package and writes `web/data/editions.js`, which is ignored by Git like the store. Watchers without a saved edition are reported and show an empty state on the site. Edition text becomes structured blocks: only `http(s)` links are kept as links, and items or sections marked `(operador)` or `(operator)`, plus lines that open with an operator-note label such as `Nota de operación:`, are left out of the public page. The Cybersecurity prompt puts operator status under a `## Estado de operación (operador)` heading. A corrupt saved edition stops the export without touching the previous output. When an edition has a `## Resumen` section (the Cybersecurity prompt asks for one), the reader shows that summary first with an index of items; an index entry opens the item's detail card, and the back button or Esc returns to the summary. Items numbered as `**[n] Heading**` also make the summary's `[n]` citations open their card. Editions without a summary show the full list of items. Each watcher has a shareable address such as `web/index.html#cybersecurity-digest`. The export does not generate, save, deploy, or publish anything.
 
+## Unattended publication check
+
+`scripts/publish-edition.js` is the gate for editions that publish without a human review:
+
+```bash
+# Prints due=true or due=false for a workflow step; the reason goes to stderr.
+node scripts/publish-edition.js --package cybersecurity-digest --due
+# Checks a generated edition; only if it passes, saves it and exports web/data/editions.js.
+node scripts/publish-edition.js --package cybersecurity-digest --file edition.md
+```
+
+An edition is due at or after 12:00 Europe/Madrid once the last saved edition's Madrid date is at least three calendar days earlier, so repeated triggers on the same day do nothing and the hour follows daylight saving time. With no saved edition, it is due at any time from 12:00 in Madrid. A refused edition leaves the cadence unchanged, so the next trigger tries again.
+
+The check reads the edition as the public page would show it. It refuses an edition without a `## Resumen` summary or numbered items, an item without a number or a `Fuente:` URL, a duplicate number, an item the summary does not cite, a citation to a missing item, an operator note or collection error that the export did not drop, or the home directory path of the machine running the check. A refused edition exits with status 1 and lists the reasons without the edition text; nothing is saved or exported, so the site keeps the previous edition. A passing edition is saved in Spanish with the run time as its generation time. `--now ISO-UTC` replaces the current time for both modes.
+
 ## Editorial baseline
 
 Both themes' bundled digest and source-summary prompts exclude advertising or promotional-only content, trivial content, and engagement bait. They retain substantive, source-verifiable technical or research announcements, including vendor announcements; a podcast ad break alone does not disqualify an otherwise substantive episode. Each theme keeps its own language, output, security, and evidence rules. Future themes must apply the same baseline. These are agent instructions, not a runtime filter or a guarantee that a model follows them. Remote preparation may use a user override first, a hosted prompt second, and a bundled prompt last. Offline preparation uses only a local user override or bundled prompt; neither path activates cybersecurity publication.
