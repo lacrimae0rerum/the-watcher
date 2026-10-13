@@ -10,9 +10,20 @@ import { exportWebEditions, parseEdition } from './export-web-editions.js';
 import { selectPackageId } from './package-runtime.js';
 
 const SOURCE_LABEL = /^(?:fuentes?|sources?)$/i;
+const BOLD_SOURCE_LABEL = /^(?:fuentes?|sources?):$/i;
 const CITATION = /\[(\d{1,3})\]/g;
-// Operator notes and collection errors the exporter did not drop.
-const OPERATOR_TEXT = /nota de operaci[oó]n|nota del operador|operator note|estado de operaci[oó]n|\((?:operador|operator)\)|\b(?:missing|cannot read|invalid) local [a-z]+ feed\b|could not (?:read config|load prompt)|no usable local feed/i;
+// Operator notes, channel status and raw collection errors (see prepare-local-digest.js and
+// generate-feed.js) must stay in the `(operador)` section the public page leaves out.
+const OPERATOR_TEXT = new RegExp([
+  String.raw`nota (?:de operaci[oó]n|del operador|operativa)|operator (?:note|status)`,
+  String.raw`estado (?:operativo|de (?:la )?(?:operaci[oó]n|recolecci[oó]n))|\((?:operador|operator)\)`,
+  String.raw`errores registrados|feed problem|no usable local feed|feeds? locales?|local feeds?`,
+  String.raw`(?:missing|cannot read|invalid) local [a-z]+ feed|could not (?:read config|load prompt|fetch)`,
+  String.raw`\bx api:|rate limited|\b(?:podcast|blog): (?:no rssurl|error processing|no content extracted)`,
+  String.raw`\bp[oó]dcasts?\b[^.\n]{0,60}(?:no (?:est[aá]n? )?configurad|sin configurar|no aportaron)`,
+  String.raw`\bblogs?\b[^.\n]{0,60}(?:no (?:est[aá]n? )?configurad|sin configurar|no aportaron)`,
+  String.raw`no incluye[^.\n]{0,40}\b(?:p[oó]dcasts?|blogs?)\b`,
+].join('|'), 'i');
 const MADRID = new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23',
 });
@@ -41,7 +52,8 @@ function publicText({ title, summary, blocks }) {
 
 // Returns the reasons the public page must not be published; an empty list means publishable.
 export function checkEdition(text, { privatePaths = [homedir()] } = {}) {
-  const parsed = parseEdition(text);
+  // Keep operator-note lines: the exporter hides a label line but not the text after it.
+  const parsed = parseEdition(text, { keepNotes: true });
   const items = parsed.blocks.filter((block) => block.type === 'item');
   const problems = [];
   if (!parsed.summary.length) problems.push('missing Resumen summary');
@@ -54,7 +66,9 @@ export function checkEdition(text, { privatePaths = [homedir()] } = {}) {
       problems.push(`item ${index + 1} has no number`);
       return;
     }
-    const sourced = item.fields.some((field) => SOURCE_LABEL.test(field.label ?? '') && field.value.some((segment) => segment.href));
+    const sourced = item.fields.some((field) => field.value.some((segment) => segment.href) &&
+      (SOURCE_LABEL.test(field.label ?? '') ||
+        (!field.label && field.value[0]?.bold && BOLD_SOURCE_LABEL.test(field.value[0].text.trim()))));
     if (!sourced) problems.push(`item [${item.ref}] has no source URL`);
     if (seen.has(item.ref)) problems.push(`duplicate item number [${item.ref}]`);
     else if (parsed.summary.length && !cited.has(item.ref)) problems.push(`item [${item.ref}] is not cited in the summary`);

@@ -58,6 +58,36 @@ test('operator notes that survive the exporter block publication', () => {
   assert.deepEqual(checkEdition(edition({ extra: '\n## Estado de operación (operador)\n\nCanales sin configurar.\n' })), []);
 });
 
+test('operator notes in other wordings and raw collection errors block publication, even where the exporter hides the label', () => {
+  const leaks = [
+    edition({ extra: '\n*Nota: errores registrados: «Cybersecurity x feed problem: X API: Rate limited, skipping remaining accounts».*\n' }),
+    edition({ extra: '\n**Nota de operación:**\nErrores: Cybersecurity x feed problem: X API: Failed to fetch tweets for @incibe_cert: HTTP 403\n' }),
+    edition({ extra: '\n*Nota de operación: los canales de podcasts y blogs no están configurados.*\n' }),
+    edition({ extra: '\n*Nota: los canales de podcasts y blogs no están configurados.*\n' }),
+    edition({ extra: '\nNota operativa: sin novedades de blogs.\n' }),
+    edition({ extra: '\n## Estado operativo\n\nTodo correcto.\n' }),
+    edition({ extra: '\n## Estado de la recolección\n\nTodo correcto.\n' }),
+    edition({ extra: '\nOperator status: podcasts feed unavailable.\n' }),
+    edition({ summary: 'Uno [1] y dos [2]. Esta edición no incluye podcasts ni blogs.' }),
+    edition({ extra: '\nFaltan los feeds locales de podcasts.\n' }),
+    edition({ extra: '\nPodcast: Error processing Darknet Diaries: timeout\n' }),
+    edition({ extra: '\nCould not fetch cybersecurity podcasts feed\n' }),
+  ];
+  for (const text of leaks) assert.ok(checkEdition(text).includes('operator note in public text'), text);
+});
+
+test('a compliant operator section and a bold source label do not block publication', () => {
+  assert.deepEqual(checkEdition(edition({ extra: [
+    '', '## Estado de operación (operador)', '', '**Canales**',
+    '- Podcasts y blogs: sin configurar (Missing local podcasts feed).',
+    '- X: Cybersecurity x feed problem: X API: Rate limited.', '',
+  ].join('\n') })), []);
+  assert.deepEqual(checkEdition(edition({ items: [
+    '**[1] Aviso uno**\n- **Fuente:** https://example.com/one',
+    '**[2] Aviso dos**\n- **Fuente**: https://example.com/two',
+  ] })), []);
+});
+
 test('a local path of the running machine blocks publication', () => {
   const text = edition({ extra: "\nError: ENOENT, open '/home/tester/.follow-builders/config.json'\n" });
   assert.deepEqual(checkEdition(text, { privatePaths: ['/home/tester'] }), ['local path in public text']);
