@@ -67,8 +67,9 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
     - Inject nonce and timestamp for deterministic tests; percent-encode and sort OAuth parameters per OAuth 1.0; sign each draft and publish URL independently without including JSON body fields.
     - Keep all four credentials process-only and redacted. Update the live wizard to request them with hidden input and never persist, print, or pass secrets through command arguments.
     - Verify through strict RED/GREEN tests, focused/full suites, syntax, static wizard checks, and independent security/delivery review. No live retry occurs during implementation.
-  - [ ] **CSP-3A.2 — Correct the X Article draft block schema.**
-    - Status: implementation and verification complete; awaiting explicit work-unit commit authorization.
+  - [x] **CSP-3A.2 — Correct the X Article draft block schema.**
+    - Status: done.
+    - Commit: `662d5f796a24833a995e8b4799b81e1e6ceb0a3a` (`fix(delivery): match X Article draft schema`).
     - Replace unsupported DraftJS fields with the minimal X OpenAPI block shape `{ text, type }`; preserve `entities: []` and the existing OAuth/delivery-state behavior.
     - Verify through strict RED/GREEN, focused tests, an isolated clean full suite, syntax, whitespace, no-receipt checks, and independent no-network review.
   - [ ] **CSP-3B — Run the human-gated Cybersecurity edition path.**
@@ -109,4 +110,4 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
 - 2026-10-07: Native committed-range review could not start (`native-start-retained-selection-candidate-mismatch`); no authority mutation occurred. Native unavailable-review assessment required writer checks plus independent verification, both completed. No authority reset or review-mode change was attempted.
 
 ## Next step
-Obtain explicit authorization to commit the verified X Article draft-schema correction. After that, a fresh wizard run and final confirmation form a separate live publication gate. Telegram and scheduling remain separate later gates.
+Run the corrected X Article wizard with all four OAuth 1.0a credentials. A fresh wizard run and final confirmation form a separate live publication gate. Telegram and scheduling remain separate later gates.
