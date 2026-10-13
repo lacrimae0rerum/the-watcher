@@ -63,6 +63,16 @@ node scripts/save-edition.js --package cybersecurity-digest --file /path/to/exis
 
 Saving defaults to language `es` and the actual current UTC time. Use `--language es` and `--generated-at 2026-10-07T12:00:00.000Z` to supply known metadata instead. Both commands require `--package`; this does not change the AI Builders defaults in the existing runtime. The store is local, latest-only, and ignored by Git: it is not an archive or synchronized across clones. An agent in another checkout needs the saved file in that checkout. This does not collect sources, generate text, publish, or schedule a chat message. Automatic generation and save integration remain pending. Local NaN generation is available only after usable local evidence exists and an operator explicitly authorizes a model call.
 
+## Public web preview
+
+`web/` is a static site that maps every watcher as a node graph and opens each watcher's latest saved edition in a reader. Export the saved editions for it, then open `web/index.html` directly in a browser (no server needed):
+
+```bash
+node scripts/export-web-editions.js
+```
+
+The export reads `editions/<package>/latest.json` for every `packages/*-digest` package and writes `web/data/editions.js`, which is ignored by Git like the store. Watchers without a saved edition are reported and show an empty state on the site. Edition text becomes structured blocks: only `http(s)` links are kept as links, and items or sections marked `(operador)` or `(operator)` are left out of the public page. A corrupt saved edition stops the export without touching the previous output. Each watcher has a shareable address such as `web/index.html#cybersecurity-digest`. The export does not generate, save, deploy, or publish anything.
+
 ## Editorial baseline
 
 Both themes' bundled digest and source-summary prompts exclude advertising or promotional-only content, trivial content, and engagement bait. They retain substantive, source-verifiable technical or research announcements, including vendor announcements; a podcast ad break alone does not disqualify an otherwise substantive episode. Each theme keeps its own language, output, security, and evidence rules. Future themes must apply the same baseline. These are agent instructions, not a runtime filter or a guarantee that a model follows them. Remote preparation may use a user override first, a hosted prompt second, and a bundled prompt last. Offline preparation uses only a local user override or bundled prompt; neither path activates cybersecurity publication.
