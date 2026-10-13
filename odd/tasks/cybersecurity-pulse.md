@@ -73,7 +73,9 @@ Approved handles (preserve spelling): INCIBE, osiseguridad, incibe_cert, IncibeE
     - Replace unsupported DraftJS fields with the minimal X OpenAPI block shape `{ text, type }`; preserve `entities: []` and the existing OAuth/delivery-state behavior.
     - Verify through strict RED/GREEN, focused tests, an isolated clean full suite, syntax, whitespace, no-receipt checks, and independent no-network review.
   - [x] **CSP-3A.3 — Surface a safe X error diagnostic for the draft 403.**
-    - Status: done; commit recorded in Evidence. Route: inline (no Writer trigger); independent verifier required (high-risk item 2: credential redaction).
+    - Status: done.
+    - Commit: `c7c048b18ecd820c5547996c4bd00f7d484fc16d` (`feat(delivery): surface safe X Article error diagnostic`).
+    - Route: inline (no Writer trigger); independent verifier required (high-risk item 2: credential redaction).
     - Request (verbatim): "sí, añade el diagnóstico del 403", answering the proposal "añadir un diagnóstico seguro que muestre `type`, `title` y `detail` del error, para saber si es el plan de la cuenta, el acceso de la app o los permisos del token".
     - When X answers with an unexpected status, append its documented problem fields `type`, `title`, and `detail` to the existing error message; keep the `(HTTP <code>)` text and the publish-phase uncertainty suffix unchanged.
     - Never expose credentials: drop any field that contains, or is contained in, the bearer token or an OAuth 1.0a value; print no other provider field; strip control characters and bound each value. An unreadable body keeps the current message.
