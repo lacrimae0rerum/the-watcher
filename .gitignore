@@ -2,3 +2,7 @@ scripts/node_modules/
 .env
 *.log
 .DS_Store
+# Local Pi runtime state
+.atl/
+# Local CodeGraph index
+.codegraph/
