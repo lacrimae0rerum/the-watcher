@@ -72,6 +72,12 @@ test('operator notes in other wordings and raw collection errors block publicati
     edition({ extra: '\nFaltan los feeds locales de podcasts.\n' }),
     edition({ extra: '\nPodcast: Error processing Darknet Diaries: timeout\n' }),
     edition({ extra: '\nCould not fetch cybersecurity podcasts feed\n' }),
+    edition({ extra: '\nBlog: Failed to fetch index for INCIBE: HTTP 500\n' }),
+    edition({ extra: '\nPodcast: Transcript error for "Episodio 12": timeout\n' }),
+    edition({ extra: '\nincibe-blog: fetch failed\n' }),
+    edition({ extra: '\n_Note: podcast and blog channels returned no content._\n' }),
+    edition({ extra: '\nObservación de operación: sin podcasts.\n' }),
+    edition({ summary: 'Uno [1] y dos [2]. **Nota: sin podcasts ni blogs.**' }),
   ];
   for (const text of leaks) assert.ok(checkEdition(text).includes('operator note in public text'), text);
 });

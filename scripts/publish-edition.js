@@ -15,14 +15,13 @@ const CITATION = /\[(\d{1,3})\]/g;
 // Operator notes, channel status and raw collection errors (see prepare-local-digest.js and
 // generate-feed.js) must stay in the `(operador)` section the public page leaves out.
 const OPERATOR_TEXT = new RegExp([
-  String.raw`nota (?:de operaci[oó]n|del operador|operativa)|operator (?:note|status)`,
+  String.raw`(?:nota|observaci[oó]n|aviso) (?:de operaci[oó]n|del operador|operativa)|operator (?:note|status)`,
   String.raw`estado (?:operativo|de (?:la )?(?:operaci[oó]n|recolecci[oó]n))|\((?:operador|operator)\)`,
   String.raw`errores registrados|feed problem|no usable local feed|feeds? locales?|local feeds?`,
   String.raw`(?:missing|cannot read|invalid) local [a-z]+ feed|could not (?:read config|load prompt|fetch)`,
-  String.raw`\bx api:|rate limited|\b(?:podcast|blog): (?:no rssurl|error processing|no content extracted)`,
-  String.raw`\bp[oó]dcasts?\b[^.\n]{0,60}(?:no (?:est[aá]n? )?configurad|sin configurar|no aportaron)`,
-  String.raw`\bblogs?\b[^.\n]{0,60}(?:no (?:est[aá]n? )?configurad|sin configurar|no aportaron)`,
-  String.raw`no incluye[^.\n]{0,40}\b(?:p[oó]dcasts?|blogs?)\b`,
+  String.raw`\bx api:|rate limited|fetch failed|\b(?:podcast|blog): (?:error|failed|no content|no rssurl|transcript error)`,
+  String.raw`\b(?:p[oó]dcasts?|blogs?)\b[^.\n]{0,60}(?:no (?:est[aá]n? )?configurad|not configured|sin configurar|no aportaron|returned no content)`,
+  String.raw`(?:no incluye|does not include)[^.\n]{0,40}\b(?:p[oó]dcasts?|blogs?)\b|\bsin (?:p[oó]dcasts?|blogs?)\b`,
 ].join('|'), 'i');
 const MADRID = new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23',
