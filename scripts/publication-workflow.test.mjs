@@ -61,3 +61,21 @@ test('Git keeps the latest Cybersecurity edition but not delivery state or other
   assert.equal(ignored('editions/cybersecurity-digest/.latest-1.tmp'), true);
   assert.equal(ignored('editions/ai-builders-digest/latest.json'), true);
 });
+
+test('runs read the current main, install nothing and keep Cloudflare error codes in the log', async () => {
+  const workflow = await read(workflowPath);
+  // A queued scheduled run would otherwise check out the commit from when it was created.
+  assert.match(workflow, /- uses: actions\/checkout@v4\n {8}with:\n {10}ref: main/);
+  assert.doesNotMatch(workflow, /npm (?:ci|install)/);
+  assert.match(workflow, /\\\[code: \[0-9\]\+\\\]/);
+  assert.match(await read('.gitignore'), /^\.wrangler\/$/m);
+});
+
+test('empty podcast and blog feeds are written only while the catalog has no podcasts or blogs', async () => {
+  const workflow = await read(workflowPath);
+  const catalog = JSON.parse(await read('packages/cybersecurity-digest/config/default-sources.json'));
+  assert.match(workflow, /printf '\{"podcasts":\[\]\}\\n' > feeds\/cybersecurity-digest\/feed-podcasts\.json/);
+  assert.match(workflow, /printf '\{"blogs":\[\]\}\\n' > feeds\/cybersecurity-digest\/feed-blogs\.json/);
+  assert.deepEqual([catalog.podcasts.length, catalog.blogs.length], [0, 0],
+    'collect podcasts and blogs in the workflow before adding them to the catalog');
+});

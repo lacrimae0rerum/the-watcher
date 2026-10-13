@@ -6,3 +6,5 @@ scripts/node_modules/
 .atl/
 # Local CodeGraph index
 .codegraph/
+# Local Wrangler state
+.wrangler/

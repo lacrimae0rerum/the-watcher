@@ -41,7 +41,10 @@ jobs:
       WRANGLER_SEND_METRICS: 'false'
 
     steps:
+      # A queued scheduled run would otherwise check out the commit from when it was created.
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - uses: actions/setup-node@v4
         with:
@@ -60,10 +63,6 @@ jobs:
             node scripts/publish-edition.js --package cybersecurity-digest --due >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Install collection dependencies
-        if: steps.due.outputs.due == 'true'
-        run: npm ci --prefix scripts --no-audit --no-fund
-
       - name: Collect X posts
         if: steps.due.outputs.due == 'true'
         working-directory: scripts
@@ -76,6 +75,10 @@ jobs:
         env:
           NAN_API_KEY: ${{ secrets.NAN_API_KEY }}
         run: |
+          # The catalog has no podcasts or blogs: empty feeds say so, instead of missing-feed
+          # errors the model might report in the edition.
+          printf '{"podcasts":[]}\n' > feeds/cybersecurity-digest/feed-podcasts.json
+          printf '{"blogs":[]}\n' > feeds/cybersecurity-digest/feed-blogs.json
           home="$RUNNER_TEMP/digest-home"
           mkdir -p "$home/.cybersecurity-digest"
           printf '%s\n' '{"language":"es","delivery":{"method":"stdout"}}' > "$home/.cybersecurity-digest/config.json"
@@ -110,6 +113,6 @@ jobs:
           npx --yes wrangler@4.143.1 deploy > "$RUNNER_TEMP/wrangler.log" 2>&1 || status=$?
           # Wrangler can print the account email or name, for example on authentication errors,
           # and this repository's logs are public: show only result and error lines, without emails.
-          grep -E '^(Uploaded|Deployed|Current Version ID|No updated asset|Total Upload|✘|\[ERROR\]|  custodes-intellegentiae\.)' "$RUNNER_TEMP/wrangler.log" |
+          grep -E '^(Uploaded|Deployed|Current Version ID|No updated asset|Total Upload|✘|\[ERROR\]|  custodes-intellegentiae\.)|\[code: [0-9]+\]' "$RUNNER_TEMP/wrangler.log" |
             sed -E 's/[[:alnum:]._%+-]+@[[:alnum:].-]+\.[[:alpha:]]{2,}/[email]/g' || true
           exit "$status"
