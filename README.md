@@ -98,7 +98,13 @@ The check reads the edition as the public page would show it, except that it als
 
 A manual run (Actions → *The Watcher: Publish Cybersecurity edition* → *Run workflow*) redeploys the site, and publishes when an edition is due; choose `publish: now` to publish a new edition immediately, which restarts the three-day count. A push to `main` that changes `web/`, `editions/`, the exporter or `wrangler.jsonc` redeploys the site. X Article and Telegram delivery are not part of this workflow.
 
-The credentials live only as secrets of the `publication` GitHub environment, which only `main` can use: `X_BEARER_TOKEN`, `NAN_API_KEY`, `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. None of them, and no account identifier, is stored in the repository. This repository's Actions logs are public: the edition text goes to a temporary file instead of the log, and the deploy step shows only Wrangler's result and error lines, with email addresses removed.
+The credentials live only as secrets of the `publication` GitHub environment, which only `main` can use: `X_BEARER_TOKEN`, `NAN_API_KEY`, `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. Store them once, from a terminal where `gh` is logged in to an account that can administer the repository:
+
+```bash
+scripts/setup-publication-secrets.sh
+```
+
+The script creates the environment, limits it to `main`, says where to find each value, and reads each one with hidden input; it hands values to `gh secret set` on standard input, never as arguments. Run it again to replace a value: an empty answer keeps the stored one. The Cloudflare token comes from the *Edit Cloudflare Workers* template, limited to your account and the `exdataveritas.com` zone. Remove any existing DNS record for `custodes-intellegentiae.exdataveritas.com` before the first deploy: the Workers custom domain creates its own record and certificate. None of them, and no account identifier, is stored in the repository. This repository's Actions logs are public: the edition text goes to a temporary file instead of the log, and the deploy step shows only Wrangler's result and error lines, with email addresses removed.
 
 ## Editorial baseline
 
