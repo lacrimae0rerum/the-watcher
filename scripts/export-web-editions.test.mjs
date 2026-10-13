@@ -159,6 +159,17 @@ test('a corrupt saved edition fails the export without writing the web data', as
   await assert.rejects(readdir(join(repositoryRoot, 'web')), { code: 'ENOENT' });
 });
 
+test('importing the exporter from a stdin script does not run or crash the CLI', () => {
+  const run = spawnSync(process.execPath, ['--input-type=module', '-'], {
+    input: `const m = await import(${JSON.stringify(new URL('./export-web-editions.js', import.meta.url).href)});\n` +
+      'process.stdout.write(typeof m.parseEdition);\n',
+    encoding: 'utf8',
+  });
+  assert.equal(run.stderr, '');
+  assert.equal(run.status, 0);
+  assert.equal(run.stdout, 'function');
+});
+
 test('CLI exports and reports the written file', async () => {
   const repositoryRoot = await fixtureRoot();
   const scripts = join(repositoryRoot, 'scripts');

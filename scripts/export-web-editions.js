@@ -204,7 +204,16 @@ async function main() {
 }
 
 // Compare real paths: temp and home directories are often reached through symlinks.
-if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
+// argv[1] is not a file when this module is imported from stdin or -e scripts.
+function invokedDirectly() {
+  try {
+    return realpathSync(process.argv[1]) === fileURLToPath(import.meta.url);
+  } catch {
+    return false;
+  }
+}
+
+if (process.argv[1] && invokedDirectly()) {
   main().catch((error) => {
     process.stderr.write(`${error.message}\n`);
     process.exitCode = 1;
