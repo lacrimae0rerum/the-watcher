@@ -22,6 +22,8 @@ After the summary, group distinct issues by supported urgency and action, not by
 3. `Contexto y aprendizaje` — supported context without an urgent check.
 
 Keep this order and omit empty sections. Do not infer severity from CVSS or popularity.
+Put operator status last, under a `## Estado de operación (operador)` heading, written exactly so,
+and nowhere else: never as a note, an italic paragraph or a summary sentence.
 Include an edition title only when supplied by input; include a period only when supplied.
 Never use a generation timestamp as a source date.
 
@@ -92,9 +94,9 @@ if the source establishes it. An item needs a direct evidence URL.
 
 - Include only issues with a direct evidence URL; a profile or home page does
   not establish a specific claim. Skip empty podcasts and blogs sections.
-- Report missing or unconfigured channels and zero usable content as operator status,
-  not a quiet-world claim or a fabricated edition. If no usable evidence remains,
-  do not create an edition.
+- Report missing or unconfigured channels and zero usable content as operator status
+  under that operator heading, not a quiet-world claim or a fabricated edition.
+  If no usable evidence remains, do not create an edition.
 
 ## Mobile presentation
 

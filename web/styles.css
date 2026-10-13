@@ -437,6 +437,7 @@ body::after  { bottom: 0; height: var(--bar-b); }
   vertical-align: baseline;
 }
 .ref:hover, .ref:focus-visible { color: var(--ink); text-decoration: underline; }
+.ref-tie { white-space: nowrap; }
 
 .story-link {
   display: flex;

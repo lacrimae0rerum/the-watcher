@@ -191,6 +191,8 @@ test('cybersecurity assembly opens with a cited Resumen over numbered items', as
   assert.match(format, /number.*consecutively.*across sections/i);
   assert.match(format, /cite every item.*\[n\]/i);
   assert.match(format, /no facts beyond the items/i);
+  assert.match(format, /operator status last, under a `## Estado de operación \(operador\)` heading, written exactly so/);
+  assert.match(format, /never as a note, an italic paragraph or a summary sentence/);
   assert.match(text, /^\*\*\[n\] \[Brief, source-supported issue heading\]\*\*$/m);
   const sample = await readFile(new URL('./examples/sample-digest.md', import.meta.url), 'utf8');
   assert.ok(sample.includes('## Resumen\n'));

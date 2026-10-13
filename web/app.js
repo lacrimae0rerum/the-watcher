@@ -767,14 +767,27 @@
   }
 
   // Segments come from the exporter; only http(s) links become anchors.
-  // Summary citations ([n]) become buttons when a handler is given.
+  // Summary citations ([n]) become buttons when a handler is given; punctuation
+  // right after a citation stays on its line.
   function inline(parent, segments, onRef) {
-    for (const s of segments) {
+    let carry = "";
+    for (const [i, segment] of segments.entries()) {
+      const s = carry ? { ...segment, text: segment.text.slice(carry.length) } : segment;
+      carry = "";
       if (s.ref && onRef) {
         const b = el("button", "ref", s.text);
         b.type = "button";
         b.addEventListener("click", () => onRef(s.ref));
-        parent.append(b);
+        const next = segments[i + 1];
+        const tail = next && !next.ref && !next.href && !next.bold && next.text.match(/^[.,;:!?)\]»”…]+/);
+        if (tail) {
+          const tie = el("span", "ref-tie");
+          tie.append(b, tail[0]);
+          parent.append(tie);
+          carry = tail[0];
+        } else {
+          parent.append(b);
+        }
       } else if (s.href && /^https?:\/\//i.test(s.href)) {
         const a = el("a", null, s.text);
         a.href = s.href;

@@ -111,6 +111,30 @@ test('operator-only items and sections are left out of the public edition', () =
   ]);
 });
 
+test('unmarked operator notes are left out of the public edition', () => {
+  const parsed = parseEdition([
+    'Title', '', '## Resumen', '', 'Texto público [1].', '',
+    '*Nota de operación: los canales de podcasts y blogs no están configurados.*', '',
+    '## En seguimiento', '', '**[1] Aviso**', '- Fuente: https://example.com/a', '',
+    '_Operator note: blogs feed missing._', '',
+    'Una nota de operación del proveedor sigue siendo pública.', '',
+  ].join('\n'));
+  assert.doesNotMatch(JSON.stringify(parsed), /configurados|feed missing/);
+  assert.deepEqual(parsed.summary, [[{ text: 'Texto público ' }, { text: '[1]', ref: 1 }, { text: '.' }]]);
+  assert.deepEqual(parsed.blocks.at(-1), {
+    type: 'paragraph', text: [{ text: 'Una nota de operación del proveedor sigue siendo pública.' }],
+  });
+});
+
+test('the operator heading the Cybersecurity prompt prescribes is dropped by the exporter', async () => {
+  const prompt = await readFile(new URL('../packages/cybersecurity-digest/prompts/digest-intro.md', import.meta.url), 'utf8');
+  const heading = prompt.match(/`(## [^`]*\(operador\))` heading, written exactly so/)?.[1];
+  assert.ok(heading, 'prompt fixes the operator heading');
+  const parsed = parseEdition(`## Resumen\n\nTexto [1].\n\n**[1] Aviso**\n- Fuente: https://example.com/a\n\n${heading}\n\nCanales sin configurar.\n`);
+  assert.doesNotMatch(JSON.stringify(parsed), /operador|sin configurar/);
+  assert.equal(parsed.blocks.length, 1);
+});
+
 test('only http links are linked and trailing punctuation stays outside the URL', () => {
   assert.deepEqual(parseInline('ver (https://t.co/abc), luego.'), [
     { text: 'ver (' },

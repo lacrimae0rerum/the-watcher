@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { readLatestEdition } from './edition-store.js';
 
 const OPERATOR_ONLY = /\((?:operador|operator)\)/i;
+const OPERATOR_NOTE = /^[*_]*\s*(?:nota (?:de operaci[oó]n|del operador)|operator note)\s*:/i;
 const HEADING = /^(#{1,6})\s+(.+?)\s*#*$/;
 const STRONG_LINE = /^\*\*([^*].*?)\*\*:?$/;
 const BULLET = /^(?:[-*•]|\d+[.)])\s+(.+)$/;
@@ -83,7 +84,8 @@ function cite(segments, refs) {
   return out;
 }
 
-// Editions are model-written markdown or plain text. Operator-only blocks are dropped.
+// Editions are model-written markdown or plain text. Operator-only blocks and lines that
+// open with an operator-note label are dropped.
 // A `Resumen` section becomes the summary; `**[n] Heading**` items carry their number.
 export function parseEdition(text) {
   const blocks = [];
@@ -121,6 +123,10 @@ export function parseEdition(text) {
       continue;
     }
     if (sectionSkip) continue;
+    if (!bullet && !strongTitle && OPERATOR_NOTE.test(line)) {
+      item = list = null;
+      continue;
+    }
     if (inSummary && !strongTitle) {
       summary.push(bullet ? bullet[1] : line);
       continue;
@@ -128,7 +134,7 @@ export function parseEdition(text) {
     if (strongTitle) {
       inSummary = false;
       list = null;
-      itemSkip = OPERATOR_ONLY.test(strongTitle);
+      itemSkip = OPERATOR_ONLY.test(strongTitle) || OPERATOR_NOTE.test(strongTitle);
       const numbered = strongTitle.match(NUMBERED_ITEM);
       item = itemSkip ? null : numbered
         ? { type: 'item', ref: Number(numbered[1]), title: numbered[2].trim(), fields: [] }
