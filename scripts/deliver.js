@@ -215,10 +215,7 @@ export async function deliverXArticle({
     : createOAuth1Authorization({
       method: 'POST', url, oauth1, nonce: oauthNonce(), timestamp: oauthTimestamp(),
     });
-  const blocks = edition.text.split(/\r?\n/).map((text, index) => ({
-    key: index.toString(36).padStart(5, '0'), text, type: 'unstyled', depth: 0,
-    inlineStyleRanges: [], entityRanges: [], data: {},
-  }));
+  const blocks = edition.text.split(/\r?\n/).map(text => ({ text, type: 'unstyled' }));
   async function request(url, body, expectedStatus, idField, phase) {
     const uncertain = phase === 'publish' ? '; manual reconciliation required (outcome uncertain)' : '';
     let response;

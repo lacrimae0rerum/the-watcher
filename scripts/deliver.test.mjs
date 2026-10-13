@@ -54,9 +54,9 @@ test('X Article delivers plain text as a DraftJS draft then publishes it', async
       headers: { Authorization: 'Bearer runtime-token', 'Content-Type': 'application/json' },
       body: JSON.stringify({ title: 'Reviewed bulletin', content_state: {
         blocks: [
-          { key: '00000', text: 'First paragraph', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} },
-          { key: '00001', text: '', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} },
-          { key: '00002', text: 'Second paragraph', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} },
+          { text: 'First paragraph', type: 'unstyled' },
+          { text: '', type: 'unstyled' },
+          { text: 'Second paragraph', type: 'unstyled' },
         ], entities: [],
       } }),
     },
