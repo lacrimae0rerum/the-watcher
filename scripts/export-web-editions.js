@@ -87,7 +87,8 @@ function cite(segments, refs) {
 // Editions are model-written markdown or plain text. Operator-only blocks are dropped, and so
 // are lines that open with an operator-note label together with the bullets right after them.
 // A `Resumen` section becomes the summary; `**[n] Heading**` items carry their number.
-export function parseEdition(text) {
+// `keepNotes` keeps operator-note lines so the publication check can see them.
+export function parseEdition(text, { keepNotes = false } = {}) {
   const blocks = [];
   const summary = [];
   let title = '';
@@ -124,7 +125,7 @@ export function parseEdition(text) {
       continue;
     }
     if (sectionSkip) continue;
-    if (!bullet && OPERATOR_NOTE.test(line)) {
+    if (!keepNotes && !bullet && OPERATOR_NOTE.test(line)) {
       item = list = null;
       noteSkip = true;
       continue;
