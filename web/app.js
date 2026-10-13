@@ -358,9 +358,8 @@
     };
   }
 
-  // ring space <-> screen space
+  // ring space -> screen space
   const toScreen = (u, v) => (geo.portrait ? [v, -u] : [u, v]);
-  const toRing = (x, y) => (geo.portrait ? [-y, x] : [x, y]);
 
   function home(n) {
     if (n.parent) {
@@ -961,16 +960,9 @@
     if (Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) > 4) drag.moved = true;
     const n = drag.node;
     if (!n || !drag.moved) return;
+    // homes stay fixed: on release the spring in step() pulls the node back
     n.x = clamp(e.clientX + drag.dx, region.x0 + n.rr, region.x1 - n.rr);
     n.y = clamp(e.clientY + drag.dy, region.y0 + n.rr, region.y1 - n.rr);
-    // the drop point becomes the node's new home
-    if (n.parent) {
-      const p = byId.get(n.parent);
-      n.ox = (n.x - p.x) / geo.s;
-      n.oy = (n.y - p.y) / geo.s;
-    } else {
-      [n.u, n.v] = toRing((n.x - geo.cx) / geo.rx, (n.y - geo.cy) / geo.ry);
-    }
   });
 
   const endDrag = (e) => {
