@@ -1,0 +1,115 @@
+name: "The Watcher: Publish Cybersecurity edition"
+
+on:
+  schedule:
+    # Madrid noon is 10:00 UTC in summer (CEST) and 11:00 UTC in winter (CET).
+    # publish-edition.js --due decides whether an edition is due; the other run does nothing.
+    - cron: '0 10 * * *'
+    - cron: '0 11 * * *'
+  # A manual run redeploys the site; it publishes when an edition is due, or now on request.
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'auto: publish only when an edition is due; now: publish a new edition now'
+        type: choice
+        options: [auto, now]
+        default: auto
+  push:
+    branches: [main]
+    paths:
+      - 'web/**'
+      - 'editions/**'
+      - 'scripts/export-web-editions.js'
+      - 'wrangler.jsonc'
+
+concurrency:
+  group: publish-cybersecurity
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Credentials live only in this environment, which only main can use.
+    environment: publication
+    permissions:
+      contents: write
+    env:
+      WRANGLER_SEND_METRICS: 'false'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Decide whether an edition is due
+        id: due
+        if: github.event_name != 'push'
+        env:
+          PUBLISH: ${{ inputs.publish }}
+        run: |
+          if [ "$PUBLISH" = now ]; then
+            echo 'Publishing now on request' >&2
+            echo 'due=true' >> "$GITHUB_OUTPUT"
+          else
+            node scripts/publish-edition.js --package cybersecurity-digest --due >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install collection dependencies
+        if: steps.due.outputs.due == 'true'
+        run: npm ci --prefix scripts --no-audit --no-fund
+
+      - name: Collect X posts
+        if: steps.due.outputs.due == 'true'
+        working-directory: scripts
+        env:
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+        run: node generate-feed.js --package cybersecurity-digest --tweets-only
+
+      - name: Generate the edition with NaN
+        if: steps.due.outputs.due == 'true'
+        env:
+          NAN_API_KEY: ${{ secrets.NAN_API_KEY }}
+        run: |
+          home="$RUNNER_TEMP/digest-home"
+          mkdir -p "$home/.cybersecurity-digest"
+          printf '%s\n' '{"language":"es","delivery":{"method":"stdout"}}' > "$home/.cybersecurity-digest/config.json"
+          HOME="$home" node scripts/generate-edition.js --package cybersecurity-digest > "$RUNNER_TEMP/edition.md"
+
+      # A refused edition stops the run: nothing is saved or deployed and the site keeps the previous edition.
+      - name: Check and save the edition
+        if: steps.due.outputs.due == 'true'
+        run: node scripts/publish-edition.js --package cybersecurity-digest --file "$RUNNER_TEMP/edition.md"
+
+      - name: Commit the published edition
+        if: steps.due.outputs.due == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add editions/cybersecurity-digest/latest.json
+          git commit -m "chore(editions): publish cybersecurity edition"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Export the site data
+        if: github.event_name != 'schedule' || steps.due.outputs.due == 'true'
+        run: node scripts/export-web-editions.js
+
+      - name: Deploy the site to Cloudflare
+        if: github.event_name != 'schedule' || steps.due.outputs.due == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          status=0
+          npx --yes wrangler@4.143.1 deploy > "$RUNNER_TEMP/wrangler.log" 2>&1 || status=$?
+          # Wrangler can print the account email or name, for example on authentication errors,
+          # and this repository's logs are public: show only result and error lines, without emails.
+          grep -E '^(Uploaded|Deployed|Current Version ID|No updated asset|Total Upload|✘|\[ERROR\]|  custodes-intellegentiae\.)' "$RUNNER_TEMP/wrangler.log" |
+            sed -E 's/[[:alnum:]._%+-]+@[[:alnum:].-]+\.[[:alpha:]]{2,}/[email]/g' || true
+          exit "$status"

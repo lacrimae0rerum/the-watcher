@@ -543,9 +543,9 @@ async function fetchXWithRetry(url, options) {
   return lastResponse;
 }
 
-async function fetchXContent(xAccounts, bearerToken, state, errors) {
+async function fetchXContent(xAccounts, bearerToken, state, errors, lookbackHours) {
   const results = [];
-  const cutoff = new Date(Date.now() - TWEET_LOOKBACK_HOURS * 60 * 60 * 1000);
+  const cutoff = new Date(Date.now() - lookbackHours * 60 * 60 * 1000);
 
   // Batch lookup user IDs. Smaller batches make one flaky X response less likely
   // to wipe out the whole feed.
@@ -1010,6 +1010,8 @@ async function main() {
     runtime,
     sources: packageSources,
   } = await loadDigestPackage(packageId);
+  // A package may widen the X window to match its edition cadence.
+  const tweetLookbackHours = runtime.tweetLookbackHours ?? TWEET_LOOKBACK_HOURS;
   const tweetsOnly = args.includes("--tweets-only");
   const podcastsOnly = args.includes("--podcasts-only");
   const blogsOnly = args.includes("--blogs-only");
@@ -1040,7 +1042,7 @@ async function main() {
   let checkpoint = { seen: {} };
   const collectors = createCollectors({
     x: async ({ entries }) => {
-      collected.x = await fetchXContent(entries, xBearerToken, state, errors);
+      collected.x = await fetchXContent(entries, xBearerToken, state, errors, tweetLookbackHours);
       return collected.x;
     },
     podcast: async ({ entries }) => {
@@ -1103,7 +1105,7 @@ async function main() {
 
     const xFeed = {
       generatedAt: new Date().toISOString(),
-      lookbackHours: TWEET_LOOKBACK_HOURS,
+      lookbackHours: tweetLookbackHours,
       x: xContent,
       stats: { xBuilders: xContent.length, totalTweets },
       errors: xErrors.length > 0 ? xErrors : undefined,

@@ -269,3 +269,10 @@ test('thirteen assets include an empty static keyword catalog and Spanish editor
   assert.match(sample, /https:\/\/example\.com\//);
   assert.doesNotMatch(sample, /https:\/\/x\.com\//);
 });
+
+test('cybersecurity collects three days of X posts to match its three-day cadence', async () => {
+  const cybersecurity = await loadDigestPackage('cybersecurity-digest');
+  const aiBuilders = await loadDigestPackage('ai-builders-digest');
+  assert.equal(cybersecurity.runtime.tweetLookbackHours, 72);
+  assert.equal(aiBuilders.runtime.tweetLookbackHours, undefined);
+});
