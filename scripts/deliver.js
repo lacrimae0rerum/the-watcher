@@ -20,6 +20,7 @@
 //   - "stdout" (default): just prints to terminal
 // ============================================================================
 
+import { createHmac, randomBytes } from 'node:crypto';
 import { readFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import { homedir } from 'os';
@@ -152,15 +153,68 @@ async function sendEmail(text, apiKey, toEmail, branding) {
 
 // -- X Article Delivery ------------------------------------------------------
 
-export async function deliverXArticle({ edition, target, token, packageId, repositoryRoot, fetchImpl = fetch, state = createDeliveryState({ repositoryRoot }) }) {
-  if (typeof token !== 'string' || !token.trim()) throw new Error('X_ARTICLE_ACCESS_TOKEN is required');
+function oauthEncode(value) {
+  return encodeURIComponent(value).replace(/[!'()*]/g, character =>
+    `%${character.charCodeAt(0).toString(16).toUpperCase()}`);
+}
+
+function validateOAuth1(oauth1) {
+  const required = ['consumerKey', 'consumerSecret', 'accessToken', 'accessTokenSecret'];
+  if (!oauth1 || required.some(key => typeof oauth1[key] !== 'string' || !oauth1[key].trim())) {
+    throw new Error('Complete OAuth 1.0a credentials are required');
+  }
+}
+
+export function createOAuth1Authorization({ method, url, oauth1, nonce, timestamp }) {
+  validateOAuth1(oauth1);
+  if (typeof nonce !== 'string' || !nonce || typeof timestamp !== 'string' || !/^\d+$/.test(timestamp)) {
+    throw new Error('OAuth 1.0a nonce and timestamp are required');
+  }
+  const parsed = new URL(url);
+  const parameters = [
+    ...parsed.searchParams.entries(),
+    ['oauth_consumer_key', oauth1.consumerKey],
+    ['oauth_nonce', nonce],
+    ['oauth_signature_method', 'HMAC-SHA1'],
+    ['oauth_timestamp', timestamp],
+    ['oauth_token', oauth1.accessToken],
+    ['oauth_version', '1.0'],
+  ].map(([key, value]) => [oauthEncode(key), oauthEncode(value)])
+    .sort(([leftKey, leftValue], [rightKey, rightValue]) =>
+      (leftKey < rightKey ? -1 : leftKey > rightKey ? 1 :
+        leftValue < rightValue ? -1 : leftValue > rightValue ? 1 : 0));
+  const normalized = parameters.map(([key, value]) => `${key}=${value}`).join('&');
+  const baseUrl = `${parsed.origin}${parsed.pathname}`;
+  const signatureBase = [method.toUpperCase(), baseUrl, normalized].map(oauthEncode).join('&');
+  const signingKey = `${oauthEncode(oauth1.consumerSecret)}&${oauthEncode(oauth1.accessTokenSecret)}`;
+  const signature = createHmac('sha1', signingKey).update(signatureBase).digest('base64');
+  const header = [...parameters.filter(([key]) => key.startsWith('oauth_')),
+    ['oauth_signature', oauthEncode(signature)]]
+    .sort(([leftKey], [rightKey]) => leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0);
+  return `OAuth ${header.map(([key, value]) => `${key}="${value}"`).join(', ')}`;
+}
+
+export async function deliverXArticle({
+  edition, target, token, oauth1, packageId, repositoryRoot, fetchImpl = fetch,
+  state = createDeliveryState({ repositoryRoot }),
+  oauthNonce = () => randomBytes(16).toString('hex'),
+  oauthTimestamp = () => Math.floor(Date.now() / 1000).toString(),
+}) {
+  const bearerToken = typeof token === 'string' && token.trim();
+  if (bearerToken && oauth1) throw new Error('Use exactly one X Article authentication method');
+  if (!bearerToken && oauth1 === undefined) throw new Error('X Article user authentication is required');
+  if (oauth1 !== undefined) validateOAuth1(oauth1);
   if (typeof target?.title !== 'string' || !target.title.trim()) throw new Error('delivery.title is required for X Article');
   if (typeof edition?.text !== 'string' || !edition.text.trim()) throw new Error('X Article text is required');
   const identity = editionIdentity(packageId, edition.text);
   if (await state.wasDelivered(packageId, 'x-article', identity)) {
     return { status: 'skipped', method: 'x-article', reason: 'already-delivered' };
   }
-  const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
+  const authorization = (url) => bearerToken
+    ? `Bearer ${bearerToken}`
+    : createOAuth1Authorization({
+      method: 'POST', url, oauth1, nonce: oauthNonce(), timestamp: oauthTimestamp(),
+    });
   const blocks = edition.text.split(/\r?\n/).map((text, index) => ({
     key: index.toString(36).padStart(5, '0'), text, type: 'unstyled', depth: 0,
     inlineStyleRanges: [], entityRanges: [], data: {},
@@ -169,7 +223,11 @@ export async function deliverXArticle({ edition, target, token, packageId, repos
     const uncertain = phase === 'publish' ? '; manual reconciliation required (outcome uncertain)' : '';
     let response;
     try {
-      response = await fetchImpl(url, { method: 'POST', headers, body: JSON.stringify(body) });
+      response = await fetchImpl(url, {
+        method: 'POST',
+        headers: { Authorization: authorization(url), 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
     } catch {
       throw new Error(`X Article ${phase} transport failed${uncertain}`);
     }

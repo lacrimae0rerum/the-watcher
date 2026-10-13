@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { deliver } from '../packages/digest-core/index.js';
-import { deliverXArticle } from './deliver.js';
+import { createOAuth1Authorization, deliverXArticle } from './deliver.js';
 import { createDeliveryState, editionIdentity } from './delivery-state.js';
 
 const edition = { text: 'First paragraph\n\nSecond paragraph' };
@@ -64,6 +64,45 @@ test('X Article delivers plain text as a DraftJS draft then publishes it', async
       headers: { Authorization: 'Bearer runtime-token', 'Content-Type': 'application/json' },
       body: '{}' },
   ]);
+});
+
+test('OAuth 1.0a signs each X Article request without exposing credentials', async () => {
+  const oauth1 = {
+    consumerKey: 'key', consumerSecret: 'secret',
+    accessToken: 'token', accessTokenSecret: 'token-secret',
+  };
+  assert.equal(createOAuth1Authorization({
+    method: 'POST', url: 'https://api.x.com/2/articles/draft', oauth1,
+    nonce: 'nonce', timestamp: '1700000000',
+  }), 'OAuth oauth_consumer_key="key", oauth_nonce="nonce", oauth_signature="PChaAE1RAh2n6HlqnlrYWL0uXOc%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1700000000", oauth_token="token", oauth_version="1.0"');
+  assert.match(createOAuth1Authorization({
+    method: 'POST', url: 'https://api.x.com/2/articles/draft?z=last&A=first&a=second', oauth1,
+    nonce: 'nonce', timestamp: '1700000000',
+  }), /oauth_signature="10aUWZxM%2FQGgvHmAHGY%2FdkRdGXU%3D"/);
+
+  const requests = [];
+  const nonces = ['draft-nonce', 'publish-nonce'];
+  const result = await deliverXArticle({
+    edition, target, oauth1, packageId: 'cybersecurity-digest', repositoryRoot: '/repository',
+    oauthNonce: () => nonces.shift(), oauthTimestamp: () => '1700000000',
+    state: { wasDelivered: async () => false, recordSuccess: async () => {} },
+    fetchImpl: async (url, options) => {
+      requests.push({ url, ...options });
+      return requests.length === 1
+        ? { status: 201, json: async () => ({ data: { id: '123' } }) }
+        : { status: 200, json: async () => ({ data: { post_id: '456' } }) };
+    },
+  });
+  assert.equal(result.status, 'ok');
+  assert.equal(requests.length, 2);
+  assert.match(requests[0].headers.Authorization, /^OAuth /);
+  assert.match(requests[0].headers.Authorization, /oauth_nonce="draft-nonce"/);
+  assert.match(requests[1].headers.Authorization, /oauth_nonce="publish-nonce"/);
+  assert.notEqual(requests[0].headers.Authorization, requests[1].headers.Authorization);
+  for (const request of requests) {
+    assert.doesNotMatch(request.headers.Authorization, /secret|token-secret/);
+    assert.equal(request.headers['Content-Type'], 'application/json');
+  }
 });
 
 test('recorded delivery skips repeat X calls while draft and publish errors record no success', async () => {
@@ -150,7 +189,10 @@ test('missing token, title, or usable text blocks X before network', async () =>
   const state = { wasDelivered: async () => false };
   const args = { edition, target, token: 'runtime-token', packageId: 'cybersecurity-digest',
     repositoryRoot: '/repo', fetchImpl, state };
-  await assert.rejects(deliverXArticle({ ...args, token: '' }), /X_ARTICLE_ACCESS_TOKEN is required/);
+  await assert.rejects(deliverXArticle({ ...args, token: '' }), /X Article user authentication is required/);
+  await assert.rejects(deliverXArticle({ ...args, token: undefined, oauth1: {
+    consumerKey: 'key', consumerSecret: '', accessToken: 'token', accessTokenSecret: 'token-secret',
+  } }), /Complete OAuth 1.0a credentials are required/);
   await assert.rejects(deliverXArticle({ ...args, target: { type: 'x-article' } }), /delivery.title is required/);
   await assert.rejects(deliverXArticle({ ...args, edition: { text: '  \n ' } }), /X Article text is required/);
   await assert.rejects(deliverXArticle({ ...args, packageId: '../escape' }), /Invalid package ID/);
