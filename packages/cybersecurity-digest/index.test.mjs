@@ -186,8 +186,8 @@ test('cybersecurity assembly exposes an actionable item template and channel-spe
 test('cybersecurity assembly opens with a cited Resumen over numbered items', async () => {
   const text = await readFile(new URL('./prompts/digest-intro.md', import.meta.url), 'utf8');
   const format = text.split('## Output format\n')[1].split('## Item template\n')[0];
-  assert.ok(format.includes('`Resumen`'));
-  assert.ok(format.indexOf('`Resumen`') < format.indexOf('Acciones prioritarias'));
+  assert.match(format, /`## Resumen` heading, written exactly so/);
+  assert.ok(format.indexOf('`## Resumen`') < format.indexOf('Acciones prioritarias'));
   assert.match(format, /number.*consecutively.*across sections/i);
   assert.match(format, /cite every item.*\[n\]/i);
   assert.match(format, /no facts beyond the items/i);
