@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { readLatestEdition } from './edition-store.js';
 
 const OPERATOR_ONLY = /\((?:operador|operator)\)/i;
-const OPERATOR_NOTE = /^[*_]*\s*(?:nota (?:de operaci[oó]n|del operador)|operator note)\s*:/i;
+const OPERATOR_NOTE = /^[*_]*\s*(?:nota (?:de operaci[oó]n|del operador)|operator note)[*_]*\s*:/i;
 const HEADING = /^(#{1,6})\s+(.+?)\s*#*$/;
 const STRONG_LINE = /^\*\*([^*].*?)\*\*:?$/;
 const BULLET = /^(?:[-*•]|\d+[.)])\s+(.+)$/;
@@ -84,8 +84,8 @@ function cite(segments, refs) {
   return out;
 }
 
-// Editions are model-written markdown or plain text. Operator-only blocks and lines that
-// open with an operator-note label are dropped.
+// Editions are model-written markdown or plain text. Operator-only blocks are dropped, and so
+// are lines that open with an operator-note label together with the bullets right after them.
 // A `Resumen` section becomes the summary; `**[n] Heading**` items carry their number.
 export function parseEdition(text) {
   const blocks = [];
@@ -95,6 +95,7 @@ export function parseEdition(text) {
   let list = null;
   let sectionSkip = false;
   let itemSkip = false;
+  let noteSkip = false;
   let inSummary = false;
 
   for (const raw of String(text).replace(/\r\n?/g, '\n').split('\n')) {
@@ -116,16 +117,21 @@ export function parseEdition(text) {
     if (heading || (!bullet && !strongTitle && isCapsHeading(line))) {
       const sectionTitle = heading ? heading[2].trim() : line;
       item = list = null;
-      itemSkip = false;
+      itemSkip = noteSkip = false;
       inSummary = SUMMARY_HEADING.test(sectionTitle);
       sectionSkip = !inSummary && OPERATOR_ONLY.test(sectionTitle);
       if (!sectionSkip && !inSummary) blocks.push({ type: 'section', text: sectionTitle });
       continue;
     }
     if (sectionSkip) continue;
-    if (!bullet && !strongTitle && OPERATOR_NOTE.test(line)) {
+    if (!bullet && OPERATOR_NOTE.test(line)) {
       item = list = null;
+      noteSkip = true;
       continue;
+    }
+    if (noteSkip) {
+      if (bullet) continue;
+      noteSkip = false;
     }
     if (inSummary && !strongTitle) {
       summary.push(bullet ? bullet[1] : line);
@@ -134,7 +140,7 @@ export function parseEdition(text) {
     if (strongTitle) {
       inSummary = false;
       list = null;
-      itemSkip = OPERATOR_ONLY.test(strongTitle) || OPERATOR_NOTE.test(strongTitle);
+      itemSkip = OPERATOR_ONLY.test(strongTitle);
       const numbered = strongTitle.match(NUMBERED_ITEM);
       item = itemSkip ? null : numbered
         ? { type: 'item', ref: Number(numbered[1]), title: numbered[2].trim(), fields: [] }

@@ -126,6 +126,20 @@ test('unmarked operator notes are left out of the public edition', () => {
   });
 });
 
+test('a bold operator note drops only itself and its bullets, not the public text after it', () => {
+  const summary = parseEdition([
+    '## Resumen', '', 'Texto [1].', '', '**Nota de operación: canales caídos**', '',
+    'Segundo párrafo público del resumen [1].', '',
+    '## En seguimiento', '', '**[1] Aviso**', '- Fuente: https://example.com/a', '',
+    '**Nota de operación: x**', '- podcasts: Missing', '', 'Párrafo público de cierre.', '',
+    '**Nota de operación**: con los dos puntos fuera.', '', '*Operator note*: outside too.', '',
+  ].join('\n'));
+  assert.doesNotMatch(JSON.stringify(summary), /caídos|Missing|dos puntos fuera|outside too/);
+  assert.deepEqual(summary.summary.map((paragraph) => paragraph.map((segment) => segment.text).join('')),
+    ['Texto [1].', 'Segundo párrafo público del resumen [1].']);
+  assert.deepEqual(summary.blocks.at(-1), { type: 'paragraph', text: [{ text: 'Párrafo público de cierre.' }] });
+});
+
 test('the operator heading the Cybersecurity prompt prescribes is dropped by the exporter', async () => {
   const prompt = await readFile(new URL('../packages/cybersecurity-digest/prompts/digest-intro.md', import.meta.url), 'utf8');
   const heading = prompt.match(/`(## [^`]*\(operador\))` heading, written exactly so/)?.[1];
