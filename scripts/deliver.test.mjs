@@ -183,6 +183,42 @@ test('missing provider IDs and transport errors stay redacted and cannot record 
   });
 });
 
+test('X error responses surface the documented type, title, and detail fields', async () => {
+  const state = { wasDelivered: async () => false, recordSuccess: async () => { throw new Error('unexpected record'); } };
+  const problem = {
+    type: 'https://api.x.com/2/problems/client-forbidden', title: 'Client Forbidden',
+    detail: 'App not enrolled', client_id: 'hidden-client', reason: 'hidden-reason',
+  };
+  const args = { edition, target, token: 'runtime-token', packageId: 'cybersecurity-digest', repositoryRoot: '/repo', state };
+  await assert.rejects(deliverXArticle({ ...args, fetchImpl: async () => ({ status: 403, json: async () => problem }) }),
+    { message: 'X Article draft failed (HTTP 403) [type: https://api.x.com/2/problems/client-forbidden; title: Client Forbidden; detail: App not enrolled]' });
+  let calls = 0;
+  await assert.rejects(deliverXArticle({ ...args, fetchImpl: async () => (++calls === 1
+    ? { status: 201, json: async () => ({ data: { id: '123' } }) }
+    : { status: 403, json: async () => ({ title: 'Forbidden' }) }) }),
+  { message: 'X Article publish failed (HTTP 403) [title: Forbidden]; manual reconciliation required (outcome uncertain)' });
+  await assert.rejects(deliverXArticle({ ...args, fetchImpl: async () => ({ status: 403,
+    json: async () => { throw new SyntaxError('not json'); } }) }), { message: 'X Article draft failed (HTTP 403)' });
+});
+
+test('X error diagnostics never echo credentials and stay single-line and bounded', async () => {
+  const state = { wasDelivered: async () => false, recordSuccess: async () => { throw new Error('unexpected record'); } };
+  const oauth1 = {
+    consumerKey: 'consumer-key-value', consumerSecret: 'consumer-secret-value',
+    accessToken: 'access-token-value', accessTokenSecret: 'access-secret-value',
+  };
+  const reject = (body, auth) => deliverXArticle({ edition, target, packageId: 'cybersecurity-digest',
+    repositoryRoot: '/repo', state, ...auth, fetchImpl: async () => ({ status: 403, json: async () => body }) });
+  for (const secret of Object.values(oauth1)) {
+    await assert.rejects(reject({ type: 'about:blank', title: `Forbidden for ${secret}`, detail: secret.slice(0, 8) }, { oauth1 }),
+      { message: 'X Article draft failed (HTTP 403) [type: about:blank]' });
+  }
+  await assert.rejects(reject({ detail: 'token runtime-token rejected', title: 7 }, { token: 'runtime-token' }),
+    { message: 'X Article draft failed (HTTP 403)' });
+  await assert.rejects(reject({ title: 'Forbidden\n\u0007injected\u009b', detail: 'x'.repeat(1000) }, { token: 'runtime-token' }),
+    { message: `X Article draft failed (HTTP 403) [title: Forbidden injected; detail: ${'x'.repeat(300)}]` });
+});
+
 test('missing token, title, or usable text blocks X before network', async () => {
   let calls = 0;
   const fetchImpl = () => { calls++; throw new Error('network forbidden'); };

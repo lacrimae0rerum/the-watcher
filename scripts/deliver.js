@@ -158,6 +158,20 @@ function oauthEncode(value) {
     `%${character.charCodeAt(0).toString(16).toUpperCase()}`);
 }
 
+// X documents error bodies as { type, title, detail }; surfacing them tells
+// enrollment, scope, and permission failures apart. A field that echoes a
+// credential is dropped, and every value is made single-line and bounded.
+function xErrorDiagnostic(payload, secrets) {
+  const parts = ['type', 'title', 'detail'].flatMap((field) => {
+    const raw = payload?.[field];
+    if (typeof raw !== 'string') return [];
+    const value = raw.replace(/[\u0000-\u001f\u007f-\u009f]+/g, ' ').trim().slice(0, 300);
+    const leaks = secrets.some(secret => raw.includes(secret) || secret.includes(value));
+    return value && !leaks ? [`${field}: ${value}`] : [];
+  });
+  return parts.length ? ` [${parts.join('; ')}]` : '';
+}
+
 function validateOAuth1(oauth1) {
   const required = ['consumerKey', 'consumerSecret', 'accessToken', 'accessTokenSecret'];
   if (!oauth1 || required.some(key => typeof oauth1[key] !== 'string' || !oauth1[key].trim())) {
@@ -215,6 +229,8 @@ export async function deliverXArticle({
     : createOAuth1Authorization({
       method: 'POST', url, oauth1, nonce: oauthNonce(), timestamp: oauthTimestamp(),
     });
+  const secrets = [bearerToken, ...Object.values(oauth1 ?? {})]
+    .filter(secret => typeof secret === 'string' && secret.trim()).map(secret => secret.trim());
   const blocks = edition.text.split(/\r?\n/).map(text => ({ text, type: 'unstyled' }));
   async function request(url, body, expectedStatus, idField, phase) {
     const uncertain = phase === 'publish' ? '; manual reconciliation required (outcome uncertain)' : '';
@@ -231,7 +247,9 @@ export async function deliverXArticle({
     if (response.status !== expectedStatus) {
       const code = Number.isInteger(response.status) && response.status >= 100 && response.status <= 599
         ? response.status : 'unknown';
-      throw new Error(`X Article ${phase} failed (HTTP ${code})${uncertain}`);
+      let diagnostic = '';
+      try { diagnostic = xErrorDiagnostic(await response.json(), secrets); } catch {}
+      throw new Error(`X Article ${phase} failed (HTTP ${code})${diagnostic}${uncertain}`);
     }
     let payload;
     try { payload = await response.json(); } catch { throw new Error(`X Article ${phase} returned invalid JSON${uncertain}`); }
