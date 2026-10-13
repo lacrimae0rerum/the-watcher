@@ -68,6 +68,38 @@ test('edition markdown becomes a title, sections, items with labelled fields and
   });
 });
 
+test('a Resumen section becomes the summary and its [n] cite numbered items', () => {
+  const parsed = parseEdition([
+    '**Cybersecurity Digest**', '',
+    '## Resumen', '',
+    'Chrome corrige fallos [1] y GitLab publica un **aviso** [2]; [9] no existe.', '',
+    '## Acciones prioritarias', '',
+    '**[1] Chrome: actualización**',
+    '- Fuente: osiseguridad — https://x.com/osiseguridad/status/1', '',
+    '## En seguimiento', '',
+    '**[2] GitLab: múltiples vulnerabilidades**',
+    '- Hechos: aviso [2] citado.', '',
+  ].join('\n'));
+  assert.equal(parsed.title, 'Cybersecurity Digest');
+  assert.deepEqual(parsed.summary, [[
+    { text: 'Chrome corrige fallos ' },
+    { text: '[1]', ref: 1 },
+    { text: ' y GitLab publica un ' },
+    { text: 'aviso', bold: true },
+    { text: ' ' },
+    { text: '[2]', ref: 2 },
+    { text: '; [9] no existe.' },
+  ]]);
+  assert.deepEqual(parsed.blocks.map((block) => (block.type === 'item' ? [block.ref, block.title] : block.text)), [
+    'Acciones prioritarias', [1, 'Chrome: actualización'], 'En seguimiento', [2, 'GitLab: múltiples vulnerabilidades'],
+  ]);
+  assert.deepEqual(parsed.blocks[3].fields[0].value, [{ text: 'aviso [2] citado.' }]);
+
+  const legacy = parseEdition(sample);
+  assert.deepEqual(legacy.summary, []);
+  assert.equal(Object.hasOwn(legacy.blocks[1], 'ref'), false);
+});
+
 test('operator-only items and sections are left out of the public edition', () => {
   const parsed = parseEdition(sample);
   assert.equal(parsed.blocks.length, 3);
@@ -77,6 +109,44 @@ test('operator-only items and sections are left out of the public edition', () =
     { type: 'section', text: 'Public' },
     { type: 'paragraph', text: [{ text: 'Visible text' }] },
   ]);
+});
+
+test('unmarked operator notes are left out of the public edition', () => {
+  const parsed = parseEdition([
+    'Title', '', '## Resumen', '', 'Texto público [1].', '',
+    '*Nota de operación: los canales de podcasts y blogs no están configurados.*', '',
+    '## En seguimiento', '', '**[1] Aviso**', '- Fuente: https://example.com/a', '',
+    '_Operator note: blogs feed missing._', '',
+    'Una nota de operación del proveedor sigue siendo pública.', '',
+  ].join('\n'));
+  assert.doesNotMatch(JSON.stringify(parsed), /configurados|feed missing/);
+  assert.deepEqual(parsed.summary, [[{ text: 'Texto público ' }, { text: '[1]', ref: 1 }, { text: '.' }]]);
+  assert.deepEqual(parsed.blocks.at(-1), {
+    type: 'paragraph', text: [{ text: 'Una nota de operación del proveedor sigue siendo pública.' }],
+  });
+});
+
+test('a bold operator note drops only itself and its bullets, not the public text after it', () => {
+  const summary = parseEdition([
+    '## Resumen', '', 'Texto [1].', '', '**Nota de operación: canales caídos**', '',
+    'Segundo párrafo público del resumen [1].', '',
+    '## En seguimiento', '', '**[1] Aviso**', '- Fuente: https://example.com/a', '',
+    '**Nota de operación: x**', '- podcasts: Missing', '', 'Párrafo público de cierre.', '',
+    '**Nota de operación**: con los dos puntos fuera.', '', '*Operator note*: outside too.', '',
+  ].join('\n'));
+  assert.doesNotMatch(JSON.stringify(summary), /caídos|Missing|dos puntos fuera|outside too/);
+  assert.deepEqual(summary.summary.map((paragraph) => paragraph.map((segment) => segment.text).join('')),
+    ['Texto [1].', 'Segundo párrafo público del resumen [1].']);
+  assert.deepEqual(summary.blocks.at(-1), { type: 'paragraph', text: [{ text: 'Párrafo público de cierre.' }] });
+});
+
+test('the operator heading the Cybersecurity prompt prescribes is dropped by the exporter', async () => {
+  const prompt = await readFile(new URL('../packages/cybersecurity-digest/prompts/digest-intro.md', import.meta.url), 'utf8');
+  const heading = prompt.match(/`(## [^`]*\(operador\))` heading, written exactly so/)?.[1];
+  assert.ok(heading, 'prompt fixes the operator heading');
+  const parsed = parseEdition(`## Resumen\n\nTexto [1].\n\n**[1] Aviso**\n- Fuente: https://example.com/a\n\n${heading}\n\nCanales sin configurar.\n`);
+  assert.doesNotMatch(JSON.stringify(parsed), /operador|sin configurar/);
+  assert.equal(parsed.blocks.length, 1);
 });
 
 test('only http links are linked and trailing punctuation stays outside the URL', () => {
@@ -125,6 +195,17 @@ test('a corrupt saved edition fails the export without writing the web data', as
   await writeFile(join(directory, 'latest.json'), '{broken');
   await assert.rejects(exportWebEditions(repositoryRoot), /Invalid saved edition/);
   await assert.rejects(readdir(join(repositoryRoot, 'web')), { code: 'ENOENT' });
+});
+
+test('importing the exporter from a stdin script does not run or crash the CLI', () => {
+  const run = spawnSync(process.execPath, ['--input-type=module', '-'], {
+    input: `const m = await import(${JSON.stringify(new URL('./export-web-editions.js', import.meta.url).href)});\n` +
+      'process.stdout.write(typeof m.parseEdition);\n',
+    encoding: 'utf8',
+  });
+  assert.equal(run.stderr, '');
+  assert.equal(run.status, 0);
+  assert.equal(run.stdout, 'function');
 });
 
 test('CLI exports and reports the written file', async () => {

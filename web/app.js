@@ -37,6 +37,8 @@
     noEdition: t("Este watcher aún no ha publicado ninguna edición.", "This watcher has not published an edition yet."),
     about: t("Sobre este watcher", "About this watcher"),
     minutes: t("min de lectura", "min read"),
+    summary: t("Resumen", "Summary"),
+    back: t("Volver al resumen", "Back to summary"),
   };
 
   const NODES = [
@@ -303,6 +305,7 @@
   let geo = { cx: 0, cy: 0, rx: 0, ry: 0, s: 1 };
   let hovered = null;
   let selected = null;
+  let openStory = null; // item block shown instead of the edition summary
   let drag = null;
   const packets = [];
 
@@ -764,9 +767,28 @@
   }
 
   // Segments come from the exporter; only http(s) links become anchors.
-  function inline(parent, segments) {
-    for (const s of segments) {
-      if (s.href && /^https?:\/\//i.test(s.href)) {
+  // Summary citations ([n]) become buttons when a handler is given; punctuation
+  // right after a citation stays on its line.
+  function inline(parent, segments, onRef) {
+    let carry = "";
+    for (const [i, segment] of segments.entries()) {
+      const s = carry ? { ...segment, text: segment.text.slice(carry.length) } : segment;
+      carry = "";
+      if (s.ref && onRef) {
+        const b = el("button", "ref", s.text);
+        b.type = "button";
+        b.addEventListener("click", () => onRef(s.ref));
+        const next = segments[i + 1];
+        const tail = next && !next.ref && !next.href && !next.bold && next.text.match(/^[.,;:!?)\]»”…]+/);
+        if (tail) {
+          const tie = el("span", "ref-tie");
+          tie.append(b, tail[0]);
+          parent.append(tie);
+          carry = tail[0];
+        } else {
+          parent.append(b);
+        }
+      } else if (s.href && /^https?:\/\//i.test(s.href)) {
         const a = el("a", null, s.text);
         a.href = s.href;
         a.target = "_blank";
@@ -790,6 +812,7 @@
   function readingMinutes(edition) {
     const parts = [];
     const add = (segments) => segments.forEach((s) => parts.push(s.text));
+    (edition.summary || []).forEach(add);
     for (const block of edition.blocks) {
       if (block.type === "section") parts.push(block.text);
       else if (block.type === "paragraph") add(block.text);
@@ -818,30 +841,78 @@
     );
     out.push(meta);
     if (edition.title) out.push(el("p", "edition-title", edition.title));
+    const summary = edition.summary || [];
+    if (!summary.length) {
+      // Editions without a summary read as the full list of items.
+      for (const block of edition.blocks) out.push(renderBlock(block));
+      return out;
+    }
+    if (openStory) {
+      const back = el("button", "story-back", `← ${tr(COPY.back)}`);
+      back.type = "button";
+      back.addEventListener("click", () => showStory(null));
+      const section = edition.blocks.slice(0, edition.blocks.indexOf(openStory))
+        .reverse().find((block) => block.type === "section");
+      out.push(back);
+      if (section) out.push(renderBlock(section));
+      out.push(renderBlock(openStory));
+      return out;
+    }
+    // Summary first; each citation and index entry opens its item.
+    const openRef = (ref) => showStory(edition.blocks.find((block) => block.ref === ref));
+    out.push(el("h3", "edition-section", tr(COPY.summary)));
+    for (const paragraph of summary) out.push(inline(el("p", "edition-p edition-summary"), paragraph, openRef));
     for (const block of edition.blocks) {
-      if (block.type === "section") {
-        out.push(el("h3", "edition-section", block.text));
-      } else if (block.type === "paragraph") {
-        out.push(inline(el("p", "edition-p"), block.text));
-      } else if (block.type === "list") {
-        const ul = el("ul", "edition-list");
-        for (const item of block.items) ul.append(inline(el("li"), item));
-        out.push(ul);
-      } else if (block.type === "item") {
-        const story = el("article", "story");
-        story.append(el("h4", null, block.title));
-        const rows = el("ul", "rows");
-        for (const field of block.fields) {
-          const li = el("li", field.label ? fieldTone(field.label) : "plain");
-          if (field.label) li.append(el("b", null, field.label));
-          li.append(inline(el("span"), field.value));
-          rows.append(li);
-        }
-        story.append(rows);
-        out.push(story);
+      if (block.type !== "item") {
+        out.push(renderBlock(block));
+        continue;
       }
+      const entry = el("button", "story-link");
+      entry.type = "button";
+      entry.dataset.block = String(edition.blocks.indexOf(block));
+      if (block.ref) entry.append(el("span", "story-ref", `[${block.ref}]`));
+      entry.append(el("span", "story-name", block.title), el("span", "story-go", "→"));
+      entry.addEventListener("click", () => showStory(block));
+      out.push(entry);
     }
     return out;
+  }
+
+  function renderBlock(block) {
+    if (block.type === "section") return el("h3", "edition-section", block.text);
+    if (block.type === "paragraph") return inline(el("p", "edition-p"), block.text);
+    if (block.type === "list") {
+      const ul = el("ul", "edition-list");
+      for (const item of block.items) ul.append(inline(el("li"), item));
+      return ul;
+    }
+    const story = el("article", "story");
+    story.append(el("h4", null, block.ref ? `[${block.ref}] ${block.title}` : block.title));
+    const rows = el("ul", "rows");
+    for (const field of block.fields) {
+      const li = el("li", field.label ? fieldTone(field.label) : "plain");
+      if (field.label) li.append(el("b", null, field.label));
+      li.append(inline(el("span"), field.value));
+      rows.append(li);
+    }
+    story.append(rows);
+    return story;
+  }
+
+  // Opening an item swaps the summary for its detail card; going back
+  // returns focus to that item's entry in the index.
+  function showStory(block) {
+    if (!block && !openStory) return;
+    const previous = openStory;
+    openStory = block || null;
+    renderDetails();
+    if (openStory) {
+      details.scrollTop = 0;
+      detailsEdition.querySelector(".story-back")?.focus({ preventScroll: true });
+    } else {
+      const index = EDITIONS[selected.id].blocks.indexOf(previous);
+      detailsEdition.querySelector(`.story-link[data-block="${index}"]`)?.focus();
+    }
   }
 
   function renderDetails() {
@@ -917,6 +988,7 @@
     if (n && n.kind === "edition") n = byId.get(n.parent);
     const changed = n !== selected;
     selected = n;
+    if (changed) openStory = null;
     renderDetails();
     syncList();
     measure();
@@ -1010,7 +1082,9 @@
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && selected) select(null);
+    if (e.key !== "Escape") return;
+    if (openStory) showStory(null);
+    else if (selected) select(null);
   });
   document.getElementById("detailsClose").addEventListener("click", () => select(null));
 
