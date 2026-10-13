@@ -68,6 +68,38 @@ test('edition markdown becomes a title, sections, items with labelled fields and
   });
 });
 
+test('a Resumen section becomes the summary and its [n] cite numbered items', () => {
+  const parsed = parseEdition([
+    '**Cybersecurity Digest**', '',
+    '## Resumen', '',
+    'Chrome corrige fallos [1] y GitLab publica un **aviso** [2]; [9] no existe.', '',
+    '## Acciones prioritarias', '',
+    '**[1] Chrome: actualización**',
+    '- Fuente: osiseguridad — https://x.com/osiseguridad/status/1', '',
+    '## En seguimiento', '',
+    '**[2] GitLab: múltiples vulnerabilidades**',
+    '- Hechos: aviso [2] citado.', '',
+  ].join('\n'));
+  assert.equal(parsed.title, 'Cybersecurity Digest');
+  assert.deepEqual(parsed.summary, [[
+    { text: 'Chrome corrige fallos ' },
+    { text: '[1]', ref: 1 },
+    { text: ' y GitLab publica un ' },
+    { text: 'aviso', bold: true },
+    { text: ' ' },
+    { text: '[2]', ref: 2 },
+    { text: '; [9] no existe.' },
+  ]]);
+  assert.deepEqual(parsed.blocks.map((block) => (block.type === 'item' ? [block.ref, block.title] : block.text)), [
+    'Acciones prioritarias', [1, 'Chrome: actualización'], 'En seguimiento', [2, 'GitLab: múltiples vulnerabilidades'],
+  ]);
+  assert.deepEqual(parsed.blocks[3].fields[0].value, [{ text: 'aviso [2] citado.' }]);
+
+  const legacy = parseEdition(sample);
+  assert.deepEqual(legacy.summary, []);
+  assert.equal(Object.hasOwn(legacy.blocks[1], 'ref'), false);
+});
+
 test('operator-only items and sections are left out of the public edition', () => {
   const parsed = parseEdition(sample);
   assert.equal(parsed.blocks.length, 3);

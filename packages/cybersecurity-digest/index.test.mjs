@@ -183,6 +183,24 @@ test('cybersecurity assembly exposes an actionable item template and channel-spe
   assert.match(podcast, /transcript-backed/i);
 });
 
+test('cybersecurity assembly opens with a cited Resumen over numbered items', async () => {
+  const text = await readFile(new URL('./prompts/digest-intro.md', import.meta.url), 'utf8');
+  const format = text.split('## Output format\n')[1].split('## Item template\n')[0];
+  assert.ok(format.includes('`Resumen`'));
+  assert.ok(format.indexOf('`Resumen`') < format.indexOf('Acciones prioritarias'));
+  assert.match(format, /number.*consecutively.*across sections/i);
+  assert.match(format, /cite every item.*\[n\]/i);
+  assert.match(format, /no facts beyond the items/i);
+  assert.match(text, /^\*\*\[n\] \[Brief, source-supported issue heading\]\*\*$/m);
+  const sample = await readFile(new URL('./examples/sample-digest.md', import.meta.url), 'utf8');
+  assert.ok(sample.includes('## Resumen\n'));
+  assert.ok(sample.indexOf('## Resumen') < sample.indexOf('## Acciones prioritarias'));
+  const refs = [...sample.matchAll(/^\*\*\[(\d+)\] /gm)].map((match) => Number(match[1]));
+  assert.deepEqual(refs, [1, 2, 3]);
+  const summary = sample.split('## Resumen\n')[1].split('\n## ')[0];
+  for (const ref of refs) assert.ok(summary.includes(`[${ref}]`), `summary cites [${ref}]`);
+});
+
 test('channel prompts name raw feed fields, bounded targets and evidence limits', async () => {
   const channels = [
     ['summarize-tweets.md', ['name', 'handle', 'bio', 'tweets', 'text', 'url', 'createdAt'], /60–100 words/i],

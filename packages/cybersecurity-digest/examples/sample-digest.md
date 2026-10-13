@@ -2,9 +2,13 @@
 
 Este extracto pedagógico es más breve que los objetivos de palabras. Todos los hechos, avisos y enlaces son ficticios; `example.com` es un dominio reservado. No representa una edición publicada ni datos de una fuente real. La fecha y el período no se conocen en este ejemplo.
 
+## Resumen
+
+Lo único urgente en este ejemplo es comprobar el inventario del servicio de prueba antes de hacer cambios, como pide un aviso ficticio [1]. Una publicación ficticia afirma haber visto actividad de prueba, pero nadie la ha corroborado [2]. Como contexto, un artículo ficticio explica cómo documentar esa comprobación [3].
+
 ## Acciones prioritarias
 
-**Inventario del servicio de prueba (supuesto).**
+**[1] Inventario del servicio de prueba (supuesto).**
 - Fuente: aviso ficticio https://example.com/advisory/inventory
 - Fecha: no indicada por la fuente ficticia; no se conoce la fecha del supuesto incidente.
 - Hechos: en el escenario ficticio, el aviso pide comprobar si se usa el servicio de prueba antes de hacer cambios.
@@ -14,7 +18,7 @@ Este extracto pedagógico es más breve que los objetivos de palabras. Todos los
 
 ## En seguimiento
 
-**Afirmación sobre actividad de prueba (supuesto).**
+**[2] Afirmación sobre actividad de prueba (supuesto).**
 - Fuente: publicación ficticia https://example.com/post/claim
 - Fecha: no indicada por la publicación ficticia; no se conoce la fecha de la supuesta actividad.
 - Hechos: la publicación ficticia afirma haber observado actividad de prueba; esa afirmación no acredita un incidente.
@@ -24,7 +28,7 @@ Este extracto pedagógico es más breve que los objetivos de palabras. Todos los
 
 ## Contexto y aprendizaje
 
-**Registro de comprobaciones (supuesto).**
+**[3] Registro de comprobaciones (supuesto).**
 - Fuente: artículo ficticio https://example.com/article/checks
 - Fecha: no indicada por el artículo ficticio; no se describe ningún incidente.
 - Hechos: en este escenario ficticio, el artículo describe cómo documentar una comprobación de inventario.
