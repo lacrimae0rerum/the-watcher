@@ -102,9 +102,21 @@ body::after  { bottom: 0; height: var(--bar-b); }
 .brand-block {
   top: 22px; left: 24px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  gap: 24px;
 }
+.brand-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.brand-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 10px var(--mono);
+  color: #a9a499;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.brand-credit img { display: block; width: 100px; height: auto; }
+.brand-credit:hover { color: #ded7c6; }
 
 .wordmark {
   font-family: var(--mono);
@@ -545,9 +557,12 @@ body::after  { bottom: 0; height: var(--bar-b); }
 /* ---------- phone ---------- */
 
 @media (max-width: 760px) {
-  :root { --bar-t: 70px; --bar-b: 44px; }
+  :root { --bar-t: 100px; --bar-b: 44px; }
 
-  .brand-block { top: 14px; left: 16px; gap: 8px; }
+  .brand-block { top: 14px; left: 16px; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .brand-copy { gap: 8px; }
+  .brand-credit { font-size: 9px; }
+  .brand-credit img { width: 82px; }
   .wordmark { font-size: 13px; letter-spacing: 0.18em; }
   .sub { font-size: 9px; letter-spacing: 0.1em; }
   .ctrls { top: 12px; right: 16px; gap: 6px; }

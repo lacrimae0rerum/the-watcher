@@ -1,5 +1,15 @@
 # Work log
 
+## 2026-10-14 — Local NaN attribution preview
+
+Objective: Add a smaller "Powered by NaN.builders" link to the right of the header brand block, using the user's supplied logo. The user reviewed the local version and then authorized publication: "funciona. publicala".
+
+Changes: Added the linked credit, preserved the supplied PNG byte for byte as `web/nan-builders.png`, and kept the existing wordmark, counts and controls. The link opens `https://nan.builders/` with `noopener noreferrer`. On narrow screens the credit stacks below the brand. A scoped alignment adjustment prevents the wordmark's click area from stretching across the controls.
+
+Verification: The missing-link regression failed before implementation, then passed. The full suite passed 150/150; the focused test and whitespace check passed again after the final CSS adjustment. At 1665 × 949, Orca confirmed the credit is to the right, its text is 10px versus the 24px wordmark, the 100 × 22 logo loads, and the credit does not overlap the controls. The desktop screenshot was inspected. The initial 320px probe exposed the stretched click area; after its correction, the responsive recheck could not finish because Orca closed the connection (`runtime_unavailable`, job 13 exit 1). No retry or application restart was attempted. The final reload and accessibility snapshot did succeed before disconnection.
+
+Delivery: The user confirmed the local result and explicitly authorized publication. Release is in progress using the existing desktop evidence, passing tests and human approval. The automated mobile recheck remains unavailable; it was not retried and no completed mobile geometry proof is claimed. No new edition or provider generation is included.
+
 ## 2026-10-14 — First complete live Cybersecurity cycle
 
 Objective: Run exactly one real publication after the user said "pruebalo". The user was told that X/NaN APIs would be used and a saved edition would restart the three-calendar-day cadence. No workflow retry, Telegram delivery or X Article publication was requested.
