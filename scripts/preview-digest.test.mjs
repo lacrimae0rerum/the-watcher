@@ -1,9 +1,13 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
+import { cp, mkdir, mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 import { buildEvidencePreview } from './package-runtime.js';
+import { readLatestEdition, saveEdition } from './edition-store.js';
 
 const catalog = { x_accounts: [{ handle: 'builder' }], podcasts: [{ name: 'Show' }], blogs: [{ name: 'Blog' }] };
 
@@ -63,7 +67,7 @@ test('saved edition is reported by metadata only and invalid edition stays expli
 });
 
 const command = fileURLToPath(new URL('./preview-digest.js', import.meta.url));
-const run = (args) => spawnSync(process.execPath, [command, ...args], { encoding: 'utf8', env: {} });
+const run = (args, script = command) => spawnSync(process.execPath, [script, ...args], { encoding: 'utf8', env: {} });
 
 test('CLI emits one local-only JSON object for each package without edition text', () => {
   for (const id of ['ai-builders-digest', 'cybersecurity-digest']) {
@@ -79,12 +83,31 @@ test('CLI emits one local-only JSON object for each package without edition text
   }
 });
 
-test('CLI human mode labels evidence and does not claim generation or publication', () => {
-  const result = run(['--package', 'cybersecurity-digest']);
-  assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /Local evidence preview — cybersecurity-digest \(not a generated digest\)/);
-  assert.match(result.stdout, /No generation or publication occurred\./);
-  assert.match(result.stdout, /Latest saved edition: missing/);
+test('CLI human mode labels evidence with or without a saved edition and leaves it unchanged', async (t) => {
+  const root = await mkdtemp(join(tmpdir(), 'preview-digest-test-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await cp(new URL('../packages', import.meta.url), join(root, 'packages'), { recursive: true });
+  await mkdir(join(root, 'scripts'));
+  for (const name of ['preview-digest.js', 'package-runtime.js', 'edition-store.js', 'package.json']) {
+    await cp(new URL(name, import.meta.url), join(root, 'scripts', name));
+  }
+  const edition = { packageId: 'cybersecurity-digest', language: 'es',
+    generatedAt: '2026-10-07T12:00:00.000Z', text: 'Private fixture edition' };
+  for (const saved of [false, true]) {
+    if (saved) await saveEdition(edition, root);
+    const result = run(['--package', edition.packageId], join(root, 'scripts', 'preview-digest.js'));
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stderr, '');
+    assert.equal(result.stdout, [
+      'Local evidence preview — cybersecurity-digest (not a generated digest)',
+      'Validated sources: X 40, podcasts 0, blogs 0',
+      'x: missing', 'podcasts: missing', 'blogs: missing',
+      `Latest saved edition: ${saved ? 'available; language es; generated 2026-10-07T12:00:00.000Z' : 'missing'}`,
+      'No generation or publication occurred.', '',
+    ].join('\n'));
+    if (saved) assert.deepEqual(await readLatestEdition(edition.packageId, root), edition);
+    else await assert.rejects(readLatestEdition(edition.packageId, root), { message: 'No saved edition for cybersecurity-digest' });
+  }
 });
 
 test('CLI fails closed on invalid, duplicate, unknown, or missing arguments', () => {

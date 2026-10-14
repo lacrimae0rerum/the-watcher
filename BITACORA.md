@@ -1,5 +1,15 @@
 # Work log
 
+## 2026-10-14 — First scheduled-publication deployment (APB-5)
+
+Objective: Merge the scheduled-publication branch, push main, and verify the first Cloudflare deployment after the operator stored the four publication secrets and explicitly approved release.
+
+Changes: Merged APB-3/APB-4 locally in `a9599bd`. Fixed B-02: the human preview CLI test now uses isolated missing/saved edition fixtures instead of assuming that the checkout has no edition. Production behavior is unchanged.
+
+Verification: Publication-focused tests passed 22/22. Initial full suite failed 142/143 on the stale preview assumption; after the fixture correction, focused tests passed 7/7 and the full suite passed 143/143. Independent integration verification found no pre-deployment blockers. Bash syntax and whitespace checks passed. GitHub metadata confirmed all four secret names and an environment branch policy allowing only main. Pre-deployment DNS A/AAAA queries returned no answers; secret values were not read.
+
+Delivery: Pending push and observation of the first deployment. No manual paid edition run is authorized. Next step: Push the verified integration, follow its Actions run, and check the public site before closing APB-5.
+
 ## 2026-10-12 — Local X Article and delivery receipt (CSP-3A)
 
 Objective: Add explicit single-channel X Article delivery and durable observed-success suppression without generating or saving an edition.
