@@ -1,5 +1,15 @@
 # Work log
 
+## 2026-10-14 — Publication security corrections (B-04–B-06)
+
+Objective: Apply the three prioritized corrections from the Claude Code Opus audit after the user said "Corrige": keep operator-only text out of public edition records, validate link provenance, and isolate deployment from repository-write credentials. No publication, history rewrite, live provider call, or disabling of the legacy AI Builders workflow is included.
+
+Changes: The publication CLI removes marked operator sections/items before saving. Cybersecurity publication requires a nonempty local X feed; source fields must use collected post URLs and auxiliary links must already appear as HTTPS URLs in the collected text. The deployment runs in a separate `contents: read` job at the exact prepared revision. Neither checkout persists credentials, and only the commit step receives Git authentication through an environment-only helper. README and CLI help describe the new boundary.
+
+Verification: Each correction had an observed RED before implementation. Publication/export checks pass 28/28; workflow checks pass 8/8. Refused CLI cases assert exact exit/stdout/stderr and unchanged saved edition, public web data and, where applicable, feed evidence. The full suite passes 149/149. Independent verification passed all four checks (operator privacy, evidence links, job isolation and documentation), repeated 149/149, and passed syntax/whitespace checks. `actionlint` is unavailable; workflow verification is static. No remote workflow, real Git authentication, provider call or deployment was exercised.
+
+Limits: Provenance does not guarantee factual accuracy or destination safety; source text may contain harmful links. No redirects are fetched. Existing saved editions/history, manually reviewed saves, other packages, Telegram/X Article and the legacy workflow are unchanged. Wrangler still resolves its dependency tree at deployment, but outside the repository-write job. Local correction and verification are complete. The user authorized commit, push and publication with "autorizado". Delivery is in progress; no immediate X/NaN generation was requested. Next step: push the reviewed correction and observe its automatic deployment without claiming the generation path already passed.
+
 ## 2026-10-14 — Local Digest node shape trial
 
 Objective: Preview slightly larger Digest nodes, alternating hexagons, squares and octagons, in the existing local Orca browser before any production approval. The user will supply separate logo concepts for light adaptation; those concepts have not arrived.

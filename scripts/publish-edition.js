@@ -6,8 +6,8 @@ import { readFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { readLatestEdition, saveEdition } from './edition-store.js';
-import { exportWebEditions, parseEdition } from './export-web-editions.js';
-import { selectPackageId } from './package-runtime.js';
+import { exportWebEditions, parseEdition, parseInline, stripOperatorSections } from './export-web-editions.js';
+import { resolveArtifactPaths, selectPackageId } from './package-runtime.js';
 
 const SOURCE_LABEL = /^(?:fuentes?|sources?)$/i;
 const BOLD_SOURCE_LABEL = /^(?:fuentes?|sources?):$/i;
@@ -28,7 +28,8 @@ const MADRID = new Intl.DateTimeFormat('en-CA', {
 });
 const DAY = 86_400_000;
 const USAGE = 'Usage: node scripts/publish-edition.js --package <id> --due [--now ISO-UTC]\n' +
-  '       node scripts/publish-edition.js --package <id> --file <text-file> [--now ISO-UTC]';
+  '       node scripts/publish-edition.js --package <id> --file <text-file> [--now ISO-UTC]\n' +
+  'Cybersecurity --file requires the collected feeds/cybersecurity-digest/feed-x.json; operator-only blocks are removed before saving.';
 
 function publicText({ title, summary, blocks }) {
   const parts = [title];
@@ -50,7 +51,7 @@ function publicText({ title, summary, blocks }) {
 }
 
 // Returns the reasons the public page must not be published; an empty list means publishable.
-export function checkEdition(text, { privatePaths = [homedir()] } = {}) {
+export function checkEdition(text, { privatePaths = [homedir()], sourceUrls, linkedUrls = sourceUrls } = {}) {
   // Keep operator-note lines: the exporter hides a label line but not the text after it.
   const parsed = parseEdition(text, { keepNotes: true });
   const items = parsed.blocks.filter((block) => block.type === 'item');
@@ -65,10 +66,13 @@ export function checkEdition(text, { privatePaths = [homedir()] } = {}) {
       problems.push(`item ${index + 1} has no number`);
       return;
     }
-    const sourced = item.fields.some((field) => field.value.some((segment) => segment.href) &&
-      (SOURCE_LABEL.test(field.label ?? '') ||
-        (!field.label && field.value[0]?.bold && BOLD_SOURCE_LABEL.test(field.value[0].text.trim()))));
-    if (!sourced) problems.push(`item [${item.ref}] has no source URL`);
+    const sources = item.fields.filter((field) => SOURCE_LABEL.test(field.label ?? '') ||
+      (!field.label && field.value[0]?.bold && BOLD_SOURCE_LABEL.test(field.value[0].text.trim())))
+      .flatMap((field) => field.value.filter((segment) => segment.href));
+    if (!sources.length) problems.push(`item [${item.ref}] has no source URL`);
+    if (sourceUrls && sources.some(({ href }) => !sourceUrls.has(href))) {
+      problems.push(`item [${item.ref}] has an uncollected source URL`);
+    }
     if (seen.has(item.ref)) problems.push(`duplicate item number [${item.ref}]`);
     else if (parsed.summary.length && !cited.has(item.ref)) problems.push(`item [${item.ref}] is not cited in the summary`);
     seen.add(item.ref);
@@ -78,10 +82,44 @@ export function checkEdition(text, { privatePaths = [homedir()] } = {}) {
     for (const match of segment.text.matchAll(CITATION)) problems.push(`summary cites missing item [${match[1]}]`);
   }
 
+  if (linkedUrls && parseInline(stripOperatorSections(text)).some(({ href }) => href && !linkedUrls.has(href))) {
+    problems.push('public link is not in collected evidence');
+  }
   const visible = publicText(parsed);
   if (OPERATOR_TEXT.test(visible)) problems.push('operator note in public text');
   if (privatePaths.some((path) => path.length > 1 && visible.includes(path))) problems.push('local path in public text');
   return problems;
+}
+
+function httpsUrl(value) {
+  try {
+    const url = new URL(value);
+    return typeof value === 'string' && url.protocol === 'https:' && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+}
+
+async function collectedLinks(packageId, repositoryRoot) {
+  try {
+    const feed = JSON.parse(await readFile(resolveArtifactPaths(packageId, repositoryRoot).xFeedPath, 'utf8'));
+    const sourceUrls = new Set();
+    const linkedUrls = new Set();
+    for (const account of feed.x) {
+      for (const tweet of account.tweets) {
+        if (!httpsUrl(tweet.url) || typeof tweet.text !== 'string') throw new Error();
+        sourceUrls.add(tweet.url);
+        linkedUrls.add(tweet.url);
+        for (const { href } of parseInline(tweet.text)) {
+          if (httpsUrl(href)) linkedUrls.add(href);
+        }
+      }
+    }
+    if (!sourceUrls.size) throw new Error();
+    return { sourceUrls, linkedUrls };
+  } catch {
+    throw new Error('Cannot verify links: missing, invalid or empty local X feed');
+  }
 }
 
 function madrid(date) {
@@ -138,10 +176,11 @@ async function main() {
     return;
   }
   const text = await readFile(file, 'utf8');
-  const problems = checkEdition(text);
+  const links = packageId === 'cybersecurity-digest' ? await collectedLinks(packageId, repositoryRoot) : {};
+  const problems = checkEdition(text, links);
   if (problems.length) throw new Error(`Not published: ${problems.join('; ')}`);
   const generatedAt = now.toISOString();
-  await saveEdition({ packageId, language: 'es', generatedAt, text }, repositoryRoot);
+  await saveEdition({ packageId, language: 'es', generatedAt, text: stripOperatorSections(text) }, repositoryRoot);
   await exportWebEditions(repositoryRoot);
   process.stdout.write(`Published ${packageId} edition generated at ${generatedAt}\n`);
 }

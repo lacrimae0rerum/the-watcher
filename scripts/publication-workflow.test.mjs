@@ -71,6 +71,29 @@ test('runs read the current main, install nothing and keep Cloudflare error code
   assert.match(await read('.gitignore'), /^\.wrangler\/$/m);
 });
 
+test('deployment runs in a separate read-only job at the prepared revision without persisted Git credentials', async () => {
+  const workflow = await read(workflowPath);
+  const publish = workflow.match(/^  publish:\n([\s\S]*?)(?=^  deploy:)/m)?.[1];
+  const deploy = workflow.match(/^  deploy:\n([\s\S]*)/m)?.[1];
+  assert.ok(publish && deploy, 'generation/commit and third-party deployment must use separate jobs');
+  assert.match(publish, /permissions:\n {6}contents: write/);
+  assert.doesNotMatch(publish, /CLOUDFLARE_|wrangler/);
+  assert.match(deploy, /needs: publish/);
+  assert.match(deploy, /if: needs\.publish\.outputs\.revision != ''/);
+  assert.match(deploy, /permissions:\n {6}contents: read/);
+  assert.doesNotMatch(deploy, /contents: write|GH_TOKEN|github\.token|git push/);
+  assert.match(deploy, /ref: \$\{\{ needs\.publish\.outputs\.revision \}\}/);
+  assert.equal((workflow.match(/persist-credentials: false/g) ?? []).length, 2);
+  assert.match(publish, /revision: \$\{\{ steps\.deployment\.outputs\.revision \}\}/);
+  assert.match(publish, /id: deployment\n {8}if: github\.event_name != 'schedule' \|\| steps\.due\.outputs\.due == 'true'/);
+  assert.match(publish, /echo "revision=\$\(git rev-parse HEAD\)" >> "\$GITHUB_OUTPUT"/);
+  const commit = publish.match(/- name: Commit the published edition\n([\s\S]*?)(?=\n {6}- name:)/)?.[1];
+  assert.match(commit, /GH_TOKEN: \$\{\{ github\.token \}\}/);
+  assert.match(commit, /GIT_CONFIG_KEY_0: credential\.helper/);
+  assert.match(commit, /GIT_CONFIG_VALUE_0: '!gh auth git-credential'/);
+  assert.doesNotMatch(workflow, /https:\/\/[^\s]*\$\{?GH_TOKEN|git config[^\n]*credential/);
+});
+
 test('empty podcast and blog feeds are written only while the catalog has no podcasts or blogs', async () => {
   const workflow = await read(workflowPath);
   const catalog = JSON.parse(await read('packages/cybersecurity-digest/config/default-sources.json'));

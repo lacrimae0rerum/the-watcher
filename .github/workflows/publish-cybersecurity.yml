@@ -37,14 +37,15 @@ jobs:
     environment: publication
     permissions:
       contents: write
-    env:
-      WRANGLER_SEND_METRICS: 'false'
+    outputs:
+      revision: ${{ steps.deployment.outputs.revision }}
 
     steps:
       # A queued scheduled run would otherwise check out the commit from when it was created.
       - uses: actions/checkout@v4
         with:
           ref: main
+          persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
@@ -91,6 +92,12 @@ jobs:
 
       - name: Commit the published edition
         if: steps.due.outputs.due == 'true'
+        env:
+          # Git asks gh for credentials only during this step; no token in arguments or config files.
+          GH_TOKEN: ${{ github.token }}
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: credential.helper
+          GIT_CONFIG_VALUE_0: '!gh auth git-credential'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -99,12 +106,35 @@ jobs:
           git pull --rebase origin main
           git push origin HEAD:main
 
-      - name: Export the site data
+      - name: Prepare deployment
+        id: deployment
         if: github.event_name != 'schedule' || steps.due.outputs.due == 'true'
+        run: echo "revision=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    needs: publish
+    if: needs.publish.outputs.revision != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: publication
+    permissions:
+      contents: read
+    env:
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.publish.outputs.revision }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Export the site data
         run: node scripts/export-web-editions.js
 
       - name: Deploy the site to Cloudflare
-        if: github.event_name != 'schedule' || steps.due.outputs.due == 'true'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

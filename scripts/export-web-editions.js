@@ -52,6 +52,25 @@ function isCapsHeading(line) {
   return line.length <= 60 && !/https?:\/\//i.test(line) && /\p{Lu}/u.test(line) && !/\p{Ll}/u.test(line);
 }
 
+// Keep the original public markdown, but never persist blocks hidden from readers.
+export function stripOperatorSections(text) {
+  let sectionSkip = false;
+  let itemSkip = false;
+  return text.split('\n').filter((raw) => {
+    const line = raw.trim();
+    const heading = line.match(HEADING);
+    const strong = line.match(STRONG_LINE);
+    const strongTitle = strong && !strong[1].includes('**') ? strong[1].trim() : null;
+    if (heading || (!BULLET.test(line) && !strongTitle && isCapsHeading(line))) {
+      sectionSkip = OPERATOR_ONLY.test(heading ? heading[2] : line);
+      itemSkip = false;
+    } else if (!sectionSkip && strongTitle) {
+      itemSkip = OPERATOR_ONLY.test(strongTitle);
+    }
+    return !sectionSkip && !itemSkip;
+  }).join('\n');
+}
+
 function parseField(text) {
   const match = text.match(FIELD);
   if (!match) return { label: null, value: parseInline(text) };

@@ -1,13 +1,14 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { copyFile, mkdtemp, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 import { checkEdition, publicationDue } from './publish-edition.js';
-import { saveEdition } from './edition-store.js';
+import { readLatestEdition, saveEdition } from './edition-store.js';
+import { exportWebEditions } from './export-web-editions.js';
 
 const sourceScripts = fileURLToPath(new URL('.', import.meta.url));
 const sample = await readFile(new URL('../packages/cybersecurity-digest/examples/sample-digest.md', import.meta.url), 'utf8');
@@ -132,6 +133,14 @@ async function repository() {
     await copyFile(join(sourceScripts, name), join(root, 'scripts', name));
   }
   await writeFile(join(root, 'scripts', 'package.json'), '{"type":"module"}\n');
+  await mkdir(join(root, 'feeds', 'cybersecurity-digest'), { recursive: true });
+  await writeFile(join(root, 'feeds', 'cybersecurity-digest', 'feed-x.json'), JSON.stringify({ x: [{ tweets: [
+    { url: 'https://example.com/one', text: 'Read https://example.org/advisory for details.' },
+    { url: 'https://example.com/two', text: 'Second item.' },
+    { url: 'https://example.com/advisory/inventory', text: 'Fictional inventory.' },
+    { url: 'https://example.com/post/claim', text: 'Fictional claim.' },
+    { url: 'https://example.com/article/checks', text: 'Fictional checks.' },
+  ] }] }));
   return root;
 }
 
@@ -162,6 +171,23 @@ test('CLI publishes a passing edition: saves it with the run time and exports th
   assert.match(await readFile(join(root, 'web', 'data', 'editions.js'), 'utf8'), /"ref": 3/);
 });
 
+test('CLI removes operator-only sections and items before saving while preserving public text', async () => {
+  for (const heading of ['## Estado de operación (operador)', '**Internal status (operator)**', 'STATUS (OPERATOR)']) {
+    const root = await repository();
+    const file = join(root, 'edition.md');
+    const closing = '## Closing\n\nPublic closing text.\n';
+    await writeFile(file, `${sample}${heading}\nPrivate audit marker /synthetic-private/config.json\n\n${closing}`);
+    const run = cli(root, ['--package', 'cybersecurity-digest', '--file', file, '--now', '2026-10-16T10:00:00.000Z']);
+    assert.equal(run.status, 0, run.stderr);
+    assert.equal(run.stdout, 'Published cybersecurity-digest edition generated at 2026-10-16T10:00:00.000Z\n');
+    assert.equal(run.stderr, '');
+    const saved = await readLatestEdition('cybersecurity-digest', root);
+    assert.equal(saved.text, sample + closing);
+    assert.equal(saved.generatedAt, '2026-10-16T10:00:00.000Z');
+    assert.doesNotMatch(await readFile(join(root, 'web', 'data', 'editions.js'), 'utf8'), /Private audit marker|synthetic-private/);
+  }
+});
+
 test('CLI refuses a failing edition, names every problem and keeps the previous edition', async () => {
   const root = await repository();
   await saveEdition({ packageId: 'cybersecurity-digest', language: 'es', generatedAt: '2026-10-13T20:05:10.412Z', text: sample }, root);
@@ -175,6 +201,70 @@ test('CLI refuses a failing edition, names every problem and keeps the previous 
   assert.equal(run.stderr, 'Not published: item [2] is not cited in the summary; operator note in public text\n');
   assert.equal(await readFile(latest, 'utf8'), before);
   await assert.rejects(readFile(join(root, 'web', 'data', 'editions.js')), { code: 'ENOENT' });
+});
+
+test('Cybersecurity CLI checks sources and auxiliary links against collected evidence without changing state on refusal', async () => {
+  const root = await repository();
+  await saveEdition({ packageId: 'cybersecurity-digest', language: 'es', generatedAt: '2026-10-13T20:05:10.412Z', text: sample }, root);
+  await exportWebEditions(root);
+  const saved = await readLatestEdition('cybersecurity-digest', root);
+  const web = join(root, 'web', 'data', 'editions.js');
+  const before = await readFile(web, 'utf8');
+  const feed = join(root, 'feeds', 'cybersecurity-digest', 'feed-x.json');
+  const evidence = await readFile(feed, 'utf8');
+  const file = join(root, 'edition.md');
+  const cases = [
+    [edition().replace('https://example.com/one', 'https://unknown.invalid/source'),
+      'item [1] has an uncollected source URL; public link is not in collected evidence'],
+    [edition().replace('https://example.com/one', 'https://example.org/advisory'),
+      'item [1] has an uncollected source URL'],
+    [edition({ extra: '\n- Siguiente paso: https://unknown.invalid/download\n' }), 'public link is not in collected evidence'],
+    [edition({ summary: 'Uno [1], dos [2]; [more](https://unknown.invalid/summary).' }), 'public link is not in collected evidence'],
+    [edition({ extra: '\n- Siguiente paso: http://example.org/advisory\n' }), 'public link is not in collected evidence'],
+  ];
+  for (const [text, reason] of cases) {
+    await writeFile(file, text);
+    const run = cli(root, ['--package', 'cybersecurity-digest', '--file', file, '--now', '2026-10-16T10:00:00.000Z']);
+    assert.equal(run.status, 1);
+    assert.equal(run.stdout, '');
+    assert.equal(run.stderr, `Not published: ${reason}\n`);
+    assert.deepEqual(await readLatestEdition('cybersecurity-digest', root), saved);
+    assert.equal(await readFile(web, 'utf8'), before);
+    assert.equal(await readFile(feed, 'utf8'), evidence);
+  }
+  const passing = edition({ extra: '\n- Siguiente paso: [advisory](https://example.org/advisory).\n' });
+  await writeFile(file, passing);
+  const run = cli(root, ['--package', 'cybersecurity-digest', '--file', file, '--now', '2026-10-16T10:00:00.000Z']);
+  assert.equal(run.status, 0, run.stderr);
+  assert.equal(run.stdout, 'Published cybersecurity-digest edition generated at 2026-10-16T10:00:00.000Z\n');
+  assert.equal(run.stderr, '');
+  assert.equal((await readLatestEdition('cybersecurity-digest', root)).text, passing);
+});
+
+test('Cybersecurity CLI fails closed on unavailable evidence but --due still works without feeds', async () => {
+  const root = await repository();
+  await saveEdition({ packageId: 'cybersecurity-digest', language: 'es', generatedAt: '2026-10-13T20:05:10.412Z', text: sample }, root);
+  await exportWebEditions(root);
+  const saved = await readLatestEdition('cybersecurity-digest', root);
+  const web = join(root, 'web', 'data', 'editions.js');
+  const before = await readFile(web, 'utf8');
+  const feed = join(root, 'feeds', 'cybersecurity-digest', 'feed-x.json');
+  const file = join(root, 'edition.md');
+  await writeFile(file, sample);
+  for (const evidence of [null, '{broken', '{"x":[]}', '{"x":[{"tweets":[{"url":"http://example.com/a","text":"test"}]}]}']) {
+    if (evidence === null) await rm(feed);
+    else await writeFile(feed, evidence);
+    const run = cli(root, ['--package', 'cybersecurity-digest', '--file', file]);
+    assert.equal(run.status, 1);
+    assert.equal(run.stdout, '');
+    assert.equal(run.stderr, 'Cannot verify links: missing, invalid or empty local X feed\n');
+    assert.deepEqual(await readLatestEdition('cybersecurity-digest', root), saved);
+    assert.equal(await readFile(web, 'utf8'), before);
+    const due = cli(root, ['--package', 'cybersecurity-digest', '--due', '--now', '2026-10-16T10:00:00.000Z']);
+    assert.equal(due.status, 0);
+    assert.equal(due.stdout, 'due=true\n');
+    assert.equal(due.stderr, 'Due: last edition 2026-10-13, due from 2026-10-16\n');
+  }
 });
 
 test('CLI rejects unknown or incomplete arguments with its usage', async () => {
