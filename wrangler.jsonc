@@ -1,0 +1,16 @@
+// The Watchers public site: web/ served as static assets on the custom domain.
+// Deployed by .github/workflows/publish-cybersecurity.yml. The account comes from the
+// CLOUDFLARE_ACCOUNT_ID secret; no account identifier lives in this repository.
+{
+  "name": "the-watchers",
+  "compatibility_date": "2026-10-13",
+  "assets": {
+    "directory": "./web"
+  },
+  "routes": [
+    { "pattern": "custodes-intellegentiae.exdataveritas.com", "custom_domain": true }
+  ],
+  // A workers.dev address would expose the account subdomain.
+  "workers_dev": false,
+  "preview_urls": false
+}

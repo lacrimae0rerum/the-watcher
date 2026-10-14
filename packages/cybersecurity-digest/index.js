@@ -9,6 +9,8 @@ export const digestPackage = Object.freeze({
 
 export const runtime = Object.freeze({
   userAgent: 'Cybersecurity-Digest/1.0 (feed aggregator)',
+  // Editions publish every three days, so collection covers the posts since the last one.
+  tweetLookbackHours: 72,
 });
 
 export const sources = Object.freeze({

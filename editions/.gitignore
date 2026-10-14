@@ -1,2 +1,5 @@
 *
 !.gitignore
+# The workflow publishes the latest Cybersecurity edition; it keeps the cadence across runs.
+!cybersecurity-digest/
+!cybersecurity-digest/latest.json
