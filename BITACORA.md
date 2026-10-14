@@ -1,5 +1,15 @@
 # Work log
 
+## 2026-10-14 — Social link preview (B-03)
+
+Objective: Add and publish a share thumbnail after the user reported an empty link preview and approved a branded card.
+
+Changes: Added static `web/social-preview.svg` and a 1200 × 630 PNG using the existing eye-chip, dark palette and watcher colors. The initial HTML now declares absolute Open Graph image/canonical URLs, image dimensions/type/alt text, and X large-image card metadata. Existing title, description, styles and scripts remain unchanged. No new dependency or Cloudflare configuration change.
+
+Verification: RED 1/2 on missing metadata; GREEN 2/2 focused and full suite 145/145. PNG is 216,678 bytes and passed visual inspection without clipped text. Metadata and PNG checks are in `scripts/social-preview.test.mjs`. Independent verification and deployment checks are pending.
+
+Delivery: Not yet published. Next step: Verify the release, push, observe deployment, and check the public HTML and image. Individual sharing-service fetches and cache refreshes are not proven by local checks.
+
 ## 2026-10-14 — First scheduled-publication deployment (APB-5)
 
 Objective: Merge the scheduled-publication branch, push main, and verify the first Cloudflare deployment after the operator stored the four publication secrets and explicitly approved release.

@@ -73,6 +73,12 @@ node scripts/export-web-editions.js
 
 The export reads `editions/<package>/latest.json` for every `packages/*-digest` package and writes `web/data/editions.js`, which is ignored by Git. Watchers without a saved edition are reported and show an empty state on the site. Edition text becomes structured blocks: only `http(s)` links are kept as links, and items or sections marked `(operador)` or `(operator)`, plus lines that open with an operator-note label such as `Nota de operación:`, are left out of the public page. The Cybersecurity prompt puts operator status under a `## Estado de operación (operador)` heading. A corrupt saved edition stops the export without touching the previous output. When an edition has a `## Resumen` section (the Cybersecurity prompt asks for one), the reader shows that summary first with an index of items; an index entry opens the item's detail card, and the back button or Esc returns to the summary. Items numbered as `**[n] Heading**` also make the summary's `[n]` citations open their card. Editions without a summary show the full list of items. Each watcher has a shareable address such as `web/index.html#cybersecurity-digest`. The export does not generate, save, deploy, or publish anything.
 
+### Link previews
+
+The initial HTML declares Open Graph and X large-image card metadata with absolute HTTPS URLs. `web/social-preview.png` is the shared 1200 × 630 image; `web/social-preview.svg` is its editable source. Regenerate the PNG at the same dimensions after editing the SVG and keep both files together. No runtime image renderer or additional dependency is required. Run `node --test scripts/social-preview.test.mjs` to check the metadata, image dimensions, size, and existing page entry points.
+
+Every watcher uses the same site card: the current `#watcher` navigation is a URL fragment, not a separate server-rendered page. Sharing services must be able to fetch both the HTML and PNG without a browser challenge. Cloudflare can return HTTP 403 to automated clients even when the browser works; missing previews can also remain cached by the sharing service. Check the specific service before changing security rules. These metadata checks do not prove that a service has fetched or refreshed its card.
+
 ## Unattended publication check
 
 `scripts/publish-edition.js` is the gate for editions that publish without a human review:

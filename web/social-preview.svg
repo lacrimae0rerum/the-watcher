@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">THE WATCHERS</title>
+  <desc id="description">Un ojo sobre un chip octogonal rosa, con circuitos y nodos de colores sobre fondo verde oscuro. Vigilantes automáticos de fuentes públicas.</desc>
+  <defs>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#2ef2d0" stroke-opacity=".06"/>
+    </pattern>
+    <radialGradient id="halo">
+      <stop stop-color="#ff3e8a" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#ff3e8a" stop-opacity="0"/>
+    </radialGradient>
+    <!-- One quarter of the eye-chip traces from web/app.js, mirrored below. -->
+    <g id="traces" fill="none" stroke="#ff3e8a" stroke-width=".013" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M.05-.28V-.56L.10-.61V-.72 M.14-.28V-.46L.30-.62V-.84 M.23-.28V-.36L.47-.60V-.74 M.28-.05H.56L.61-.10H.80 M.28-.14H.46L.62-.30H.84 M.28-.23H.36L.58-.45H.72"/>
+      <g fill="#0f1a15">
+        <circle cx=".10" cy="-.72" r=".035"/><circle cx=".30" cy="-.84" r=".035"/>
+        <circle cx=".47" cy="-.74" r=".035"/><circle cx=".80" cy="-.10" r=".035"/>
+        <circle cx=".84" cy="-.30" r=".035"/><circle cx=".72" cy="-.45" r=".035"/>
+      </g>
+    </g>
+  </defs>
+  <rect width="1200" height="630" fill="#0f1a15"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="278" cy="315" r="285" fill="url(#halo)"/>
+  <path d="M64 72H1136 M64 510H1136" stroke="#2c3a33"/>
+  <text x="64" y="51" fill="#ece5d3" font-family="Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="4">THE WATCHERS</text>
+  <g fill="#2ef2d0"><circle cx="1104" cy="45" r="4"/><circle cx="1120" cy="45" r="4"/><circle cx="1136" cy="45" r="4"/></g>
+  <g fill="none" stroke-width="2">
+    <path d="M108 315H64 M278 145V108 M448 315H480 M278 485V510" stroke="#ff3e8a" stroke-opacity=".5"/>
+    <path d="M158 195L125 162H88" stroke="#2ef2d0"/>
+    <path d="M398 195L431 162H468" stroke="#4da6ff"/>
+    <path d="M158 435L125 468H88" stroke="#9d8cff"/>
+    <path d="M398 435L431 468H468" stroke="#f2c94c"/>
+  </g>
+  <g stroke-width="2" fill="#0f1a15">
+    <circle cx="88" cy="162" r="7" stroke="#2ef2d0"/>
+    <circle cx="468" cy="162" r="7" stroke="#4da6ff"/>
+    <circle cx="88" cy="468" r="7" stroke="#9d8cff"/>
+    <circle cx="468" cy="468" r="7" stroke="#f2c94c"/>
+  </g>
+  <g transform="translate(278 315) scale(170)">
+    <path d="M1 .4142L.4142 1H-.4142L-1 .4142V-.4142L-.4142-1H.4142L1-.4142Z" fill="#0f1a15" stroke="#ff3e8a" stroke-opacity=".6" stroke-width=".012"/>
+    <use href="#traces"/><use href="#traces" transform="scale(-1 1)"/>
+    <use href="#traces" transform="scale(1 -1)"/><use href="#traces" transform="scale(-1 -1)"/>
+    <rect x="-.28" y="-.28" width=".56" height=".56" rx=".05" fill="#0f1a15" stroke="#ff3e8a" stroke-width=".014"/>
+    <path d="M-.19 0Q0-.20 .19 0Q0 .20-.19 0Z" fill="none" stroke="#ff3e8a" stroke-width=".014"/>
+    <circle r=".085" fill="#ff3e8a" fill-opacity=".25" stroke="#ff3e8a" stroke-width=".014"/>
+    <circle r=".038" fill="#ff3e8a"/>
+  </g>
+  <text x="520" y="205" fill="#2ef2d0" font-family="Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="12">THE</text>
+  <text x="514" y="304" fill="#ece5d3" font-family="Arial, sans-serif" font-size="88" font-weight="900" letter-spacing="-3">WATCHERS</text>
+  <path d="M520 333H598" stroke="#ff3e8a" stroke-width="4"/>
+  <g fill="#c2bcae" font-family="Arial, sans-serif" font-size="28">
+    <text x="520" y="386">Vigilantes automáticos</text>
+    <text x="520" y="426">de fuentes públicas.</text>
+  </g>
+  <text x="64" y="564" fill="#ece5d3" font-family="Arial, sans-serif" font-size="18" letter-spacing="2">EDICIONES CON ENLACES A CADA FUENTE</text>
+  <g transform="translate(998 558)">
+    <circle r="5" fill="#2ef2d0"/><circle cx="22" r="5" fill="#4da6ff"/><circle cx="44" r="5" fill="#9d8cff"/>
+    <circle cx="66" r="5" fill="#ff6b4a"/><circle cx="88" r="5" fill="#e47cff"/><circle cx="110" r="5" fill="#a6f04a"/><circle cx="132" r="5" fill="#ffa63d"/>
+  </g>
+</svg>
