@@ -8,7 +8,9 @@ Changes: Merged APB-3/APB-4 locally in `a9599bd`. Fixed B-02: the human preview 
 
 Verification: Publication-focused tests passed 22/22. Initial full suite failed 142/143 on the stale preview assumption; after the fixture correction, focused tests passed 7/7 and the full suite passed 143/143. Independent integration verification found no pre-deployment blockers. Bash syntax and whitespace checks passed. GitHub metadata confirmed all four secret names and an environment branch policy allowing only main. Pre-deployment DNS A/AAAA queries returned no answers; secret values were not read.
 
-Delivery: Pending push and observation of the first deployment. No manual paid edition run is authorized. Next step: Push the verified integration, follow its Actions run, and check the public site before closing APB-5.
+Delivery: `02ccdf2` was pushed to main. GitHub Actions run [38563293486](https://github.com/lacrimae0rerum/the-watcher/actions/runs/38563293486) succeeded; export and Cloudflare deployment passed, while X collection and NaN generation were skipped. The HTTPS browser showed the saved 13 October edition. A DOM interaction check opened an article, verified its source link, and returned to the seven-item summary; the browser console returned no messages. APB-5 setup/deployment/site-check is done; scheduled generation is not yet verified.
+
+Limits: The direct HTTP check failed with a Cloudflare managed challenge (403), so byte-identical asset checks were not completed. An Orca reference-click closed the reader; that automation check is inconclusive, although DOM interaction passed. No security rule was changed. GitHub reported Node 20 action-runtime deprecation and an upcoming Ubuntu 26 runner migration. No manual paid edition ran. Next step: Observe the scheduled cycle due on 16 October 2026 at 12:00 Europe/Madrid, or obtain separate approval for an immediate paid edition. See `odd/tasks/automatic-publication.md`, L13–L14.
 
 ## 2026-10-12 — Local X Article and delivery receipt (CSP-3A)
 
