@@ -39,24 +39,27 @@
 <main>
   <canvas id="graph" role="img" aria-label="Mapa de The Watchers: cada watcher conectado a la red, con sus fuentes y su última edición."></canvas>
 
-  <nav id="nodeList" class="node-list" aria-label="Watchers">
-    <p class="eyebrow">Watchers</p>
-  </nav>
+  <!-- one panel: a tile per watcher above the reader of the selected one -->
+  <div id="panel" class="panel">
+    <nav id="nodeList" class="node-list" aria-label="Watchers">
+      <p class="eyebrow">Watchers</p>
+    </nav>
 
-  <aside id="details" class="details" aria-labelledby="detailsTitle" hidden>
-    <div class="details-head">
-      <span id="detailsIndex" class="idx"></span>
-      <button id="detailsClose" class="details-close" type="button">
-        <span lang="es">Cerrar</span>
-        <span lang="en">Close</span>
-      </button>
-    </div>
-    <p id="detailsStatus" class="status"></p>
-    <h2 id="detailsTitle"></h2>
-    <p id="detailsSummary" class="lede"></p>
-    <div id="detailsEdition" class="edition"></div>
-    <ul id="detailsRows" class="rows"></ul>
-  </aside>
+    <aside id="details" class="details" aria-labelledby="detailsTitle" hidden>
+      <div class="details-head">
+        <span id="detailsIndex" class="idx"></span>
+        <button id="detailsClose" class="details-close" type="button">
+          <span lang="es">Cerrar</span>
+          <span lang="en">Close</span>
+        </button>
+      </div>
+      <p id="detailsStatus" class="status"></p>
+      <h2 id="detailsTitle"></h2>
+      <p id="detailsSummary" class="lede"></p>
+      <div id="detailsEdition" class="edition"></div>
+      <ul id="detailsRows" class="rows"></ul>
+    </aside>
+  </div>
 </main>
 
 <p class="corner hint" aria-hidden="true">

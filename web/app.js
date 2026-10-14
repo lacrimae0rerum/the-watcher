@@ -194,7 +194,7 @@
 
   // ---------- graph model ----------
 
-  const RADIUS = { core: 34, digest: 22, source: 11, edition: 11 };
+  const RADIUS = { core: 68, digest: 22, source: 11, edition: 11 };
   const byId = new Map(NODES.map((n) => [n.id, n]));
   const core = byId.get("the-watchers");
   const digests = NODES.filter((n) => n.kind === "digest");
@@ -261,6 +261,7 @@
   const ctx = canvas.getContext("2d");
   const list = document.getElementById("nodeList");
   const details = document.getElementById("details");
+  const panel = document.getElementById("panel");
   const detailsIndex = document.getElementById("detailsIndex");
   const detailsStatus = document.getElementById("detailsStatus");
   const detailsTitle = document.getElementById("detailsTitle");
@@ -323,6 +324,7 @@
       bg: v("--bg"), ink: v("--ink"), term: v("--term"), muted: v("--muted"),
       live: v("--neon-live"), core: v("--neon-core"), out: v("--neon-out"), off: v("--neon-off"),
       grid: v("--grid"),
+      hue: Object.fromEntries(digests.map((n) => [n.id, v(`--hue-${n.id}`) || v("--neon-live")])),
       glow: root.dataset.theme === "light" ? 0.35 : 1,
     };
   }
@@ -335,15 +337,12 @@
     const barB = parseFloat(cs.getPropertyValue("--bar-b")) || 0;
     const phone = W <= 760;
     let x0 = 0, x1 = W, y0 = barT, y1 = H - barB;
-    const lr = list.getBoundingClientRect();
+    const pr = panel.getBoundingClientRect();
     if (phone) {
-      y1 = lr.top;
-      if (!details.hidden) y1 = Math.max(y0 + 220, details.getBoundingClientRect().top);
-    } else {
-      x0 = lr.right;
-      // a wide reader on a narrow desktop overlays the graph instead of crushing it
-      const left = details.hidden ? x1 : details.getBoundingClientRect().left;
-      if (left - x0 > 360) x1 = left;
+      y1 = Math.max(y0 + 220, pr.top);
+    } else if (pr.left - x0 > 360) {
+      // a wide panel on a narrow desktop overlays the graph instead of crushing it
+      x1 = pr.left;
     }
     region = { x0: x0 + 16, y0: y0 + 16, x1: x1 - 16, y1: y1 - 16 };
     const w = region.x1 - region.x0;
@@ -441,40 +440,70 @@
 
   // ---------- drawing ----------
 
+  // The middle of the core's octagon face that looks toward n, and the bend on the way
+  // there: the trace leaves the face square to it, then turns once to reach n.
+  function corePort(n) {
+    const k = Math.round(Math.atan2(n.y - core.y, n.x - core.x) / (Math.PI / 4));
+    const nx = Math.round(Math.cos((k * Math.PI) / 4));
+    const ny = Math.round(Math.sin((k * Math.PI) / 4));
+    const f = core.rr / Math.hypot(nx, ny);
+    const fx = core.x + nx * f, fy = core.y + ny * f;
+    const dx = n.x - fx, dy = n.y - fy;
+    let t;
+    if (nx && ny) {
+      // diagonal face: then a straight run to n
+      t = Math.min(dx * nx, dy * ny);
+    } else {
+      // side face: then a 45° run to n, or a square turn when n is too close for one
+      const along = dx * nx + dy * ny, across = Math.abs(nx ? dy : dx);
+      t = along >= across ? along - across : along;
+    }
+    t = Math.max(0, t);
+    return [[fx, fy], [fx + nx * t, fy + ny * t]];
+  }
+
   // circuit-board trace: one 45° run, then a straight run into the target
-  function elbow(e) {
+  function route(e) {
     const { a, b } = e;
+    if (a === core || b === core) {
+      const [face, bend] = corePort(a === core ? b : a);
+      return a === core ? [face, bend, [b.x, b.y]] : [[a.x, a.y], bend, face];
+    }
     const dx = b.x - a.x, dy = b.y - a.y;
-    return Math.abs(dx) > Math.abs(dy)
+    const bend = Math.abs(dx) > Math.abs(dy)
       ? [a.x + Math.sign(dx) * Math.abs(dy), b.y]
       : [b.x, a.y + Math.sign(dy) * Math.abs(dx)];
+    return [[a.x, a.y], bend, [b.x, b.y]];
   }
 
   function tracePath(e) {
-    const [mx, my] = elbow(e);
+    const [p0, p1, p2] = route(e);
     ctx.beginPath();
-    ctx.moveTo(e.a.x, e.a.y);
-    ctx.lineTo(mx, my);
-    ctx.lineTo(e.b.x, e.b.y);
+    ctx.moveTo(...p0);
+    ctx.lineTo(...p1);
+    ctx.lineTo(...p2);
   }
 
   function pointAt(e, t) {
-    const [mx, my] = elbow(e);
-    const l1 = Math.hypot(mx - e.a.x, my - e.a.y);
-    const l2 = Math.hypot(e.b.x - mx, e.b.y - my);
+    const [[ax, ay], [mx, my], [bx, by]] = route(e);
+    const l1 = Math.hypot(mx - ax, my - ay);
+    const l2 = Math.hypot(bx - mx, by - my);
     const d = t * (l1 + l2);
     if (d <= l1 || l2 === 0) {
       const q = l1 ? d / l1 : 0;
-      return [e.a.x + (mx - e.a.x) * q, e.a.y + (my - e.a.y) * q];
+      return [ax + (mx - ax) * q, ay + (my - ay) * q];
     }
     const q = (d - l1) / l2;
-    return [mx + (e.b.x - mx) * q, my + (e.b.y - my) * q];
+    return [mx + (bx - mx) * q, my + (by - my) * q];
   }
 
+  // each digest has its own colour, and its sources share it
+  const hue = (n) => (n.kind === "core" ? P.core : P.hue[n.parent || n.id]);
+  // the colour a node is drawn in: editions keep the output colour
+  const tint = (n) => (n.kind === "edition" ? P.out : hue(n));
+
   function edgeColors(e) {
-    if (e.kind === "bus") return [P.live, P.core];
-    if (e.kind === "out") return [P.live, P.out];
-    return [P.live, P.live];
+    return [hue(e.a), e.kind === "out" ? P.out : hue(e.b)];
   }
 
   function drawFloor(time) {
@@ -566,6 +595,77 @@
     ctx.closePath();
   }
 
+  function squarePath(x, y, h, c) {
+    ctx.beginPath();
+    ctx.moveTo(x - h + c, y - h);
+    ctx.arcTo(x + h, y - h, x + h, y + h, c);
+    ctx.arcTo(x + h, y + h, x - h, y + h, c);
+    ctx.arcTo(x - h, y + h, x - h, y - h, c);
+    ctx.arcTo(x - h, y - h, x + h, y - h, c);
+    ctx.closePath();
+  }
+
+  // regular octagon with flat sides facing the axes, at distance a from the center
+  function octagonPath(x, y, a) {
+    const R = a / Math.cos(Math.PI / 8);
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) {
+      const t = Math.PI / 8 + (i * Math.PI) / 4;
+      const px = x + Math.cos(t) * R, py = y + Math.sin(t) * R;
+      if (i) ctx.lineTo(px, py); else ctx.moveTo(px, py);
+    }
+    ctx.closePath();
+  }
+
+  // The core is a chip whose circuit traces fan out like a brain, with an eye on the die.
+  // One quarter of the traces, in units of the node radius (screen axes, so up is -y);
+  // the other quarters mirror it. Each trace leaves a pin, bends 45° and ends on a pad.
+  const CORE_CHIP = 0.28;
+  const CORE_TRACES = [
+    [[0.05, -0.28], [0.05, -0.56], [0.10, -0.61], [0.10, -0.72]],
+    [[0.14, -0.28], [0.14, -0.46], [0.30, -0.62], [0.30, -0.84]],
+    [[0.23, -0.28], [0.23, -0.36], [0.47, -0.60], [0.47, -0.74]],
+    [[0.28, -0.05], [0.56, -0.05], [0.61, -0.10], [0.80, -0.10]],
+    [[0.28, -0.14], [0.46, -0.14], [0.62, -0.30], [0.84, -0.30]],
+    [[0.28, -0.23], [0.36, -0.23], [0.58, -0.45], [0.72, -0.45]],
+  ];
+  const QUARTERS = [[1, 1], [-1, 1], [1, -1], [-1, -1]];
+
+  // A plain eye: it blinks now and then, looks toward the node in focus and takes its colour.
+  function drawEye(n, time) {
+    const { x, y, rr: r } = n;
+    const t = (time + n.phase * 1000) % 5200;
+    const open = motion && t < 240 ? Math.max(0.08, Math.abs(Math.cos((Math.PI * t) / 240))) : 1;
+    const w = r * 0.19, h = r * 0.1 * open;
+    const focus = [hovered, selected].find((f) => f && f !== n);
+    let gx = 0, gy = 0;
+    if (focus) {
+      const d = Math.hypot(focus.x - x, focus.y - y) || 1;
+      gx = ((focus.x - x) / d) * r * 0.07;
+      gy = ((focus.y - y) / d) * r * 0.035;
+    }
+    const c = focus ? tint(focus) : P.core;
+    ctx.beginPath();
+    ctx.moveTo(x - w, y);
+    ctx.quadraticCurveTo(x, y - h * 2, x + w, y);
+    ctx.quadraticCurveTo(x, y + h * 2, x - w, y);
+    ctx.closePath();
+    ctx.strokeStyle = c;
+    ctx.stroke();
+    ctx.save();
+    ctx.clip();
+    ctx.beginPath();
+    ctx.arc(x + gx, y + gy, r * 0.085, 0, Math.PI * 2);
+    ctx.fillStyle = hexAlpha(c, 0.25);
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(x + gx, y + gy, r * 0.038, 0, Math.PI * 2);
+    ctx.fillStyle = c;
+    ctx.fill();
+    ctx.restore();
+  }
+
   function drawNode(n, time) {
     const { x, y, rr: r } = n;
     const s = geo.s;
@@ -573,47 +673,60 @@
     ctx.lineWidth = 1.5;
 
     if (n.kind === "core") {
-      ctx.shadowColor = P.core;
-      ctx.shadowBlur = 18 * P.glow;
-      hexPath(x, y, r);
+      // the board: it also hides the ends of the bus traces; every pad fits inside it
+      octagonPath(x, y, r);
       ctx.fillStyle = P.bg;
       ctx.fill();
-      ctx.strokeStyle = P.core;
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-      hexPath(x, y, r * 0.62, motion ? time / 4000 : 0);
-      ctx.fillStyle = hexAlpha(P.core, 0.18);
-      ctx.fill();
-      ctx.strokeStyle = hexAlpha(P.core, 0.7);
-      ctx.stroke();
-      const rot = motion ? time / 2400 : 0;
-      ctx.strokeStyle = hexAlpha(P.core, 0.8);
+      ctx.strokeStyle = hexAlpha(P.core, 0.55);
       ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.shadowColor = P.core;
+      ctx.shadowBlur = 10 * P.glow;
+      ctx.strokeStyle = P.core;
+      ctx.lineWidth = 1.5;
+      const at = ([px, py], [sx, sy]) => [x + sx * px * r, y + sy * py * r];
       ctx.beginPath();
-      for (let i = 0; i < 12; i++) {
-        const a = rot + (i * Math.PI) / 6;
-        const r0 = r + 6 * s, r1 = r + (i % 3 === 0 ? 13 : 9) * s;
-        ctx.moveTo(x + Math.cos(a) * r0, y + Math.sin(a) * r0);
-        ctx.lineTo(x + Math.cos(a) * r1, y + Math.sin(a) * r1);
+      for (const q of QUARTERS) {
+        for (const trace of CORE_TRACES) {
+          trace.forEach((p, i) => ctx[i ? "lineTo" : "moveTo"](...at(p, q)));
+        }
       }
       ctx.stroke();
+      const pad = Math.max(1.6, r * 0.035);
+      ctx.beginPath();
+      for (const q of QUARTERS) {
+        for (const trace of CORE_TRACES) {
+          const [px, py] = at(trace[trace.length - 1], q);
+          ctx.moveTo(px + pad, py);
+          ctx.arc(px, py, pad, 0, Math.PI * 2);
+        }
+      }
+      ctx.fillStyle = P.bg;
+      ctx.fill();
+      ctx.stroke();
+      squarePath(x, y, r * CORE_CHIP, r * 0.05);
+      ctx.fill();
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+      drawEye(n, time);
     } else if (n.kind === "digest" && n.status === "live") {
+      const c = hue(n);
       if (motion) {
         const q = (time / 1800 + n.phase) % 1;
         hexPath(x, y, r + q * 16 * s);
-        ctx.strokeStyle = hexAlpha(P.live, (1 - q) * 0.5);
+        ctx.strokeStyle = hexAlpha(c, (1 - q) * 0.5);
         ctx.stroke();
       }
-      ctx.shadowColor = P.live;
+      ctx.shadowColor = c;
       ctx.shadowBlur = 14 * P.glow;
       hexPath(x, y, r);
       ctx.fillStyle = P.bg;
       ctx.fill();
-      ctx.strokeStyle = P.live;
+      ctx.strokeStyle = c;
       ctx.stroke();
       ctx.shadowBlur = 0;
       hexPath(x, y, r * 0.45);
-      ctx.fillStyle = hexAlpha(P.live, 0.4);
+      ctx.fillStyle = hexAlpha(c, 0.4);
       ctx.fill();
     } else if (n.kind === "digest") {
       const hot = n === hovered || n === selected;
@@ -621,16 +734,16 @@
       hexPath(x, y, r);
       ctx.fillStyle = P.bg;
       ctx.fill();
-      ctx.strokeStyle = hexAlpha(P.off, hot ? 1 : 0.85);
+      ctx.strokeStyle = hexAlpha(hue(n), hot ? 1 : 0.6);
       ctx.stroke();
       ctx.setLineDash([]);
-      ctx.strokeStyle = hexAlpha(P.off, 0.7);
+      ctx.strokeStyle = hexAlpha(hue(n), 0.5);
       ctx.beginPath();
       ctx.moveTo(x - r * 0.28, y);
       ctx.lineTo(x + r * 0.28, y);
       ctx.stroke();
     } else {
-      const c = n.kind === "edition" ? P.out : P.live;
+      const c = tint(n);
       ctx.shadowColor = c;
       ctx.shadowBlur = 10 * P.glow;
       ctx.beginPath();
@@ -668,7 +781,7 @@
     const big = n.kind === "core" || n.kind === "digest";
     const px = (n.kind === "core" ? 11 : big ? 10 : 9) * Math.max(0.85, s);
     let x = n.x;
-    let y = n.y + n.rr + (n.kind === "core" ? 18 : 8) * s;
+    let y = n.y + n.rr + (n.kind === "core" ? 12 : 8) * s;
     ctx.save();
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
@@ -698,7 +811,7 @@
       const sy = y + px + 6;
       setFont(px * 0.85);
       plate(sub, x, sy, px * 0.85);
-      ctx.fillStyle = n.status === "live" ? P.live : n.status === "core" ? P.core : P.muted;
+      ctx.fillStyle = n.status === "live" ? hue(n) : n.status === "core" ? P.core : P.muted;
       ctx.fillText(sub, x, sy);
     }
     ctx.restore();
@@ -916,11 +1029,12 @@
   }
 
   function renderDetails() {
-    details.hidden = !selected;
-    if (!selected) return;
     const n = selected;
-    const reading = n.kind === "digest" && n.status === "live";
-    details.classList.toggle("reading", reading);
+    const reading = Boolean(n) && n.kind === "digest" && n.status === "live";
+    details.hidden = !n;
+    panel.classList.toggle("open", Boolean(n));
+    panel.classList.toggle("reading", reading);
+    if (!n) return;
     detailsIndex.textContent = indexLabel(n);
     detailsStatus.className = `status ${n.status}`;
     detailsStatus.textContent = tr(STATUS[n.kind === "source" ? "source" : n.status]);
@@ -948,6 +1062,7 @@
       const b = document.createElement("button");
       b.type = "button";
       b.className = `rect ${n.status}`;
+      if (n.kind === "digest") b.style.setProperty("--hue", `var(--hue-${n.id})`);
       const idx = document.createElement("span");
       idx.className = "idx";
       idx.textContent = pad(listed.indexOf(n));
