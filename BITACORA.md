@@ -1,5 +1,15 @@
 # Work log
 
+## 2026-10-14 — First complete live Cybersecurity cycle
+
+Objective: Run exactly one real publication after the user said "pruebalo". The user was told that X/NaN APIs would be used and a saved edition would restart the three-calendar-day cadence. No workflow retry, Telegram delivery or X Article publication was requested.
+
+Execution: [Run 38619256699](https://github.com/lacrimae0rerum/the-watcher/actions/runs/38619256699), a single `workflow_dispatch` with `publish=now`, succeeded from `9535d1c`. X collection, NaN generation, the publication gate, edition persistence, Git commit/push through the new credential helper, and the separate read-only deployment job all passed. The generated edition is commit `9f1ace91abf1bbcf01cbf766dfef2bf6ceaabacd`.
+
+Verification: The clean local checkout fast-forwarded to that edition. It contains 12 items in Spanish, generated at `2026-10-14T18:56:21.209Z`, with no marked operator sections. Saved-record SHA-256: `43ee32cfc198eca0276c2f03df320ef252b4a4bfd32e8d8acc5696988e41316e`. The public `/data/editions.js` returned HTTP 200 without a challenge and matched a fresh local export byte for byte (24,752 bytes; SHA-256 `7255f4ee92357e5454c3ac3b4a4cee2fa2a15d0d01a7c8b713049570bf6e6080`). Jobs 8 and 9 exited 0.
+
+Limits: This verifies the integrated live path and its published result, not every claim's factual accuracy, complete coverage of all sources, destination safety, or a cron-triggered run. No full editorial audit or new model request was performed after generation. Next scheduled edition is due on 17 October 2026 at 12:00 Europe/Madrid. Earlier 16 October due dates in this log are historical and superseded by this successful manual edition.
+
 ## 2026-10-14 — Publication security corrections (B-04–B-06)
 
 Objective: Apply the three prioritized corrections from the Claude Code Opus audit after the user said "Corrige": keep operator-only text out of public edition records, validate link provenance, and isolate deployment from repository-write credentials. The user subsequently authorized commit, push and web deployment with "autorizado". No history rewrite, live generation call, or disabling of the legacy AI Builders workflow is included.
