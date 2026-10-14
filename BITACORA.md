@@ -6,9 +6,11 @@ Objective: Add and publish a share thumbnail after the user reported an empty li
 
 Changes: Added static `web/social-preview.svg` and a 1200 × 630 PNG using the existing eye-chip, dark palette and watcher colors. The initial HTML now declares absolute Open Graph image/canonical URLs, image dimensions/type/alt text, and X large-image card metadata. Existing title, description, styles and scripts remain unchanged. No new dependency or Cloudflare configuration change.
 
-Verification: RED 1/2 on missing metadata; GREEN 2/2 focused and full suite 145/145. PNG is 216,678 bytes and passed visual inspection without clipped text. Metadata and PNG checks are in `scripts/social-preview.test.mjs`. Independent verification and deployment checks are pending.
+Verification: RED 1/2 on missing metadata; GREEN 2/2 focused and full suite 145/145. PNG is 216,678 bytes and passed visual inspection without clipped text. Metadata and PNG checks are in `scripts/social-preview.test.mjs`. Independent verification passed; privacy patterns, PNG ancillary-metadata and whitespace checks passed. After deployment, the public PNG returned HTTP 200 with image/png and matched the local file byte for byte. The browser confirmed the deployed OG/X metadata and decoded the 1200 × 630 image.
 
-Delivery: Not yet published. Next step: Verify the release, push, observe deployment, and check the public HTML and image. Individual sharing-service fetches and cache refreshes are not proven by local checks.
+Delivery: Commit `29daaf7` was pushed to main and deployed by successful [run 38569248724](https://github.com/lacrimae0rerum/the-watcher/actions/runs/38569248724). X collection and NaN generation were skipped. Existing Node action-runtime and Ubuntu runner-transition advisories did not block deployment.
+
+Remaining gate: The direct HTTP page check failed with 403 and `cf-mitigated: challenge`; a browser still loads it. This may prevent preview crawlers from reading the metadata, but no specific sharing provider has been tested. B-03 remains blocked on the user's target sharing application and provider-level verification; its missing-image implementation is complete. No Cloudflare security rule changed. Next step: Ask which application shows the missing preview, then distinguish its cache from crawler access before proposing any narrowly scoped security change.
 
 ## 2026-10-14 — First scheduled-publication deployment (APB-5)
 
