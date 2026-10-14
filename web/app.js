@@ -194,7 +194,7 @@
 
   // ---------- graph model ----------
 
-  const RADIUS = { core: 68, digest: 22, source: 11, edition: 11 };
+  const RADIUS = { core: 68, digest: 40.48, source: 11, edition: 11 };
   const byId = new Map(NODES.map((n) => [n.id, n]));
   const core = byId.get("the-watchers");
   const digests = NODES.filter((n) => n.kind === "digest");
@@ -228,11 +228,13 @@
     "x-clusters-digest": 245,
     "spanish-national-politics-digest": 295,
   };
-  for (const n of digests) {
-    const a = (RING[n.id] * Math.PI) / 180;
+  Object.entries(RING).forEach(([id, degrees], index) => {
+    const n = byId.get(id);
+    n.sides = [6, 4, 8][index % 3];
+    const a = (degrees * Math.PI) / 180;
     n.u = Math.cos(a);
     n.v = Math.sin(a);
-  }
+  });
 
   // satellites fan outward from their parent; (ox, oy) is an unscaled offset
   const children = new Map();
@@ -585,10 +587,10 @@
     ctx.restore();
   }
 
-  function hexPath(x, y, r, rot = 0) {
+  function polygonPath(x, y, r, sides = 6) {
     ctx.beginPath();
-    for (let i = 0; i < 6; i++) {
-      const a = rot + Math.PI / 6 + (i * Math.PI) / 3;
+    for (let i = 0; i < sides; i++) {
+      const a = Math.PI / sides + (i * Math.PI * 2) / sides;
       const px = x + Math.cos(a) * r, py = y + Math.sin(a) * r;
       if (i) ctx.lineTo(px, py); else ctx.moveTo(px, py);
     }
@@ -620,7 +622,7 @@
   // The core is a chip whose circuit traces fan out like a brain, with an eye on the die.
   // One quarter of the traces, in units of the node radius (screen axes, so up is -y);
   // the other quarters mirror it. Each trace leaves a pin, bends 45° and ends on a pad.
-  const CORE_CHIP = 0.28;
+  const CORE_CHIP = 0.42;
   const CORE_TRACES = [
     [[0.05, -0.28], [0.05, -0.56], [0.10, -0.61], [0.10, -0.72]],
     [[0.14, -0.28], [0.14, -0.46], [0.30, -0.62], [0.30, -0.84]],
@@ -633,7 +635,8 @@
 
   // A plain eye: it blinks now and then, looks toward the node in focus and takes its colour.
   function drawEye(n, time) {
-    const { x, y, rr: r } = n;
+    const { x, y } = n;
+    const r = n.rr * 1.5;
     const t = (time + n.phase * 1000) % 5200;
     const open = motion && t < 240 ? Math.max(0.08, Math.abs(Math.cos((Math.PI * t) / 240))) : 1;
     const w = r * 0.19, h = r * 0.1 * open;
@@ -704,7 +707,7 @@
       ctx.fillStyle = P.bg;
       ctx.fill();
       ctx.stroke();
-      squarePath(x, y, r * CORE_CHIP, r * 0.05);
+      squarePath(x, y, r * CORE_CHIP, r * 0.075);
       ctx.fill();
       ctx.stroke();
       ctx.shadowBlur = 0;
@@ -713,25 +716,25 @@
       const c = hue(n);
       if (motion) {
         const q = (time / 1800 + n.phase) % 1;
-        hexPath(x, y, r + q * 16 * s);
+        polygonPath(x, y, r + q * 16 * s, n.sides);
         ctx.strokeStyle = hexAlpha(c, (1 - q) * 0.5);
         ctx.stroke();
       }
       ctx.shadowColor = c;
       ctx.shadowBlur = 14 * P.glow;
-      hexPath(x, y, r);
+      polygonPath(x, y, r, n.sides);
       ctx.fillStyle = P.bg;
       ctx.fill();
       ctx.strokeStyle = c;
       ctx.stroke();
       ctx.shadowBlur = 0;
-      hexPath(x, y, r * 0.45);
+      polygonPath(x, y, r * 0.45);
       ctx.fillStyle = hexAlpha(c, 0.4);
       ctx.fill();
     } else if (n.kind === "digest") {
       const hot = n === hovered || n === selected;
       ctx.setLineDash([3, 4]);
-      hexPath(x, y, r);
+      polygonPath(x, y, r, n.sides);
       ctx.fillStyle = P.bg;
       ctx.fill();
       ctx.strokeStyle = hexAlpha(hue(n), hot ? 1 : 0.6);

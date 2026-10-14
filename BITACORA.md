@@ -1,5 +1,15 @@
 # Work log
 
+## 2026-10-14 — Local Digest node shape trial
+
+Objective: Preview slightly larger Digest nodes, alternating hexagons, squares and octagons, in the existing local Orca browser before any production approval. The user will supply separate logo concepts for light adaptation; those concepts have not arrived.
+
+Changes: The first trial increased the Digest base radius from 22 to 25.3 (+15%) and assigned 6/4/8-sided outlines in clockwise ring order. The user then requested nodes 60% larger; the current radius is 40.48 (25.3 × 1.6). A further request enlarges the central Watchers chip square and eye by 50%: square half-size is 0.42 of the core radius instead of 0.28, its corner radius scales equally, and all eye geometry scales by 1.5. The outer core octagon, node colors, source/edition nodes and Digest interior symbol types remain unchanged. Live outline pulses follow each Digest shape. After reviewing the local iteration, the user explicitly authorized release: "commit y push a produccion".
+
+Verification: A temporary Canvas-output probe in ignored `.wrangler/digest-shapes-check.js` observed RED before the edit: all seven Digest outlines had six sides and base radius 22. For the first variant, JavaScript syntax, whitespace and the 145-test suite passed. Orca reloaded the local page, but the Canvas probe timed out after 30 seconds; its screenshot step did not execute and was not retried. For the user's new size requests, syntax, whitespace and the 145-test suite passed again. The new local reload, accessibility snapshot and screenshot succeeded (job-22, exit 0). Visual inspection of the captured page confirmed the larger Digest contours, enlarged central square/eye, intact outer octagon, readable labels and no clipped nodes at the current desktop viewport. No Canvas-frame probe was retried; exact automated geometry GREEN and a new interaction sweep were not performed. The user's subsequent commit/push request authorizes publication of this local iteration.
+
+Delivery: The user confirmed: "Esta todo correcto. Publica". Independent review confirmed the requested geometry values, scope, syntax and 145 passing tests. The earlier auxiliary geometry probe was incorrectly treated as a release requirement; it belongs to the superseded size variant and is not evidence of a geometry defect. Release is proceeding with source checks, the inspected screenshot and explicit human approval; no automated geometry GREEN is claimed. Commit, push and production checks are in progress. Preserve the original concepts when the user supplies Digest logo ideas; no new logo design is included in this release.
+
 ## 2026-10-14 — Social link preview (B-03)
 
 Objective: Add and publish a share thumbnail after the user reported an empty link preview and approved a branded card.
