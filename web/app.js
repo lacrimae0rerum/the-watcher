@@ -261,6 +261,7 @@
   const ctx = canvas.getContext("2d");
   const list = document.getElementById("nodeList");
   const details = document.getElementById("details");
+  const panel = document.getElementById("panel");
   const detailsIndex = document.getElementById("detailsIndex");
   const detailsStatus = document.getElementById("detailsStatus");
   const detailsTitle = document.getElementById("detailsTitle");
@@ -336,15 +337,12 @@
     const barB = parseFloat(cs.getPropertyValue("--bar-b")) || 0;
     const phone = W <= 760;
     let x0 = 0, x1 = W, y0 = barT, y1 = H - barB;
-    const lr = list.getBoundingClientRect();
+    const pr = panel.getBoundingClientRect();
     if (phone) {
-      y1 = lr.top;
-      if (!details.hidden) y1 = Math.max(y0 + 220, details.getBoundingClientRect().top);
-    } else {
-      x0 = lr.right;
-      // a wide reader on a narrow desktop overlays the graph instead of crushing it
-      const left = details.hidden ? x1 : details.getBoundingClientRect().left;
-      if (left - x0 > 360) x1 = left;
+      y1 = Math.max(y0 + 220, pr.top);
+    } else if (pr.left - x0 > 360) {
+      // a wide panel on a narrow desktop overlays the graph instead of crushing it
+      x1 = pr.left;
     }
     region = { x0: x0 + 16, y0: y0 + 16, x1: x1 - 16, y1: y1 - 16 };
     const w = region.x1 - region.x0;
@@ -1031,11 +1029,12 @@
   }
 
   function renderDetails() {
-    details.hidden = !selected;
-    if (!selected) return;
     const n = selected;
-    const reading = n.kind === "digest" && n.status === "live";
-    details.classList.toggle("reading", reading);
+    const reading = Boolean(n) && n.kind === "digest" && n.status === "live";
+    details.hidden = !n;
+    panel.classList.toggle("open", Boolean(n));
+    panel.classList.toggle("reading", reading);
+    if (!n) return;
     detailsIndex.textContent = indexLabel(n);
     detailsStatus.className = `status ${n.status}`;
     detailsStatus.textContent = tr(STATUS[n.kind === "source" ? "source" : n.status]);
