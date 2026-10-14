@@ -25,6 +25,14 @@
   --neon-core: #ff3e8a;
   --neon-out:  #f2c94c;
   --neon-off:  #5d6b64;
+  /* one colour per digest: its node, its sources and its list mark */
+  --hue-ai-builders-digest:                 #2ef2d0;
+  --hue-cybersecurity-digest:               #4da6ff;
+  --hue-cyber-intelligence-digest:          #9d8cff;
+  --hue-armed-conflicts-geopolitics-digest: #ff6b4a;
+  --hue-intelligence-geopolitics-digest:    #e47cff;
+  --hue-x-clusters-digest:                  #a6f04a;
+  --hue-spanish-national-politics-digest:   #ffa63d;
   --grid:      rgba(46, 242, 208, 0.10);
   --scan:      0.5;
 
@@ -38,6 +46,10 @@ html[data-theme="light"] {
   --def: #4c483f; --muted: #6b675e; --term: #34312b; --border: #bcb7ab;
   --pillb: #a8a396; --rowb: #c8c3b7; --solid: #141311; --onsolid: #f2eee2;
   --neon-live: #00806e; --neon-core: #c2185b; --neon-out: #8a6400; --neon-off: #8f8a7f;
+  --hue-ai-builders-digest: #00806e; --hue-cybersecurity-digest: #1565c0;
+  --hue-cyber-intelligence-digest: #5b47c9; --hue-armed-conflicts-geopolitics-digest: #c9381a;
+  --hue-intelligence-geopolitics-digest: #9c27b0; --hue-x-clusters-digest: #4f8a0b;
+  --hue-spanish-national-politics-digest: #b85c00;
   --grid: rgba(0, 128, 110, 0.14);
   --scan: 0.25;
 }
@@ -212,8 +224,7 @@ body::after  { bottom: 0; height: var(--bar-b); }
 .rect .name { flex: 1; white-space: nowrap; }
 .rect .meta { font-size: 10px; letter-spacing: 0.1em; color: var(--neon-out); white-space: nowrap; }
 .rect:hover .meta { color: var(--onsolid); }
-.rect .glyph { color: var(--neon-off); }
-.rect.live .glyph { color: var(--neon-live); }
+.rect .glyph { color: var(--hue, var(--neon-off)); }
 .rect.core .glyph { color: var(--neon-core); }
 .rect.planned { color: var(--muted); border-style: dashed; }
 
@@ -222,9 +233,9 @@ body::after  { bottom: 0; height: var(--bar-b); }
 .rect:hover .glyph { color: var(--onsolid); }
 
 .rect[aria-pressed="true"] {
-  border-color: var(--neon-live);
+  border-color: var(--hue, var(--neon-live));
   color: var(--ink);
-  box-shadow: inset 3px 0 0 var(--neon-live), 0 0 14px -4px var(--neon-live);
+  box-shadow: inset 3px 0 0 var(--hue, var(--neon-live)), 0 0 14px -4px var(--hue, var(--neon-live));
 }
 .rect.core[aria-pressed="true"] {
   border-color: var(--neon-core);
